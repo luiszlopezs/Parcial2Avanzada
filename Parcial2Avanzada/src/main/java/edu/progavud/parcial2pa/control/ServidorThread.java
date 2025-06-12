@@ -6,8 +6,8 @@ package edu.progavud.parcial2pa.control;
 
 /**
  *
- * @author hailen
+ * @author sangr
  */
-public class Control {
+public class ServidorThread {
     
 }
