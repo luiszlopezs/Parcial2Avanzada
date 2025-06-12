@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 
 
 
-public class Servidor {
+public class ServidorVO {
 
 // Socket de conexión principal
     private ServerSocket serv;
@@ -25,7 +25,7 @@ public class Servidor {
      * Inicializa las listas de groserías y sus reemplazos, y establece los
      * sockets como {@code null} hasta que se configuren.
      */
-    public Servidor() {
+    public ServidorVO() {
 
         serv = null;//para comunicacion
         serv2 = null;//para enviar mensajes    

@@ -8,7 +8,7 @@ package edu.progavud.parcial2pa.modelo;
  *
  * @author sangr
  */
-public class Casilla {
+public class Carta {
     private int fila;
     private int columna;
     private boolean esEmparejada = false;
@@ -17,7 +17,7 @@ public class Casilla {
     private String rutaImg;
     private int id;
 
-    public Casilla(int fila, int columna, boolean esEmparejada, boolean esDestapada, String nombre, String rutaImg, int id) {
+    public Carta(int fila, int columna, boolean esEmparejada, boolean esDestapada, String nombre, String rutaImg, int id) {
         this.fila = fila;
         this.columna = columna;
         this.esEmparejada = esEmparejada;
@@ -27,9 +27,9 @@ public class Casilla {
         this.id = id;
     }
 
-    public Casilla(int fila, int columna) {
-        this.fila = fila;
-        this.columna = columna;
+    public Carta(int id, String rutaImg) {
+        this.id = id;
+        this.rutaImg = rutaImg;
     }
     
     

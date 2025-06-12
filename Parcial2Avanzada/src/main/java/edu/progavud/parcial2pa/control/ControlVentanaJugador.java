@@ -4,10 +4,17 @@
  */
 package edu.progavud.parcial2pa.control;
 
+import edu.progavud.parcial2pa.Vista.VistaCliente;
+
 /**
  *
  * @author sangr
  */
 public class ControlVentanaJugador {
     
+    
+    
+    public static void main(String[] args) {
+        VistaCliente vistaCliente = new VistaCliente();
+     }
 }
