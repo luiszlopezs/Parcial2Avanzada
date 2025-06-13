@@ -8,6 +8,8 @@ import edu.progavud.parcial2pa.modelo.Jugador;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controlador que gestiona la lógica principal del cliente. Coordina la
@@ -55,8 +57,20 @@ public class ControlJugador {
      * @param mensaje El texto del mensaje que se desea enviar.
      * @throws IOException Si ocurre un error al enviar el mensaje.
      */
-    public void enviarIntento(String instruccion) throws IOException {
-        jugador.enviarIntento(instruccion);
+    public void enviarIntento(String instruccion)  {
+        try {
+            jugador.enviarIntento(instruccion);
+        } catch (IOException ex) {
+            Logger.getLogger(ControlJugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void enviarInformacionJugador(String nombre, String contraseña){
+        try {
+            jugador.enviarInformacionJugador(nombre, contraseña);
+        } catch (IOException ex) {
+            Logger.getLogger(ControlJugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

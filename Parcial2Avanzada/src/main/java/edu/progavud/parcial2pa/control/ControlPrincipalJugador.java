@@ -101,14 +101,12 @@ public class ControlPrincipalJugador {
      * @param contenido Contenido del mensaje a enviar.
      */
     public void enviarMensajePublico(String contenido) {
-        try {
-            cJugador.enviarIntento(contenido);
-        } catch (IOException ex) {
- 
-        }
+        cJugador.enviarIntento(contenido);
     }
 
-    
+    public void enviarInformacionJugador(String nombre,String contraseña){
+        cJugador.enviarInformacionJugador(nombre, contraseña);
+    }
 
     
 

@@ -58,8 +58,10 @@ public class ControlVentanaJugador implements ActionListener {
 //        cargarVistaPrivada();
 
         nombre = vJugador.nombreJugador(); //Reciclado de vCliente
-        vJugador.setNombreJugador(nombre); //Reciclado de vCliente
+        vJugador.setNombreJugador(nombre); //Reciclado de vCliente, recibe del JOptionPane el nombre y contraseña
         contraseña = vJugador.contraseñaJugador();
+        
+        cPrinc.enviarInformacionJugador(nombre, contraseña); //Se envía la informacion del jugador
         
 //        ip = vJugador.numeroIP(); debe venir del properties
 
@@ -113,6 +115,7 @@ public class ControlVentanaJugador implements ActionListener {
 
 
     }
+    
 
     /**
      * Inicializa y configura la ventana de chat privado.

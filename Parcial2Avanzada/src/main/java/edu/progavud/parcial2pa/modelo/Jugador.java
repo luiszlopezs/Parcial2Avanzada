@@ -66,6 +66,11 @@ public class Jugador {
         salida.writeInt(1); 
         salida.writeUTF(instruccion);
     }
+    public void enviarInformacionJugador(String nombre, String contraseña) throws IOException{
+        salida.writeInt(0);
+        salida.writeUTF(nombre);
+        salida.writeUTF(contraseña);
+    }
 
     public void conexion() throws IOException {
 

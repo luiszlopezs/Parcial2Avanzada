@@ -43,7 +43,7 @@ public class JugadorDAO {
         ConexionBD.inicializarBD(props);
     }
 
-    public Jugador consultarGatoIndividual(String nombre,String contraseña) throws SQLException {
+    public Jugador consultarJugador(String nombre,String contraseña) throws SQLException {
         Jugador JugadorVO = null;
         String consulta = "SELECT * FROM JugadoresTabla WHERE nombre= '" + nombre + "' AND contraseña= '"+ contraseña +"'";
 

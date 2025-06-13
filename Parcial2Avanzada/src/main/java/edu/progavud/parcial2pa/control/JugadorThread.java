@@ -57,6 +57,8 @@ public class JugadorThread extends Thread {
             try {
                 opcion = entrada.readInt();
                 switch (opcion) {
+                    case 0: //usuario y contraseña
+                        
                     case 1://mensage enviado
                         menser = entrada.readUTF();
                         cJugador.getcPrinc().getcVentana().getvJugador().mostrarMsg(menser);
