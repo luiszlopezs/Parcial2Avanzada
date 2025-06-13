@@ -13,7 +13,7 @@ import java.net.Socket;
  *
  * @author hailen
  */
-public class JugadorVO {
+public class Jugador {
     private String nombre;
     private String contraseña;
     private int intentos;
@@ -38,9 +38,12 @@ public class JugadorVO {
     // Segundo socket para recepción de mensajes
     Socket comunication2 = null;
 
-    public JugadorVO(String nombre, String contraseña) {
+    public Jugador(String nombre, String contraseña) {
         this.nombre = nombre;
         this.contraseña = contraseña;
+    }
+    
+    public Jugador(){
     }
     
     //Método que incrementa el número de intentos, se llama cada vez que el jugador envía una orden al servidor, sea un acierto o no
@@ -60,15 +63,15 @@ public class JugadorVO {
 
     // Método para enviar dos coordenadas de un intento en una instrucción (primera y segunda casilla)
     public void enviarIntento(String instruccion) throws IOException {
-        salida.writeInt(2); 
+        salida.writeInt(1); 
         salida.writeUTF(instruccion);
     }
 
     public void conexion() throws IOException {
 
-        comunication = new Socket(JugadorVO.IPserver, 8081);
+        comunication = new Socket(Jugador.IPserver, 8081);
 
-        comunication2 = new Socket(JugadorVO.IPserver, 8082);
+        comunication2 = new Socket(Jugador.IPserver, 8082);
 
         // Primero salida, luego entrada
         salida = new DataOutputStream(comunication.getOutputStream());
@@ -154,7 +157,7 @@ public class JugadorVO {
     }
 
     public static void setIPserver(String IPserver) {
-        JugadorVO.IPserver = IPserver;
+        Jugador.IPserver = IPserver;
     }
 
     public Socket getComunication() {
