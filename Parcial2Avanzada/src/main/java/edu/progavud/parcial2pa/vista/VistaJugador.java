@@ -8,7 +8,7 @@ import javax.swing.*;
  * Ventana principal de la interfaz gráfica del cliente.
  * Permite al usuario enviar mensajes públicos y acceder a la opción de ayuda.
  */
-public class VistaCliente extends JFrame {
+public class VistaJugador extends JFrame {
 
     private ControlVentanaJugador cVentana;
 
@@ -20,8 +20,8 @@ public class VistaCliente extends JFrame {
     private JLabel lblAdvertencia;
     private JLabel lblNombreUsuario;
 
-    public VistaCliente() {
-        //this.cVentana = cVentana;
+    public VistaJugador(ControlVentanaJugador cVentana) {
+        this.cVentana = cVentana;
         super("Jugador - Vista");
 
         // Eliminado: setIconImage con imagen
@@ -95,6 +95,18 @@ public class VistaCliente extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(new Color(200, 220, 245)); // Fondo general azul claro
     }
+    
+    public String nombreJugador() { //Reciclado de vCliente
+        return JOptionPane.showInputDialog("Introducir Nombre :");
+    }
+    
+    public String contraseñaJugador() { //Reciclado de vCliente
+        return JOptionPane.showInputDialog("Introducir Contraseña :");
+    }
+   
+    public String numeroIP() { //Reciclado de vCliente
+        return JOptionPane.showInputDialog("Introducir IP_SERVER :", "localhost");
+    }
 
     public JTextArea getPanMostrar() {
         return panMostrar;
@@ -120,8 +132,8 @@ public class VistaCliente extends JFrame {
         this.butEnviar = butEnviar;
     }
 
-    public void setNombreUsuario(String nombre) {
-        lblNombreUsuario.setText("Usuario: " + nombre);
+    public void setNombreJugador(String nombre) {
+        lblNombreUsuario.setText("Jugador: " + nombre);
     }
 
     public void mostrarMsg(String msg) {
