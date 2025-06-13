@@ -30,8 +30,10 @@ public class VistaServidor extends javax.swing.JFrame {
      * Creates new form VistaServidor
      */
     public VistaServidor() {
+        super("VISTA-SERVIDOR");
         this.cVentanaServidor = cVentanaServidor;
         initComponents();
+        
     }
 
     /**
@@ -100,8 +102,8 @@ public class VistaServidor extends javax.swing.JFrame {
         btnJug4 = new javax.swing.JButton();
         btnEnviarResultados = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAumentarIntento = new javax.swing.JButton();
+        btnIniciarJuego = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -231,9 +233,9 @@ public class VistaServidor extends javax.swing.JFrame {
 
         btnEnviarResultados.setText("Enviar Resultados");
 
-        jButton1.setText("Intento +1 (mensaje invalido)");
+        btnAumentarIntento.setText("Intento +1 (mensaje invalido)");
 
-        jButton2.setText("Iniciar Juego");
+        btnIniciarJuego.setText("Iniciar Juego");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -368,13 +370,13 @@ public class VistaServidor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnAumentarIntento)
                                 .addGap(58, 58, 58))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEnviarResultados)
                                 .addGap(89, 89, 89))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(btnIniciarJuego)
                                 .addGap(103, 103, 103))))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -459,9 +461,9 @@ public class VistaServidor extends javax.swing.JFrame {
                             .addComponent(btnJug4))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btnIniciarJuego)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnAumentarIntento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviarResultados)))
                 .addContainerGap())
@@ -1020,8 +1022,27 @@ public class VistaServidor extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "¡Pareja encontrada!");
     }
 
+    public JButton getBtnAumentarIntento() {
+        return btnAumentarIntento;
+    }
+
+    public void setBtnAumentarIntento(JButton btnAumentarIntento) {
+        this.btnAumentarIntento = btnAumentarIntento;
+    }
+
+    public JButton getBtnIniciarJuego() {
+        return btnIniciarJuego;
+    }
+
+    public void setBtnIniciarJuego(JButton btnIniciarJuego) {
+        this.btnIniciarJuego = btnIniciarJuego;
+    }
+    
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAumentarIntento;
     private javax.swing.JButton btnCarta1;
     private javax.swing.JButton btnCarta10;
     private javax.swing.JButton btnCarta11;
@@ -1063,12 +1084,11 @@ public class VistaServidor extends javax.swing.JFrame {
     private javax.swing.JButton btnCarta8;
     private javax.swing.JButton btnCarta9;
     private javax.swing.JButton btnEnviarResultados;
+    private javax.swing.JButton btnIniciarJuego;
     private javax.swing.JButton btnJug1;
     private javax.swing.JButton btnJug2;
     private javax.swing.JButton btnJug3;
     private javax.swing.JButton btnJug4;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
