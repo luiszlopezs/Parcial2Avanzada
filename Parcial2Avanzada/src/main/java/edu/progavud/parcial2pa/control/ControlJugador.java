@@ -41,8 +41,9 @@ public class ControlJugador {
         this.cPrinc = cPrinc;
         jugador = new Jugador();
         
-        Jugador.setIPserver(cPrinc.getcVentana().getIp());
+        //Jugador.setIPserver(cPrinc.getcVentana().getIp());
         jugador.setNombre(cPrinc.getcVentana().getNombre());
+        jugador.setClave(cPrinc.getcVentana().getClave());
 
         jugador.conexion();
 
@@ -57,12 +58,9 @@ public class ControlJugador {
      * @param mensaje El texto del mensaje que se desea enviar.
      * @throws IOException Si ocurre un error al enviar el mensaje.
      */
-    public void enviarIntento(String instruccion)  {
-        try {
+    public void enviarIntento(String instruccion) throws IOException  {
             jugador.enviarIntento(instruccion);
-        } catch (IOException ex) {
-            Logger.getLogger(ControlJugador.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     
     public void enviarInformacionJugador(String nombre, String contraseña){

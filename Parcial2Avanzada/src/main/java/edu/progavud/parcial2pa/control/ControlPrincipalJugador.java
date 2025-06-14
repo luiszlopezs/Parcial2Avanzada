@@ -93,7 +93,6 @@ public class ControlPrincipalJugador {
 //
 //        }
 //    }
-
     /**
      * Envía un mensaje público a todos los usuarios conectados utilizando el
      * controlador del cliente.
@@ -101,13 +100,18 @@ public class ControlPrincipalJugador {
      * @param contenido Contenido del mensaje a enviar.
      */
     public void enviarMensajePublico(String contenido) {
-        cJugador.enviarIntento(contenido);
+
+        try {
+            cJugador.enviarIntento(contenido);
+        } catch (IOException ex) {
+            cVentana.getvJugador().mostrarMensajeDesconectado();
+
+        }
+
     }
 
-    public void enviarInformacionJugador(String nombre,String contraseña){
+    public void enviarInformacionJugador(String nombre, String contraseña) {
         cJugador.enviarInformacionJugador(nombre, contraseña);
     }
-
-    
 
 }

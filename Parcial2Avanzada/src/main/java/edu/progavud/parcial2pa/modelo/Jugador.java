@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class Jugador {
     private String nombre;
-    private String contraseña;
+    private String clave;
     private int intentos;
     private int aciertos;
     private double eficiencia;
@@ -38,9 +38,9 @@ public class Jugador {
     // Segundo socket para recepción de mensajes
     Socket comunication2 = null;
 
-    public Jugador(String nombre, String contraseña) {
+    public Jugador(String nombre, String clave) {
         this.nombre = nombre;
-        this.contraseña = contraseña;
+        this.clave = clave;
     }
     
     public Jugador(){
@@ -66,17 +66,17 @@ public class Jugador {
         salida.writeInt(1); 
         salida.writeUTF(instruccion);
     }
-    public void enviarInformacionJugador(String nombre, String contraseña) throws IOException{
+    public void enviarInformacionJugador(String nombre, String clave) throws IOException{
         salida.writeInt(0);
         salida.writeUTF(nombre);
-        salida.writeUTF(contraseña);
+        salida.writeUTF(clave);
     }
 
     public void conexion() throws IOException {
 
-        comunication = new Socket(Jugador.IPserver, 8081);
+        comunication = new Socket("localhost", 8081);
 
-        comunication2 = new Socket(Jugador.IPserver, 8082);
+        comunication2 = new Socket("localhost", 8082);
 
         // Primero salida, luego entrada
         salida = new DataOutputStream(comunication.getOutputStream());
@@ -88,6 +88,7 @@ public class Jugador {
         entrada2 = new DataInputStream(comunication2.getInputStream());
 
         salida.writeUTF(nombre);
+        salida.writeUTF(clave);
 
     }
 
@@ -101,12 +102,12 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getClave() {
+        return clave;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public int getIntentos() {

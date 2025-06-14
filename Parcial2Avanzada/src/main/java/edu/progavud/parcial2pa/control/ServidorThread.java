@@ -24,6 +24,7 @@ import java.util.Vector;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 
@@ -48,11 +49,12 @@ public class ServidorThread extends Thread {
 // Segundo flujo de salida (por ejemplo, para mensajes privados)
     DataOutputStream salida2 = null;
 
-// Lista estática de hilos de clientes activos
-    public static Vector<ServidorThread> clientesActivos = new Vector();
+    private volatile boolean partidaIniciada = false;
 
+// Lista estática de hilos de clientes activos
 // Nombre de usuario del cliente conectado
     String nameUser;
+    String clave;
 
 // Referencia al controlador del servidor
     private ControlServidor cServidor;
@@ -74,8 +76,7 @@ public class ServidorThread extends Thread {
         scli2 = scliente2;
         this.cServidor = cServidor;
         nameUser = "";
-        clientesActivos.add(this);
-        cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this);
+
     }
 
     /**
@@ -94,6 +95,14 @@ public class ServidorThread extends Thread {
      */
     public void setNameUser(String name) {
         nameUser = name;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     /**
@@ -117,6 +126,10 @@ public class ServidorThread extends Thread {
      * activos y actualiza la lista para los demás clientes.</li>
      * </ul>
      */
+    public void setPartidaIniciada(boolean estado) {
+        this.partidaIniciada = estado;
+    }
+
     public void run() {
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar(".::Esperando Mensajes :");
 
@@ -125,14 +138,31 @@ public class ServidorThread extends Thread {
             salida = new DataOutputStream(scli.getOutputStream());
             salida2 = new DataOutputStream(scli2.getOutputStream());
             this.setNameUser(entrada.readUTF());
+            this.setClave(entrada.readUTF());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         int opcion = 0, numUsers = 0;
         String jugador = "", mencli = "";
-
+        boolean estaAgregado = false;
+        System.out.println("holaaaa, paso por qquiii");
         while (true) {
+
+            try {
+                if (!cServidor.verificarUsuario(this.nameUser, this.clave)) {
+                    break;
+                }
+                if (!estaAgregado) {
+                    ControlServidor.clientesActivos.add(this);
+                    cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
+                    estaAgregado = true;
+                    cServidor.getcPrinc().getcVentana().activarPartidaBasica();
+                }
+                
+            } catch (SQLException ex) {
+                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
             String filtrado = "";
             try {
                 opcion = entrada.readInt();
@@ -140,18 +170,12 @@ public class ServidorThread extends Thread {
 
                     case 1: // Mensaje a todos
                         mencli = entrada.readUTF();
-                        
+
                         enviaMsg(mencli);
                         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("mensaje recibido " + mencli);
 
                         break;
 
-                    case 3: // Mensaje privado
-                        jugador = entrada.readUTF();
-                        mencli = entrada.readUTF();
-                        enviaMsg(jugador, mencli);
-
-                        break;
                 }
             } catch (IOException e) {
                 break;
@@ -160,7 +184,7 @@ public class ServidorThread extends Thread {
 
         enviaMsg(this.getNameUser() + " se ha desconectado del chat.");
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se removio un usuario");
-        clientesActivos.removeElement(this);
+        ControlServidor.clientesActivos.removeElement(this);
 
         try {
             cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se desconecto un usuario");
@@ -182,19 +206,17 @@ public class ServidorThread extends Thread {
      */
     public void enviaMsg(String mencli2) {
         ServidorThread user = null;
-        for (int i = 0; i < clientesActivos.size(); i++) {
+        for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
             cServidor.getcPrinc().getcVentana().getvServidor().mostrar("MENSAJE DEVUELTO:" + mencli2);
             try {
-                user = clientesActivos.get(i);
+                user = ControlServidor.clientesActivos.get(i);
                 user.salida2.writeInt(1);//opcion de mensage 
-                user.salida2.writeUTF("" + this.getNameUser() + " >" + mencli2);
+                user.salida2.writeUTF("" + this.getNameUser() + " ->" + mencli2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
- 
 
     /**
      * Envía un mensaje privado a un cliente específico.
@@ -209,9 +231,9 @@ public class ServidorThread extends Thread {
      */
     private void enviaMsg(String jugador, String mencli) {
         ServidorThread user = null;
-        for (int i = 0; i < clientesActivos.size(); i++) {
+        for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
             try {
-                user = clientesActivos.get(i);
+                user = ControlServidor.clientesActivos.get(i);
                 if (user.nameUser.equals(jugador)) {
                     user.salida2.writeInt(3);//opcion de mensaje amigo   
                     user.salida2.writeUTF(this.getNameUser());
@@ -229,8 +251,4 @@ public class ServidorThread extends Thread {
      *
      * @return Un vector con las instancias de {@link ServidorThread} activas.
      */
-    public static Vector<ServidorThread> getClientesActivos() {
-        return clientesActivos;
-    }
-
 }

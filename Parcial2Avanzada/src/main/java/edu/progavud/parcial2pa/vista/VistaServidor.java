@@ -5,8 +5,10 @@
 package edu.progavud.parcial2pa.vista;
 
 import edu.progavud.parcial2pa.control.ControlVentanaServidor;
+import java.io.File;
 import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,6 +25,7 @@ public class VistaServidor extends javax.swing.JFrame {
 
     private ControlVentanaServidor cVentanaServidor;
     private JButton[][] botones = new JButton[5][8];
+    private int[][] indiceBotones = new int[5][8];
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaServidor.class.getName());
 
@@ -33,7 +36,7 @@ public class VistaServidor extends javax.swing.JFrame {
         super("VISTA-SERVIDOR");
         this.cVentanaServidor = cVentanaServidor;
         initComponents();
-        
+
     }
 
     /**
@@ -1001,10 +1004,10 @@ public class VistaServidor extends javax.swing.JFrame {
             btnCarta33, btnCarta34, btnCarta35, btnCarta36, btnCarta37, btnCarta38, btnCarta39, btnCarta40
         };
 
-        int numero = 0;
+        int numero = 1;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 8; j++) {
-                botones[i][j] = btnCartas[numero];
+                indiceBotones[i][j] = numero;
                 numero++;
             }
         }
@@ -1037,8 +1040,23 @@ public class VistaServidor extends javax.swing.JFrame {
     public void setBtnIniciarJuego(JButton btnIniciarJuego) {
         this.btnIniciarJuego = btnIniciarJuego;
     }
-    
-    
+
+    public int[][] getIndiceBotones() {
+        return indiceBotones;
+    }
+
+    public void setIndiceBotones(int[][] indiceBotones) {
+        this.indiceBotones = indiceBotones;
+    }
+
+    public File rutaJfileChooserPorts() {
+        File f;
+        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+        fc.showDialog(null, "Seleccionar Archivo Properties de los Ports");
+
+        f = fc.getSelectedFile();
+        return f;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

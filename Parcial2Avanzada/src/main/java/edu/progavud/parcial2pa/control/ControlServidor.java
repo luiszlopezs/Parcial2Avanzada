@@ -4,10 +4,12 @@
  */
 package edu.progavud.parcial2pa.control;
 
+import edu.progavud.parcial2pa.modelo.JugadorDAO;
 import edu.progavud.parcial2pa.modelo.ServidorVO;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Vector;
@@ -27,11 +29,15 @@ public class ControlServidor {
 // Objeto que representa la lógica del servidor (modelo)
     private ServidorVO servidorVO;
 
+    private JugadorDAO jugadorDAO;
+
 // Hilo encargado de atender a los clientes que se conectan
     private ServidorThread servidorThread;
 
 // Generador de números aleatorios para funcionalidades del servidor
     private Random random;
+
+    public static Vector<ServidorThread> clientesActivos = new Vector();
 
     /**
      * Constructor de ControlServidor.
@@ -45,6 +51,7 @@ public class ControlServidor {
         this.cPrinc = cPrinc;
         random = new Random();
         servidorVO = new ServidorVO();
+        jugadorDAO = new JugadorDAO();
 
     }
 
@@ -67,11 +74,12 @@ public class ControlServidor {
      */
     public void runServer() {
         try {
-                       
-            servidorVO.setServ(new ServerSocket(8081));
-            servidorVO.setServ2(new ServerSocket(8082));
+
+            servidorVO.setServ(new ServerSocket(servidorVO.getPort1()));  //traer de properties
+            servidorVO.setServ2(new ServerSocket(servidorVO.getPort2()));  //traer de properties
             cPrinc.getcVentana().getvServidor().mostrar("::Servidor activo::");
             while (servidorVO.isListening()) {
+                
                 Socket sock = null, sock2 = null;
                 try {
                     //muestra un mensaje en la vista del server
@@ -95,8 +103,6 @@ public class ControlServidor {
 
     }
 
-
-
     /**
      * Revisa un mensaje y reemplaza automáticamente cualquier palabra
      * considerada grosería por una palabra alternativa tomada aleatoriamente de
@@ -105,8 +111,6 @@ public class ControlServidor {
      * @param mensaje El mensaje original enviado por el usuario.
      * @return El mensaje filtrado, con las groserías reemplazadas.
      */
-
-
     /**
      * Inicializa las listas de palabras ofensivas y sus reemplazos desde un
      * archivo de propiedades.
@@ -119,8 +123,18 @@ public class ControlServidor {
      *
      * @param props Archivo de propiedades cargado previamente.
      */
-    public void inicializarDesdeProperties(Properties props) {
-        
+    public void inicializarDesdeProperties(int serv1, int serv2) {
+        servidorVO.setPort1(serv1);
+        servidorVO.setPort2(serv2);
+        System.out.println(serv1);
+        System.out.println(serv2);
+    }
+
+    public boolean verificarUsuario(String usuario, String clave) throws SQLException {
+        //conexion con JUGADOR DAO o SERVIDOR DAO para verificar si el usuario existe
+        jugadorDAO = new JugadorDAO();
+        return jugadorDAO.consultarJugador(usuario, clave);
+
     }
 
     /**
@@ -151,5 +165,16 @@ public class ControlServidor {
     public ServidorThread getServidorThread() {
         return servidorThread;
     }
+
+    public static Vector<ServidorThread> getClientesActivos() {
+        return clientesActivos;
+    }
+
+    public static void setClientesActivos(Vector<ServidorThread> clientesActivos) {
+        ControlServidor.clientesActivos = clientesActivos;
+    }
+    
+    
+    
 
 }

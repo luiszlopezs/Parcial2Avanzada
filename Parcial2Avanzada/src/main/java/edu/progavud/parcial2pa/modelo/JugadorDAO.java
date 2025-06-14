@@ -43,20 +43,21 @@ public class JugadorDAO {
         ConexionBD.inicializarBD(props);
     }
 
-    public Jugador consultarJugador(String nombre,String contraseña) throws SQLException {
-        Jugador JugadorVO = null;
-        String consulta = "SELECT * FROM JugadoresTabla WHERE nombre= '" + nombre + "' AND contraseña= '"+ contraseña +"'";
+    public boolean consultarJugador(String nombre,String clave) throws SQLException {
+//        Jugador JugadorVO = null;
+        boolean encontrado = false;
+        String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '"+ clave +"'";
 
         con = (Connection) ConexionBD.getConexion();
         st = con.createStatement();
         rs = st.executeQuery(consulta);
         if (rs.next()) {
-            JugadorVO = new Jugador(nombre,contraseña);
-           
+//            JugadorVO = new Jugador(nombre,clave);
+           encontrado = true;
         }
         st.close();
         ConexionBD.desconectar();
 
-        return JugadorVO;
+        return encontrado;
     }
 }

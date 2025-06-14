@@ -5,8 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * Ventana principal de la interfaz gráfica del cliente.
- * Permite al usuario enviar mensajes públicos y acceder a la opción de ayuda.
+ * Ventana principal de la interfaz gráfica del cliente. Permite al usuario
+ * enviar mensajes públicos y acceder a la opción de ayuda.
  */
 public class VistaJugador extends JFrame {
 
@@ -25,7 +25,6 @@ public class VistaJugador extends JFrame {
         super("Jugador - Vista");
 
         // Eliminado: setIconImage con imagen
-
         initializeComponents();
         setupLayout();
         this.setVisible(true);
@@ -95,17 +94,21 @@ public class VistaJugador extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(new Color(200, 220, 245)); // Fondo general azul claro
     }
-    
+
     public String nombreJugador() { //Reciclado de vCliente
         return JOptionPane.showInputDialog("Introducir Nombre :");
     }
-    
-    public String contraseñaJugador() { //Reciclado de vCliente
-        return JOptionPane.showInputDialog("Introducir Contraseña :");
+
+    public String claveJugador() { //Reciclado de vClientes
+        return JOptionPane.showInputDialog("Introducir Clave :");
     }
-   
+
     public String numeroIP() { //Reciclado de vCliente
         return JOptionPane.showInputDialog("Introducir IP_SERVER :", "localhost");
+    }
+
+    public void mostrarMensajeDesconectado() {
+        JOptionPane.showMessageDialog(null, "El usuario y/o la clave son incorrectas por lo que ha sido desconectado");
     }
 
     public JTextArea getPanMostrar() {

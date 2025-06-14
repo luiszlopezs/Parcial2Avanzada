@@ -26,7 +26,7 @@ public class ControlVentanaServidor implements ActionListener {
 // Vista gráfica del servidor
     private VistaServidor vServidor;
 
-    private JButton primerBoton = null;
+    private int primerBoton = 10000;
     private boolean esperandoSegundo = false;
 
     /**
@@ -38,6 +38,8 @@ public class ControlVentanaServidor implements ActionListener {
      */
     public ControlVentanaServidor(ControlPrincipalServidor cPrinc) {
         this.cPrinc = cPrinc;
+        cargarVistaServidor();
+        cPrinc.inicializarPuertosDesdeProps(vServidor.rutaJfileChooserPorts());
 
     }
 
@@ -56,136 +58,138 @@ public class ControlVentanaServidor implements ActionListener {
 
         switch (comando) {
             case "INICIAR_JUEGO":
+                cPrinc.iniciarPartida();
+                
+
+// También puedes inicializar cartas aquí si tienes lógica en ControlTablero
                 
                 break;
             case "AUMENTAR_INTENTO":
-                
+
                 break;
             case "ENVIAR_RESULTADOS":
-                
+
                 break;
-                
-                
-                
+
             case "BOTON_40":
-                manejarClick(vServidor.getBtnCarta40());
+                manejarClick(40);
                 break;
             case "BOTON_1":
-                manejarClick(vServidor.getBtnCarta1());
+                manejarClick(1);
                 break;
             case "BOTON_2":
-                manejarClick(vServidor.getBtnCarta2());
+                manejarClick(2);
                 break;
             case "BOTON_3":
-                manejarClick(vServidor.getBtnCarta3());
+                manejarClick(3);
                 break;
             case "BOTON_4":
-                manejarClick(vServidor.getBtnCarta4());
+                manejarClick(4);
                 break;
             case "BOTON_5":
-                manejarClick(vServidor.getBtnCarta5());
+                manejarClick(5);
                 break;
             case "BOTON_6":
-                manejarClick(vServidor.getBtnCarta6());
+                manejarClick(6);
                 break;
             case "BOTON_7":
-                manejarClick(vServidor.getBtnCarta7());
+                manejarClick(7);
                 break;
             case "BOTON_8":
-                manejarClick(vServidor.getBtnCarta8());
+                manejarClick(8);
                 break;
             case "BOTON_9":
-                manejarClick(vServidor.getBtnCarta9());
+                manejarClick(9);
                 break;
             case "BOTON_10":
-                manejarClick(vServidor.getBtnCarta10());
+                manejarClick(10);
                 break;
             case "BOTON_11":
-                manejarClick(vServidor.getBtnCarta11());
+                manejarClick(11);
                 break;
             case "BOTON_12":
-                manejarClick(vServidor.getBtnCarta12());
+                manejarClick(12);
                 break;
             case "BOTON_13":
-                manejarClick(vServidor.getBtnCarta13());
+                manejarClick(13);
                 break;
             case "BOTON_14":
-                manejarClick(vServidor.getBtnCarta14());
+                manejarClick(14);
                 break;
             case "BOTON_15":
-                manejarClick(vServidor.getBtnCarta15());
+                manejarClick(15);
                 break;
             case "BOTON_16":
-                manejarClick(vServidor.getBtnCarta16());
+                manejarClick(16);
                 break;
             case "BOTON_17":
-                manejarClick(vServidor.getBtnCarta17());
+                manejarClick(17);
                 break;
             case "BOTON_18":
-                manejarClick(vServidor.getBtnCarta18());
+                manejarClick(18);
                 break;
             case "BOTON_19":
-                manejarClick(vServidor.getBtnCarta19());
+                manejarClick(19);
                 break;
             case "BOTON_20":
-                manejarClick(vServidor.getBtnCarta20());
+                manejarClick(20);
                 break;
             case "BOTON_21":
-                manejarClick(vServidor.getBtnCarta21());
+                manejarClick(21);
                 break;
             case "BOTON_22":
-                manejarClick(vServidor.getBtnCarta22());
+                manejarClick(22);
                 break;
             case "BOTON_23":
-                manejarClick(vServidor.getBtnCarta23());
+                manejarClick(23);
                 break;
             case "BOTON_24":
-                manejarClick(vServidor.getBtnCarta24());
+                manejarClick(24);
                 break;
             case "BOTON_25":
-                manejarClick(vServidor.getBtnCarta25());
+                manejarClick(25);
                 break;
             case "BOTON_26":
-                manejarClick(vServidor.getBtnCarta26());
+                manejarClick(26);
                 break;
             case "BOTON_27":
-                manejarClick(vServidor.getBtnCarta27());
+                manejarClick(27);
                 break;
             case "BOTON_28":
-                manejarClick(vServidor.getBtnCarta28());
+                manejarClick(28);
                 break;
             case "BOTON_29":
-                manejarClick(vServidor.getBtnCarta29());
+                manejarClick(29);
                 break;
             case "BOTON_30":
-                manejarClick(vServidor.getBtnCarta30());
+                manejarClick(30);
                 break;
             case "BOTON_31":
-                manejarClick(vServidor.getBtnCarta31());
+                manejarClick(31);
                 break;
             case "BOTON_32":
-                manejarClick(vServidor.getBtnCarta32());
+                manejarClick(32);
                 break;
             case "BOTON_33":
-                manejarClick(vServidor.getBtnCarta33());
+                manejarClick(33);
                 break;
             case "BOTON_34":
-                manejarClick(vServidor.getBtnCarta34());
+                manejarClick(34);
                 break;
             case "BOTON_35":
-                manejarClick(vServidor.getBtnCarta35());
+                manejarClick(35);
                 break;
             case "BOTON_36":
-                manejarClick(vServidor.getBtnCarta36());
+                manejarClick(36);
                 break;
             case "BOTON_37":
-                manejarClick(vServidor.getBtnCarta37());
+                manejarClick(37);
                 break;
             case "BOTON_38":
-                manejarClick(vServidor.getBtnCarta38());
+                manejarClick(38);
                 break;
             case "BOTON_39":
-                manejarClick(vServidor.getBtnCarta39());
+                manejarClick(39);
                 break;
             default:
                 System.out.println("Comando desconocido: " + comando);
@@ -216,6 +220,28 @@ public class ControlVentanaServidor implements ActionListener {
 
         vServidor.getBtnIniciarJuego().setActionCommand("INICIAR_JUEGO");
         vServidor.getBtnJug2().addActionListener(this);
+
+        vServidor.getBtnAumentarIntento().setVisible(false);
+        vServidor.getBtnEnviarResultados().setVisible(false);
+        vServidor.getBtnIniciarJuego().setVisible(false);
+        vServidor.getBtnJug1().setVisible(false);
+        vServidor.getBtnJug2().setVisible(false);
+        vServidor.getBtnJug3().setVisible(false);
+        vServidor.getBtnJug4().setVisible(false);
+        vServidor.getLblAciertosJug1().setVisible(false);
+        vServidor.getLblAciertosJug2().setVisible(false);
+        vServidor.getLblAciertosJug3().setVisible(false);
+        vServidor.getLblAciertosJug4().setVisible(false);
+        vServidor.getLblIntentosJug1().setVisible(false);
+        vServidor.getLblIntentosJug2().setVisible(false);
+        vServidor.getLblIntentosJug3().setVisible(false);
+        vServidor.getLblIntentosJug4().setVisible(false);
+        for (int i = 1; i <= 40; i++) {
+            JButton boton = obtenerBotonCarta(i);
+            if (boton != null) {
+                boton.setEnabled(false);
+            }
+        }
 
     }
 
@@ -324,15 +350,15 @@ public class ControlVentanaServidor implements ActionListener {
         this.vServidor = vServidor;
     }
 
-    public void manejarClick(JButton boton) {
-        boton.setIcon(new ImageIcon(cPrinc.getMapaBotonCarta().get(boton).getRutaImg()));
-        boton.setEnabled(false);
+    public void manejarClick(int btn) {
+//        boton.setIcon(new ImageIcon(cPrinc.getMapaBotonCarta().get(boton).getRutaImg()));
+//        boton.setEnabled(false);
 
         if (!esperandoSegundo) {
-            primerBoton = boton;
+            primerBoton = btn;
             esperandoSegundo = true;
         } else {
-            JButton segundoBoton = boton;
+            int segundoBoton = btn;
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }
@@ -343,18 +369,41 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.mostrarJDialogParejaEncontrada();
     }
 
-    public void resetearParejaBotones(JButton b1, JButton b2) {
-        b1.setIcon(new ImageIcon());
-        b1.setEnabled(true);
-        b2.setIcon(new ImageIcon());
-        b2.setEnabled(true);
+    public void resetearParejaBotones(int btn1, int btn2) {
+        obtenerBotonCarta(btn1).setIcon(new ImageIcon());
+        obtenerBotonCarta(btn1).setEnabled(true);
+        obtenerBotonCarta(btn2).setIcon(new ImageIcon());
+        obtenerBotonCarta(btn2).setEnabled(true);
     }
 
-    public JButton getPrimerBoton() {
+    public void activarPartidaBasica() {
+        if (ControlServidor.clientesActivos.size() >= 1) {
+            vServidor.getBtnAumentarIntento().setVisible(true);
+            vServidor.getBtnEnviarResultados().setVisible(true);
+            vServidor.getBtnIniciarJuego().setVisible(true);
+            vServidor.getBtnJug1().setVisible(true);
+            vServidor.getBtnJug2().setVisible(true);
+
+            vServidor.getLblAciertosJug1().setVisible(true);
+            vServidor.getLblAciertosJug2().setVisible(true);
+
+            vServidor.getLblIntentosJug1().setVisible(true);
+            vServidor.getLblIntentosJug2().setVisible(true);
+
+            for (int i = 1; i <= 40; i++) {
+                JButton boton = obtenerBotonCarta(i);
+                if (boton != null) {
+                    boton.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    public int getPrimerBoton() {
         return primerBoton;
     }
 
-    public void setPrimerBoton(JButton primerBoton) {
+    public void setPrimerBoton(int primerBoton) {
         this.primerBoton = primerBoton;
     }
 
