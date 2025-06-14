@@ -36,6 +36,7 @@ public class VistaServidor extends javax.swing.JFrame {
         super("VISTA-SERVIDOR");
         this.cVentanaServidor = cVentanaServidor;
         initComponents();
+        ponerBotonesEnMatriz();
 
     }
 
@@ -996,13 +997,13 @@ public class VistaServidor extends javax.swing.JFrame {
 
     private void ponerBotonesEnMatriz() {
 
-        JButton[] btnCartas = {
-            btnCarta1, btnCarta2, btnCarta3, btnCarta4, btnCarta5, btnCarta6, btnCarta7, btnCarta8,
-            btnCarta9, btnCarta10, btnCarta11, btnCarta12, btnCarta13, btnCarta14, btnCarta15, btnCarta16,
-            btnCarta17, btnCarta18, btnCarta19, btnCarta20, btnCarta21, btnCarta22, btnCarta23, btnCarta24,
-            btnCarta25, btnCarta26, btnCarta27, btnCarta28, btnCarta29, btnCarta30, btnCarta31, btnCarta32,
-            btnCarta33, btnCarta34, btnCarta35, btnCarta36, btnCarta37, btnCarta38, btnCarta39, btnCarta40
-        };
+//        JButton[] btnCartas = {
+//            btnCarta1, btnCarta2, btnCarta3, btnCarta4, btnCarta5, btnCarta6, btnCarta7, btnCarta8,
+//            btnCarta9, btnCarta10, btnCarta11, btnCarta12, btnCarta13, btnCarta14, btnCarta15, btnCarta16,
+//            btnCarta17, btnCarta18, btnCarta19, btnCarta20, btnCarta21, btnCarta22, btnCarta23, btnCarta24,
+//            btnCarta25, btnCarta26, btnCarta27, btnCarta28, btnCarta29, btnCarta30, btnCarta31, btnCarta32,
+//            btnCarta33, btnCarta34, btnCarta35, btnCarta36, btnCarta37, btnCarta38, btnCarta39, btnCarta40
+//        };
 
         int numero = 1;
         for (int i = 0; i < 5; i++) {
@@ -1022,7 +1023,7 @@ public class VistaServidor extends javax.swing.JFrame {
     }
 
     public void mostrarJDialogParejaEncontrada() {
-        JOptionPane.showMessageDialog(this, "¡Pareja encontrada!");
+        JOptionPane.showMessageDialog(null, "¡Pareja encontrada!");
     }
 
     public JButton getBtnAumentarIntento() {
