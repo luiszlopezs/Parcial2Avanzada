@@ -16,8 +16,18 @@ import java.util.Collections;
 public class ControlTablero {
     
     private Carta[][] matrizCartas;
+    
+    private ControlPrincipalServidor cPrinc;
 
-    private void generarCartas() {
+    public ControlTablero(ControlPrincipalServidor cPrinc) {
+        this.cPrinc = cPrinc;
+    }
+    
+    
+    
+
+    public void generarCartas() {
+        matrizCartas = null;
         ArrayList<Carta> cartaLista = new ArrayList<>();
         int filas = 5;
         int columnas = 8;
@@ -42,6 +52,8 @@ public class ControlTablero {
                 idx++;
             }
         }
+        
+        System.out.println(matrizCartas);
     }
 
     public Carta[][] getMatrizCartas() {

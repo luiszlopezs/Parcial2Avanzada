@@ -15,6 +15,9 @@ public class ServidorVO {
 
 // Segundo socket de conexión (mensajes privados u otros propósitos)
     private ServerSocket serv2;
+    
+    private int port1 ;
+    private int port2 ;
 
 // Indica si el servidor está escuchando conexiones
     boolean listening = true;
@@ -86,4 +89,23 @@ public class ServidorVO {
     public void setListening(boolean listening) {
         this.listening = listening;
     }
+
+    public int getPort1() {
+        return port1;
+    }
+
+    public void setPort1(int port1) {
+        this.port1 = port1;
+    }
+
+    public int getPort2() {
+        return port2;
+    }
+
+    public void setPort2(int port2) {
+        this.port2 = port2;
+    }
+    
+    
+    
 }

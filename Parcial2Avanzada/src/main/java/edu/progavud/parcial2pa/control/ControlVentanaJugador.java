@@ -35,7 +35,7 @@ public class ControlVentanaJugador implements ActionListener {
     private String nombre;
     
 // Contraseña del cliente
-    private String contraseña;
+    private String clave;
    
 // Dirección IP del servidor
     private String ip;
@@ -59,9 +59,9 @@ public class ControlVentanaJugador implements ActionListener {
 
         nombre = vJugador.nombreJugador(); //Reciclado de vCliente
         vJugador.setNombreJugador(nombre); //Reciclado de vCliente, recibe del JOptionPane el nombre y contraseña
-        contraseña = vJugador.contraseñaJugador();
+        clave = vJugador.claveJugador();
         
-        cPrinc.enviarInformacionJugador(nombre, contraseña); //Se envía la informacion del jugador
+//        cPrinc.enviarInformacionJugador(nombre, contraseña); //Se envía la informacion del jugador
         
 //        ip = vJugador.numeroIP(); debe venir del properties
 
@@ -256,6 +256,16 @@ public class ControlVentanaJugador implements ActionListener {
     public VistaJugador getvJugador() {
         return vJugador;
     }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    
+    
     
     
 

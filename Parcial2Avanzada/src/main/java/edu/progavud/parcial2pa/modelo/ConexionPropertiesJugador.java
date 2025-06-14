@@ -23,7 +23,7 @@ import java.util.Properties;
  * - {@code archivoIn}: Flujo de entrada para leer el archivo de propiedades.
  * - {@code archivoOut}: Flujo de salida para guardar el archivo de propiedades.
  */
-public class ConexionProperties {
+public class ConexionPropertiesJugador {
 
     private Properties propiedades;
     private FileInputStream archivoIn;
@@ -34,7 +34,7 @@ public class ConexionProperties {
      * @param propiedades Objeto Properties que contiene la configuración.
      * @param archivoIn   Flujo de entrada para leer el archivo de propiedades.
      */
-    public ConexionProperties(Properties propiedades, FileInputStream archivoIn) {
+    public ConexionPropertiesJugador(Properties propiedades, FileInputStream archivoIn) {
         this.propiedades = propiedades;
         this.archivoIn = archivoIn;
     }

@@ -26,11 +26,14 @@ public class ControlPrincipalServidor {
     private ControlServidor cServidor;
 
     private ControlTablero cTablero;
+    
+    private int pasarPort1;
+    private int pasarPort2;
 
 // Controlador de la ventana de interfaz gráfica del servidor
     private ControlVentanaServidor cVentana;
 
-    private Map<JButton, Carta> mapaBotonCarta = new HashMap<>();
+    private Map<Integer, Carta> mapaBotonCarta = new HashMap<>();
 
     /**
      * Constructor de ControlPrincipalServidor.
@@ -41,8 +44,18 @@ public class ControlPrincipalServidor {
     public ControlPrincipalServidor() {
 
         cVentana = new ControlVentanaServidor(this);
+        cTablero = new ControlTablero(this);
         cServidor = new ControlServidor(this);
+        cServidor.inicializarDesdeProperties(pasarPort1,pasarPort2);
+        iniciarPartida();
         cServidor.runServer();
+
+    }
+
+    public void iniciarPartida() {
+        cTablero.generarCartas();
+        asignarCartasABotones();
+        // asignar turnos a jugadores
 
     }
 
@@ -64,53 +77,97 @@ public class ControlPrincipalServidor {
         return cVentana;
     }
 
-    private void asignarCartasABotones() {
+    public void asignarCartasABotones() {
         mapaBotonCarta.clear(); // importante si se reinicia
 
-        JButton[][] botones = cVentana.getvServidor().getBotones();
+        //JButton[][] botones = cVentana.getvServidor().getBotones();
+        int[][] botonesIndice = cVentana.getvServidor().getIndiceBotones();
         Carta[][] matrizCartas = cTablero.getMatrizCartas();
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 8; j++) {
-                JButton boton = botones[i][j];
+                int indiceBoton = botonesIndice[i][j];
                 Carta carta = matrizCartas[i][j];
-                mapaBotonCarta.put(boton, carta);
-
+                mapaBotonCarta.put(indiceBoton, carta);
+                System.out.println(mapaBotonCarta.get(indiceBoton));
                 // Aquí puedes asignar el nuevo ActionListener o resetear el texto
-                boton.setText("");
-                boton.setEnabled(true);
+//                boton.setText("");
+//                boton.setEnabled(true);
             }
         }
     }
 
-    public void verificarPareja(JButton b1, JButton b2) {
-        Carta c1 = mapaBotonCarta.get(b1);
-        Carta c2 = mapaBotonCarta.get(b2);
-
+    public void verificarPareja(int btn1, int btn2) {
+        Carta c1 = mapaBotonCarta.get(btn1);
+        Carta c2 = mapaBotonCarta.get(btn2);
+        System.out.println(c1);
+        System.out.println(c2);
         if (c1.getId() == c2.getId()) {
             // Pareja correcta
             cVentana.mostrarJDialogParejaEncontrada();
         } else {
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
-                cVentana.resetearParejaBotones(b1, b2);
+                cVentana.resetearParejaBotones(btn1, btn2);
             });
             timer.setRepeats(false);
             timer.start();
         }
-        
+
         c1 = null;
         c2 = null;
-        cVentana.setPrimerBoton(null);
+        cVentana.setPrimerBoton(10000);
     }
 
-    public Map<JButton, Carta> getMapaBotonCarta() {
+    public Map<Integer, Carta> getMapaBotonCarta() {
         return mapaBotonCarta;
     }
 
-    public void setMapaBotonCarta(Map<JButton, Carta> mapaBotonCarta) {
+    public void setMapaBotonCarta(Map<Integer, Carta> mapaBotonCarta) {
         this.mapaBotonCarta = mapaBotonCarta;
     }
+
+    public void inicializarPuertosDesdeProps(File archivo) {
+        if (archivo != null) {
+            try (FileInputStream fis = new FileInputStream(archivo)) {
+                Properties props = new Properties();
+                props.load(fis);
+                
+                pasarPort1 = Integer.parseInt(props.getProperty("props1"));
+                pasarPort2 = Integer.parseInt(props.getProperty("props2"));
+                
+            } catch (IOException e) {
+
+            }
+        } else {
+
+        }
+    }
+
+    public ControlTablero getcTablero() {
+        return cTablero;
+    }
+
+    public void setcTablero(ControlTablero cTablero) {
+        this.cTablero = cTablero;
+    }
+
+    public int getPasarPort1() {
+        return pasarPort1;
+    }
+
+    public void setPasarPort1(int pasarPort1) {
+        this.pasarPort1 = pasarPort1;
+    }
+
+    public int getPasarPort2() {
+        return pasarPort2;
+    }
+
+    public void setPasarPort2(int pasarPort2) {
+        this.pasarPort2 = pasarPort2;
+    }
+    
     
     
 
