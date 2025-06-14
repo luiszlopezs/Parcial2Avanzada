@@ -4,6 +4,8 @@
  */
 package edu.progavud.parcial2pa.control;
 
+import edu.progavud.parcial2pa.modelo.Jugador;
+import edu.progavud.parcial2pa.modelo.JugadorVO;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -55,6 +57,9 @@ public class ServidorThread extends Thread {
 // Nombre de usuario del cliente conectado
     String nameUser;
     String clave;
+    
+    private JugadorVO jugadorVO;
+    
 
 // Referencia al controlador del servidor
     private ControlServidor cServidor;
@@ -148,21 +153,22 @@ public class ServidorThread extends Thread {
         boolean estaAgregado = false;
         System.out.println("holaaaa, paso por qquiii");
         while (true) {
-
-//            try {
-//                if (!cServidor.verificarUsuario(this.nameUser, this.clave)) {
-//                    break;
-//                }
+            try {
+                if (cServidor.verificarUsuario(this.nameUser, this.clave) == null) {
+                    break;
+                }
                 if (!estaAgregado) {
+                    jugadorVO = cServidor.verificarUsuario(this.nameUser, this.clave);
+                    System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
                     ControlServidor.clientesActivos.add(this);
                     cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
                     estaAgregado = true;
                     cServidor.getcPrinc().getcVentana().activarPartidaBasica();
                 }
                 
-//            } catch (SQLException ex) {
-//                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-//            }
+            } catch (SQLException ex) {
+                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
             String filtrado = "";
             try {
                 opcion = entrada.readInt();
@@ -185,6 +191,7 @@ public class ServidorThread extends Thread {
         enviaMsg(this.getNameUser() + " se ha desconectado del chat.");
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se removio un usuario");
         ControlServidor.clientesActivos.removeElement(this);
+        System.out.println(ControlServidor.clientesActivos);
 
         try {
             cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se desconecto un usuario");

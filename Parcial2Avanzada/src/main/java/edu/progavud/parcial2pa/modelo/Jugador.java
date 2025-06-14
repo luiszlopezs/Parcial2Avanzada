@@ -16,9 +16,6 @@ import java.net.Socket;
 public class Jugador {
     private String nombre;
     private String clave;
-    private int intentos;
-    private int aciertos;
-    private double eficiencia;
 
     // Flujo de salida hacia el servidor (canal principal)
     private DataOutputStream salida;
@@ -38,27 +35,11 @@ public class Jugador {
     // Segundo socket para recepción de mensajes
     Socket comunication2 = null;
 
-    public Jugador(String nombre, String clave) {
-        this.nombre = nombre;
-        this.clave = clave;
-    }
+
     
     public Jugador(){
     }
-    
-    //Método que incrementa el número de intentos, se llama cada vez que el jugador envía una orden al servidor, sea un acierto o no
-    public void incrementarIntento(){
-       intentos ++;
-    }
-    //Método que incrementa el número de aciertos, se llama cada vez que el usuario destapa dos casillas con la misma imagen
-    public void incrementarAciertos(){
-       aciertos ++;
-    }
-    //Método que calcula la eficiencia, se calcula dividiendo el número de aciertos entre el número de intentos (esto determinará el ganador)
-    public double calcularEficiencia() {
-//        if (intentos == 0) return 0.0;
-        return (double) aciertos / intentos;
-    }
+
     //Reciclado de enviarMensaje() en cliente
 
     // Método para enviar dos coordenadas de un intento en una instrucción (primera y segunda casilla)
@@ -94,45 +75,7 @@ public class Jugador {
 
     // Getters y setters
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getClave() {
-        return clave;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public int getIntentos() {
-        return intentos;
-    }
-
-    public void setIntentos(int intentos) {
-        this.intentos = intentos;
-    }
-
-    public int getAciertos() {
-        return aciertos;
-    }
-
-    public void setAciertos(int aciertos) {
-        this.aciertos = aciertos;
-    }
-
-    public double getEficiencia() {
-        return eficiencia;
-    }
-
-    public void setEficiencia(double eficiencia) {
-        this.eficiencia = eficiencia;
-    }
+ 
 
     public DataOutputStream getSalida() {
         return salida;
@@ -181,5 +124,23 @@ public class Jugador {
     public void setComunication2(Socket comunication2) {
         this.comunication2 = comunication2;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    
+    
 
 }

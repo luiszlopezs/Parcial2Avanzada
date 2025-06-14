@@ -58,11 +58,13 @@ public class ControlVentanaServidor implements ActionListener {
 
         switch (comando) {
             case "INICIAR_JUEGO":
-                cPrinc.iniciarPartida();
+
                 
 
+                    cPrinc.iniciarPartida();
+
+
 // También puedes inicializar cartas aquí si tienes lógica en ControlTablero
-                
                 break;
             case "AUMENTAR_INTENTO":
 
@@ -216,10 +218,10 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getBtnEnviarResultados().addActionListener(this);
 
         vServidor.getBtnAumentarIntento().setActionCommand("AUMENTAR_INTENTO");
-        vServidor.getBtnJug1().addActionListener(this);
+        vServidor.getBtnAumentarIntento().addActionListener(this);
 
         vServidor.getBtnIniciarJuego().setActionCommand("INICIAR_JUEGO");
-        vServidor.getBtnJug2().addActionListener(this);
+        vServidor.getBtnIniciarJuego().addActionListener(this);
 
         vServidor.getBtnAumentarIntento().setVisible(false);
         vServidor.getBtnEnviarResultados().setVisible(false);
@@ -356,9 +358,11 @@ public class ControlVentanaServidor implements ActionListener {
 
         if (!esperandoSegundo) {
             primerBoton = btn;
+            System.out.println(primerBoton);
             esperandoSegundo = true;
         } else {
             int segundoBoton = btn;
+            System.out.println(segundoBoton);
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }

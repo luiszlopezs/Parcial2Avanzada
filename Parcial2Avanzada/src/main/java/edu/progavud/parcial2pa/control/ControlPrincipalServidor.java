@@ -26,7 +26,7 @@ public class ControlPrincipalServidor {
     private ControlServidor cServidor;
 
     private ControlTablero cTablero;
-    
+
     private int pasarPort1;
     private int pasarPort2;
 
@@ -46,9 +46,12 @@ public class ControlPrincipalServidor {
         cVentana = new ControlVentanaServidor(this);
         cTablero = new ControlTablero(this);
         cServidor = new ControlServidor(this);
-        cServidor.inicializarDesdeProperties(pasarPort1,pasarPort2);
-        iniciarPartida();
-        cServidor.runServer();
+        
+        cServidor.inicializarDesdeProperties(pasarPort1, pasarPort2);
+        Thread hilo = new Thread(() -> {
+            cServidor.runServer();
+        });
+        hilo.start();
 
     }
 
@@ -87,9 +90,11 @@ public class ControlPrincipalServidor {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 8; j++) {
                 int indiceBoton = botonesIndice[i][j];
+                System.out.println(indiceBoton);
                 Carta carta = matrizCartas[i][j];
                 mapaBotonCarta.put(indiceBoton, carta);
-                System.out.println(mapaBotonCarta.get(indiceBoton));
+                System.out.println("aaaaaaaaaaaaaaaaaa" + mapaBotonCarta.get(indiceBoton));
+                System.out.println(mapaBotonCarta.get(indiceBoton).toString());
                 // Aquí puedes asignar el nuevo ActionListener o resetear el texto
 //                boton.setText("");
 //                boton.setEnabled(true);
@@ -104,14 +109,18 @@ public class ControlPrincipalServidor {
         System.out.println(c2);
         if (c1.getId() == c2.getId()) {
             // Pareja correcta
+            System.out.println("roorecootoot");
             cVentana.mostrarJDialogParejaEncontrada();
+            System.out.println("corecorotooo despueeeeeeeeees");
         } else {
+            System.out.println("no son pareja jajajajajajaj");
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
                 cVentana.resetearParejaBotones(btn1, btn2);
             });
             timer.setRepeats(false);
             timer.start();
+            
         }
 
         c1 = null;
@@ -132,10 +141,10 @@ public class ControlPrincipalServidor {
             try (FileInputStream fis = new FileInputStream(archivo)) {
                 Properties props = new Properties();
                 props.load(fis);
-                
+
                 pasarPort1 = Integer.parseInt(props.getProperty("props1"));
                 pasarPort2 = Integer.parseInt(props.getProperty("props2"));
-                
+
             } catch (IOException e) {
 
             }
@@ -167,8 +176,5 @@ public class ControlPrincipalServidor {
     public void setPasarPort2(int pasarPort2) {
         this.pasarPort2 = pasarPort2;
     }
-    
-    
-    
 
 }
