@@ -149,10 +149,10 @@ public class ServidorThread extends Thread {
         System.out.println("holaaaa, paso por qquiii");
         while (true) {
 
-            try {
-                if (!cServidor.verificarUsuario(this.nameUser, this.clave)) {
-                    break;
-                }
+//            try {
+//                if (!cServidor.verificarUsuario(this.nameUser, this.clave)) {
+//                    break;
+//                }
                 if (!estaAgregado) {
                     ControlServidor.clientesActivos.add(this);
                     cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
@@ -160,9 +160,9 @@ public class ServidorThread extends Thread {
                     cServidor.getcPrinc().getcVentana().activarPartidaBasica();
                 }
                 
-            } catch (SQLException ex) {
-                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            }
+//            } catch (SQLException ex) {
+//                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+//            }
             String filtrado = "";
             try {
                 opcion = entrada.readInt();
