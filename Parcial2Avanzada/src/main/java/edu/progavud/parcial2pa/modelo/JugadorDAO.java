@@ -42,22 +42,39 @@ public class JugadorDAO {
     public void inicializarBD(Properties props) {
         ConexionBD.inicializarBD(props);
     }
-
-    public boolean consultarJugador(String nombre,String clave) throws SQLException {
-//        Jugador JugadorVO = null;
-        boolean encontrado = false;
+//
+//    public boolean consultarJugador(String nombre,String clave) throws SQLException {
+////        Jugador JugadorVO = null;
+//        boolean encontrado = false;
+//        String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '"+ clave +"'";
+//
+//        con = (Connection) ConexionBD.getConexion();
+//        st = con.createStatement();
+//        rs = st.executeQuery(consulta);
+//        if (rs.next()) {
+////            JugadorVO = new Jugador(nombre,clave);
+//           encontrado = true;
+//        }
+//        st.close();
+//        ConexionBD.desconectar();
+//
+//        return encontrado;
+//    }
+//    
+    
+        public JugadorVO consultarJugador(String nombre,String clave) throws SQLException {
+        JugadorVO JugadorVO = null;
         String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '"+ clave +"'";
 
         con = (Connection) ConexionBD.getConexion();
         st = con.createStatement();
         rs = st.executeQuery(consulta);
         if (rs.next()) {
-//            JugadorVO = new Jugador(nombre,clave);
-           encontrado = true;
+            JugadorVO = new JugadorVO(nombre,clave);
         }
         st.close();
         ConexionBD.desconectar();
 
-        return encontrado;
+        return JugadorVO;
     }
 }

@@ -4,7 +4,9 @@
  */
 package edu.progavud.parcial2pa.control;
 
+import edu.progavud.parcial2pa.modelo.Jugador;
 import edu.progavud.parcial2pa.modelo.JugadorDAO;
+import edu.progavud.parcial2pa.modelo.JugadorVO;
 import edu.progavud.parcial2pa.modelo.ServidorVO;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -130,7 +132,7 @@ public class ControlServidor {
         System.out.println(serv2);
     }
 
-    public boolean verificarUsuario(String usuario, String clave) throws SQLException {
+    public JugadorVO verificarUsuario(String usuario, String clave) throws SQLException {
         //conexion con JUGADOR DAO o SERVIDOR DAO para verificar si el usuario existe
         jugadorDAO = new JugadorDAO();
         return jugadorDAO.consultarJugador(usuario, clave);
