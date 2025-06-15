@@ -315,6 +315,7 @@ public class VistaServidor extends javax.swing.JFrame {
                         .addComponent(btnCarta8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnJug1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -334,10 +335,9 @@ public class VistaServidor extends javax.swing.JFrame {
                                         .addComponent(btnCarta36, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblIntentosJug2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblAciertosJug2))
+                                            .addComponent(lblAciertosJug2)
+                                            .addComponent(lblIntentosJug2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(94, 94, 94))))
-                            .addComponent(btnJug1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(172, 172, 172)
                                 .addComponent(btnJug2)))
@@ -347,12 +347,12 @@ public class VistaServidor extends javax.swing.JFrame {
                                 .addComponent(btnCarta37, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCarta38, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnJug3)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblIntentosJug3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblAciertosJug3))))
+                                    .addComponent(lblAciertosJug3)))
+                            .addComponent(btnJug3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnJug4)
@@ -363,8 +363,8 @@ public class VistaServidor extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblIntentosJug4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblAciertosJug4))))))
+                                    .addComponent(lblAciertosJug4)
+                                    .addComponent(lblIntentosJug4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -522,6 +522,9 @@ public class VistaServidor extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new VistaServidor().setVisible(true));
+    }
+    public void mostrarMensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
     }
 
     public JButton getBtnCarta1() {
@@ -907,6 +910,40 @@ public class VistaServidor extends javax.swing.JFrame {
     public void setjSeparator1(JSeparator jSeparator1) {
         this.jSeparator1 = jSeparator1;
     }
+
+//    public JLabel getLblNumAciertos1() {
+//        return lblNumAciertos1;
+//    }
+//
+//    public JLabel getLblNumAciertos2() {
+//        return lblNumAciertos2;
+//    }
+//
+//    public JLabel getLblNumAciertos3() {
+//        return lblNumAciertos3;
+//    }
+//
+//    public JLabel getLblNumAciertos4() {
+//        return lblNumAciertos4;
+//    }
+//
+//    public JLabel getLblNumIntentos1() {
+//        return lblNumIntentos1;
+//    }
+//
+//    public JLabel getLblNumIntentos2() {
+//        return lblNumIntentos2;
+//    }
+//
+//    public JLabel getLblNumIntentos3() {
+//        return lblNumIntentos3;
+//    }
+//
+//    public JLabel getLblNumIntentos4() {
+//        return lblNumIntentos4;
+//    }
+    
+    
 
     public JLabel getLblAciertosJug1() {
         return lblAciertosJug1;

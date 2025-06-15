@@ -58,17 +58,52 @@ public class ControlVentanaServidor implements ActionListener {
 
         switch (comando) {
             case "INICIAR_JUEGO":
-
-                
-
-                    cPrinc.iniciarPartida();
-
-
-// También puedes inicializar cartas aquí si tienes lógica en ControlTablero
+                cPrinc.iniciarPartida();
                 break;
+
             case "AUMENTAR_INTENTO":
-
+                cPrinc.sumaIntento(true);
                 break;
+
+            case "BTN_PEDIR_JUG1":
+                if (cPrinc.getcServidor().puedeIniciarPartida()) {
+                    cPrinc.getcServidor().setTurno(1);
+
+                } else {
+                    vServidor.mostrarMensaje("No hay suficientes jugadores conectados");
+                }
+                break;
+
+            case "BTN_PEDIR_JUG2":
+                if (cPrinc.getcServidor().getClientesActivos().size() >= 2) {
+                    cPrinc.getcServidor().setTurno(2);
+                } else {
+                    vServidor.mostrarMensaje("El jugador 2 no está conectado");
+                }
+                break;
+
+            case "BTN_PEDIR_JUG3":
+                if (cPrinc.getcServidor().getClientesActivos().size() >= 3) {
+                    cPrinc.getcServidor().setTurno(3);
+                } else {
+                    vServidor.mostrarMensaje("El jugador 3 no está conectado");
+                }
+                break;
+
+            case "BTN_PEDIR_JUG4":
+                if (cPrinc.getcServidor().getClientesActivos().size() >= 4) {
+                    cPrinc.getcServidor().setTurno(4);
+                } else {
+                    vServidor.mostrarMensaje("El jugador 4 no está conectado");
+                }
+                break;
+
+            case "REINICIAR_JUEGO":
+                cPrinc.getcServidor().reiniciarJuego();
+                break;
+
+//  
+
             case "ENVIAR_RESULTADOS":
 
                 break;
@@ -222,6 +257,18 @@ public class ControlVentanaServidor implements ActionListener {
 
         vServidor.getBtnIniciarJuego().setActionCommand("INICIAR_JUEGO");
         vServidor.getBtnIniciarJuego().addActionListener(this);
+
+        vServidor.getBtnJug1().setActionCommand("BTN_PEDIR_JUG1");
+        vServidor.getBtnJug1().addActionListener(this);
+
+        vServidor.getBtnJug2().setActionCommand("BTN_PEDIR_JUG2");
+        vServidor.getBtnJug2().addActionListener(this);
+
+        vServidor.getBtnJug3().setActionCommand("BTN_PEDIR_JUG3");
+        vServidor.getBtnJug3().addActionListener(this);
+
+        vServidor.getBtnJug4().setActionCommand("BTN_PEDIR_JUG4");
+        vServidor.getBtnJug4().addActionListener(this);
 
         vServidor.getBtnAumentarIntento().setVisible(false);
         vServidor.getBtnEnviarResultados().setVisible(false);
