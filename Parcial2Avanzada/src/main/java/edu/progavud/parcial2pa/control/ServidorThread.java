@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.progavud.parcial2pa.control;
 
 import edu.progavud.parcial2pa.modelo.Jugador;
@@ -11,93 +7,44 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Vector;
-
-/**
- * Hilo que maneja la comunicación con un cliente conectado al servidor.
- *
- * <p>
- * Este hilo recibe mensajes del cliente, los procesa (por ejemplo, filtrando
- * groserías), y los reenvía a otros clientes conectados si es necesario.</p>
- *
- * También mantiene una lista estática de clientes activos en el servidor.
- *
- * @author hailen
- */
 import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
-/**
- *
- * @author Administrador
- */
 public class ServidorThread extends Thread {
 
-    // Socket principal para la comunicación con el cliente
     Socket scli = null;
-
-// Segundo socket para comunicación adicional (por ejemplo, mensajes privados)
     Socket scli2 = null;
-
-// Flujo de entrada de datos desde el cliente
     DataInputStream entrada = null;
-
-// Flujo de salida de datos hacia el cliente
     DataOutputStream salida = null;
-
-// Segundo flujo de salida (por ejemplo, para mensajes privados)
     DataOutputStream salida2 = null;
 
     private volatile boolean partidaIniciada = false;
+    private int idJugador; // Jugador 1, 2, 3 o 4
 
-// Lista estática de hilos de clientes activos
-// Nombre de usuario del cliente conectado
     String nameUser;
     String clave;
-    
-    private JugadorVO jugadorVO;
-    
+    int intentos;
 
-// Referencia al controlador del servidor
+    private JugadorVO jugadorVO;
     private ControlServidor cServidor;
 
-    /**
-     * Constructor de ServidorThread.
-     *
-     * Inicializa los sockets de comunicación con el cliente, registra este hilo
-     * en la lista de clientes activos y notifica en la vista del servidor que
-     * un cliente se ha conectado.
-     *
-     * @param scliente Socket principal de conexión con el cliente.
-     * @param scliente2 Segundo socket (por ejemplo, para mensajes privados).
-     * @param cServidor Controlador del servidor que gestiona la lógica del
-     * sistema.
-     */
     public ServidorThread(Socket scliente, Socket scliente2, ControlServidor cServidor) {
         scli = scliente;
         scli2 = scliente2;
         this.cServidor = cServidor;
         nameUser = "";
-
     }
 
-    /**
-     * Devuelve el nombre de usuario asociado a este cliente.
-     *
-     * @return Nombre del usuario.
-     */
     public String getNameUser() {
         return nameUser;
     }
 
-    /**
-     * Asigna el nombre de usuario a este cliente.
-     *
-     * @param name Nombre que se desea asignar al cliente.
-     */
     public void setNameUser(String name) {
         nameUser = name;
     }
@@ -110,27 +57,14 @@ public class ServidorThread extends Thread {
         this.clave = clave;
     }
 
-    /**
-     * Ejecuta el hilo que gestiona la comunicación con un cliente.
-     *
-     * <p>
-     * Este método realiza lo siguiente:</p>
-     * <ul>
-     * <li>Inicializa los flujos de entrada y salida.</li>
-     * <li>Lee el nombre del usuario conectado.</li>
-     * <li>Escucha continuamente los comandos del cliente:</li>
-     * <ul>
-     * <li><b>1:</b> Recibe un mensaje público y lo reenvía a todos los clientes
-     * conectados.</li>
-     * <li><b>2:</b> Envía al cliente la lista actual de usuarios
-     * conectados.</li>
-     * <li><b>3:</b> Recibe un mensaje privado y lo envía al destinatario
-     * correspondiente.</li>
-     * </ul>
-     * <li>Cuando el cliente se desconecta, lo elimina de la lista de clientes
-     * activos y actualiza la lista para los demás clientes.</li>
-     * </ul>
-     */
+    public int getIdJugador() {
+        return idJugador;
+    }
+
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
+    }
+
     public void setPartidaIniciada(boolean estado) {
         this.partidaIniciada = estado;
     }
@@ -148,40 +82,74 @@ public class ServidorThread extends Thread {
             e.printStackTrace();
         }
 
-        int opcion = 0, numUsers = 0;
+        int opcion = 0;
         String jugador = "", mencli = "";
         boolean estaAgregado = false;
         System.out.println("holaaaa, paso por qquiii");
+
         while (true) {
             try {
                 if (cServidor.verificarUsuario(this.nameUser, this.clave) == null) {
                     break;
                 }
-                if (!estaAgregado) {
-                    jugadorVO = cServidor.verificarUsuario(this.nameUser, this.clave);
-                    System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
-                    ControlServidor.clientesActivos.add(this);
-                    cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
-                    estaAgregado = true;
-                    cServidor.getcPrinc().getcVentana().activarPartidaBasica();
-                }
-                
             } catch (SQLException ex) {
-                System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                Logger.getLogger(ServidorThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String filtrado = "";
+            if (!estaAgregado) {
+                try {
+                    jugadorVO = cServidor.verificarUsuario(this.nameUser, this.clave);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ServidorThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
+                ControlServidor.clientesActivos.add(this);
+                this.idJugador = ControlServidor.clientesActivos.size(); //Añadir id al jugador
+                cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
+                estaAgregado = true;
+                cServidor.getcPrinc().getcVentana().activarPartidaBasica();
+                
+                
+                //Actualizar el número de intentos del jugador
+                if (cServidor.getcPrinc().sumaIntento(true)) {
+                    intentos++;
+                }
+                switch (this.idJugador) {
+                    case 1:
+                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos1().setText("" + intentos);
+                        break;
+                    case 2:
+                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos2().setText("" + intentos);
+                        break;
+                    case 3:
+                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos3().setText("" + intentos);
+                        break;
+                    case 4:
+                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos4().setText("" + intentos);
+                        break;
+                }
+
+                // Inicialmente todos los jugadores deben esperar hasta que se inicie el juego
+                enviarControlTurno(false);
+            }
+
             try {
                 opcion = entrada.readInt();
+
                 switch (opcion) {
+                    case 1: // Mensaje/Coordenadas del jugador
+                        // Verificar si es el turno del jugador ANTES de procesar
+                        if (!esMiTurno()) {
+                            enviarMensajeError("No es tu turno. Espera al otro jugador.");
+                            continue; // ignorar el mensaje
+                        }
 
-                    case 1: // Mensaje a todos
                         mencli = entrada.readUTF();
-
                         enviaMsg(mencli);
                         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("mensaje recibido " + mencli);
 
+                        
+                        // cServidor.cambiarTurnoAutomatico();
                         break;
-
                 }
             } catch (IOException e) {
                 break;
@@ -201,16 +169,6 @@ public class ServidorThread extends Thread {
         }
     }
 
-    /**
-     * Envía un mensaje público a todos los clientes conectados.
-     *
-     * <p>
-     * El mensaje se envía a través del segundo canal de salida de cada cliente
-     * (utilizando {@code salida2}), precedido por la opción 1 para indicar que
-     * se trata de un mensaje general.</p>
-     *
-     * @param mencli2 El contenido del mensaje a enviar.
-     */
     public void enviaMsg(String mencli2) {
         ServidorThread user = null;
         for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
@@ -225,26 +183,13 @@ public class ServidorThread extends Thread {
         }
     }
 
-    /**
-     * Envía un mensaje privado a un cliente específico.
-     *
-     * <p>
-     * Busca al cliente con el nombre indicado y le envía el mensaje a través de
-     * {@code salida2}, usando el código <b>3</b> para indicar que es un mensaje
-     * privado.</p>
-     *
-     * @param amigo Nombre del destinatario del mensaje.
-     * @param mencli Contenido del mensaje privado.
-     */
     private void enviaMsg(String jugador, String mencli) {
-        ServidorThread user = null;
-        for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
+        for (ServidorThread user : ControlServidor.clientesActivos) {
             try {
-                user = ControlServidor.clientesActivos.get(i);
                 if (user.nameUser.equals(jugador)) {
-                    user.salida2.writeInt(3);//opcion de mensaje amigo   
+                    user.salida2.writeInt(3); // opción mensaje privado
                     user.salida2.writeUTF(this.getNameUser());
-                    user.salida2.writeUTF("" + this.getNameUser() + ">" + mencli);
+                    user.salida2.writeUTF(this.getNameUser() + " > " + mencli);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -252,10 +197,59 @@ public class ServidorThread extends Thread {
         }
     }
 
-    /**
-     * Devuelve la lista de hilos de clientes actualmente conectados al
-     * servidor.
-     *
-     * @return Un vector con las instancias de {@link ServidorThread} activas.
-     */
+    // MÉTODO CORREGIDO: Enviar control de turno (habilitar/deshabilitar botones)
+    public void enviarControlTurno(boolean esMiTurno) {
+        try {
+            salida2.writeInt(5); // código 5 = control de turno
+            if (esMiTurno) {
+                salida2.writeUTF("tu turno");
+            } else {
+                salida2.writeUTF("espera");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // MÉTODO CORREGIDO: Enviar mensaje de error
+    public void enviarMensajeError(String mensaje) {
+        try {
+            salida2.writeInt(4); // código 4 = mensaje de error
+            salida2.writeUTF(mensaje);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // MÉTODO CORREGIDO: Enviar mensaje normal del servidor
+    public void enviarDesdeServidor(String mensaje) {
+        try {
+            salida2.writeInt(1); // código 1 = mensaje normal
+            salida2.writeUTF("SERVIDOR -> " + mensaje);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // MÉTODO CORREGIDO: Verificar si es el turno de este jugador
+    private boolean esMiTurno() {
+        return cServidor.getTurno() == this.idJugador;
+    }
+
+    // Getters y Setters
+    public DataOutputStream getSalida() {
+        return salida;
+    }
+
+    public void setSalida(DataOutputStream salida) {
+        this.salida = salida;
+    }
+
+    public DataOutputStream getSalida2() {
+        return salida2;
+    }
+
+    public void setSalida2(DataOutputStream salida2) {
+        this.salida2 = salida2;
+    }
 }

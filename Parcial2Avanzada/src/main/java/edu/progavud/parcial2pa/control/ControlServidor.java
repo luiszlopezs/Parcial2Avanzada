@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.progavud.parcial2pa.control;
 
 import edu.progavud.parcial2pa.modelo.Jugador;
@@ -16,115 +12,49 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Vector;
 
-/**
- * Controlador encargado de manejar la lógica principal del servidor. Se encarga
- * de gestionar las conexiones entrantes, coordinar la lógica del modelo
- * {@link Servidor}, y comunicarse con el controlador principal del servidor.
- *
- * @author hailen
- */
 public class ControlServidor {
 
-    // Referencia al controlador principal del servidor
     private ControlPrincipalServidor cPrinc;
-
-// Objeto que representa la lógica del servidor (modelo)
     private ServidorVO servidorVO;
-
     private JugadorDAO jugadorDAO;
-
-// Hilo encargado de atender a los clientes que se conectan
     private ServidorThread servidorThread;
-
-// Generador de números aleatorios para funcionalidades del servidor
     private Random random;
 
+    private int turnoActual = 0; // 0 = juego no iniciado, 1-4 = jugador activo
     public static Vector<ServidorThread> clientesActivos = new Vector();
 
-    /**
-     * Constructor de ControlServidor.
-     *
-     * Inicializa el controlador del servidor, el modelo {@link Servidor}, y el
-     * generador de números aleatorios.
-     *
-     * @param cPrinc Referencia al controlador principal del servidor.
-     */
     public ControlServidor(ControlPrincipalServidor cPrinc) {
         this.cPrinc = cPrinc;
         random = new Random();
         servidorVO = new ServidorVO();
         jugadorDAO = new JugadorDAO();
-
     }
 
-    /**
-     * Inicia el servidor y queda a la espera de conexiones de usuarios.
-     *
-     * <p>
-     * Realiza las siguientes acciones:
-     * <ul>
-     * <li>Inicializa las listas de palabras restringidas desde un archivo de
-     * configuración.</li>
-     * <li>Establece los sockets del servidor en los puertos 8081 y 8082.</li>
-     * <li>Muestra mensajes en la interfaz del servidor.</li>
-     * <li>Espera conexiones de clientes y crea un hilo {@link ServidorThread}
-     * por cada cliente que se conecta.</li>
-     * </ul>
-     *
-     * Si ocurre un error de entrada/salida, se muestra el mensaje
-     * correspondiente en la interfaz del servidor.
-     */
     public void runServer() {
         try {
-
-            servidorVO.setServ(new ServerSocket(servidorVO.getPort1()));  //traer de properties
-            servidorVO.setServ2(new ServerSocket(servidorVO.getPort2()));  //traer de properties
+            servidorVO.setServ(new ServerSocket(servidorVO.getPort1()));
+            servidorVO.setServ2(new ServerSocket(servidorVO.getPort2()));
             cPrinc.getcVentana().getvServidor().mostrar("::Servidor activo::");
+            
             while (servidorVO.isListening()) {
-                
                 Socket sock = null, sock2 = null;
                 try {
-                    //muestra un mensaje en la vista del server
                     cPrinc.getcVentana().getvServidor().mostrar("Esperando Jugadores");
                     sock = servidorVO.getServ().accept();
                     sock2 = servidorVO.getServ2().accept();
                 } catch (IOException e) {
-                    //muestra un mensaje en la vista del server
-                    cPrinc.getcVentana().getvServidor().mostrar("Accept failed: " + servidorVO.getServ() + ", " + e.getMessage());
+                    cPrinc.getcVentana().getvServidor()
+                            .mostrar("Accept failed: " + servidorVO.getServ() + ", " + e.getMessage());
                     continue;
                 }
                 ServidorThread user = new ServidorThread(sock, sock2, this);
                 user.start();
-
             }
-
         } catch (IOException e) {
-            //muestra un mensaje en la vista del server
             cPrinc.getcVentana().getvServidor().mostrar("error :" + e);
         }
-
     }
 
-    /**
-     * Revisa un mensaje y reemplaza automáticamente cualquier palabra
-     * considerada grosería por una palabra alternativa tomada aleatoriamente de
-     * una lista de reemplazos.
-     *
-     * @param mensaje El mensaje original enviado por el usuario.
-     * @return El mensaje filtrado, con las groserías reemplazadas.
-     */
-    /**
-     * Inicializa las listas de palabras ofensivas y sus reemplazos desde un
-     * archivo de propiedades.
-     *
-     * <p>
-     * Busca claves con formato <b>"groseria1", "groseria2", ...</b> y
-     * <b>"reemplazo1", "reemplazo2", ...</b> hasta que no encuentre más. Los
-     * valores encontrados se agregan a las listas correspondientes del modelo
-     * {@link Servidor}.
-     *
-     * @param props Archivo de propiedades cargado previamente.
-     */
     public void inicializarDesdeProperties(int serv1, int serv2) {
         servidorVO.setPort1(serv1);
         servidorVO.setPort2(serv2);
@@ -133,37 +63,91 @@ public class ControlServidor {
     }
 
     public JugadorVO verificarUsuario(String usuario, String clave) throws SQLException {
-        //conexion con JUGADOR DAO o SERVIDOR DAO para verificar si el usuario existe
         jugadorDAO = new JugadorDAO();
         return jugadorDAO.consultarJugador(usuario, clave);
-
     }
 
-    /**
-     * Devuelve la referencia al controlador principal del servidor.
-     *
-     * @return El controlador principal del servidor.
-     */
+    public void iniciarTurnos() {
+        if (clientesActivos.size() >= 2 && clientesActivos.size() <= 4) {
+            turnoActual = 1; // Comienza el jugador 1
+            actualizarTurnosEnClientes();
+            cPrinc.getcVentana().getvServidor().mostrar("La partida ha iniciado. Turno del jugador 1.");
+        } else {
+            cPrinc.getcVentana().getvServidor().mostrarMensaje("Deben haber entre 2 y 4 jugadores para jugar");
+        }
+    }
+
+    // Establecer el turno y actualizar todos los clientes
+    public void setTurno(int turno) {
+        if (turno >= 1 && turno <= clientesActivos.size()) {
+            this.turnoActual = turno;
+            actualizarTurnosEnClientes();
+            cPrinc.getcVentana().getvServidor().mostrar("Ahora es el turno del jugador " + turno);
+        } else {
+            cPrinc.getcVentana().getvServidor().mostrar("Error: Jugador " + turno + " no existe");
+        }
+    }
+
+    // Actualizar el estado de turnos en todos los clientes
+    private void actualizarTurnosEnClientes() {
+        for (ServidorThread thread : clientesActivos) {
+            boolean esSuTurno = (thread.getIdJugador() == turnoActual);
+            thread.enviarControlTurno(esSuTurno);
+            
+            if (esSuTurno) {
+                thread.enviarDesdeServidor("Es tu turno. Ingresa las coordenadas.");
+                System.out.println("Turno asignado a: " + thread.getNameUser());
+            } else {
+                thread.enviarDesdeServidor("Espera tu turno.");
+            }
+        }
+    }
+
+    // Cambiar automáticamente al siguiente jugador
+//    public void cambiarTurnoAutomatico() {
+//        int siguienteTurno = turnoActual + 1;
+//        if (siguienteTurno > clientesActivos.size()) {
+//            siguienteTurno = 1; // Volver al primer jugador
+//        }
+//        setTurno(siguienteTurno);
+//    }
+
+    // Obtener el turno actual
+    public int getTurno() {
+        return turnoActual;
+    }
+
+    // Reemplazado por actualizarTurnosEnClientes()
+    
+//    public void notificarTurno(int jugador) {
+//        // Este método ya no es necesario, pero lo mantengo por compatibilidad
+//        actualizarTurnosEnClientes();
+//    }
+
+    // NUEVO MÉTODO: Verificar si hay suficientes jugadores para iniciar
+    public boolean puedeIniciarPartida() {
+        return clientesActivos.size() >= 2 && clientesActivos.size() <= 4;
+    }
+
+    // Reiniciar el juego en caso de tener que hacr mas partidas
+    public void reiniciarJuego() {
+        turnoActual = 0;
+        for (ServidorThread thread : clientesActivos) {
+            thread.enviarControlTurno(false); // Deshabilitar todos los botones
+            thread.enviarDesdeServidor("Partida reiniciada. Esperando inicio...");
+        }
+        cPrinc.getcVentana().getvServidor().mostrar("Partida reiniciada.");
+    }
+
+    // Getters existentes
     public ControlPrincipalServidor getcPrinc() {
         return cPrinc;
     }
 
-    /**
-     * Devuelve el objeto del modelo {@link Servidor} que contiene la lógica del
-     * servidor.
-     *
-     * @return El modelo del servidor.
-     */
     public ServidorVO getServidorVO() {
         return servidorVO;
     }
 
-    /**
-     * Devuelve el hilo actual del servidor encargado de manejar la conexión con
-     * un cliente.
-     *
-     * @return El hilo del servidor.
-     */
     public ServidorThread getServidorThread() {
         return servidorThread;
     }
@@ -175,8 +159,6 @@ public class ControlServidor {
     public static void setClientesActivos(Vector<ServidorThread> clientesActivos) {
         ControlServidor.clientesActivos = clientesActivos;
     }
-    
-    
+}
     
 
-}

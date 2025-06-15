@@ -58,8 +58,27 @@ public class ControlPrincipalServidor {
     public void iniciarPartida() {
         cTablero.generarCartas();
         asignarCartasABotones();
+        cServidor.iniciarTurnos();
+        habilitarBotones();
         // asignar turnos a jugadores
-
+    }
+    
+    public void habilitarBotones(){
+        if(ControlServidor.clientesActivos.size() >= 3){
+            cVentana.getvServidor().getBtnJug3().setVisible(true);
+        }
+        if(ControlServidor.clientesActivos.size() >= 4){
+            cVentana.getvServidor().getBtnJug4().setVisible(true);
+        }
+    }
+    public boolean sumaIntento(boolean botonPresionado){
+        if(botonPresionado){
+            return true;
+        }
+        else{
+           return false; 
+        }
+        
     }
 
     /**
