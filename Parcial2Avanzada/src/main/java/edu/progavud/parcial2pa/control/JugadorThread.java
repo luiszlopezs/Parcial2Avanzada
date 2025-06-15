@@ -66,10 +66,10 @@ public class JugadorThread extends Thread {
                     
                      case 5: // Control de turno: habilitar o deshabilitar escritura
                         menser = entrada.readUTF();
-                        if (menser.equals("tu turno")) {
+                        if (menser.equals("Es tu turno")) {
                             cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(true); //Si es su turno, habilita el texto y el boton de enviar
                             cJugador.getcPrinc().getcVentana().getvJugador().getBtnEnviar().setEnabled(true);
-                        } else if (menser.equals("espera")) {
+                        } else if (menser.equals("Espera tu turno")) {
                             cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(false); // Si no es su turno, deshabilita el texto y el boton de enviar
                             cJugador.getcPrinc().getcVentana().getvJugador().getBtnEnviar().setEnabled(false);
                         }

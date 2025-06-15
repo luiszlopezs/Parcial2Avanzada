@@ -25,12 +25,9 @@ public class ServidorThread extends Thread {
     DataOutputStream salida2 = null;
 
     private volatile boolean partidaIniciada = false;
-    private int idJugador; // Jugador 1, 2, 3 o 4
 
     String nameUser;
     String clave;
-    int intentos = 0; // Inicializar explícitamente en 0
-    int aciertos = 0;
 
     private JugadorVO jugadorVO;
     private ControlServidor cServidor;
@@ -56,84 +53,6 @@ public class ServidorThread extends Thread {
 
     public void setClave(String clave) {
         this.clave = clave;
-    }
-
-    public int getIdJugador() {
-        return idJugador;
-    }
-
-    public void setIdJugador(int idJugador) {
-        this.idJugador = idJugador;
-    }
-
-    public void setPartidaIniciada(boolean estado) {
-        this.partidaIniciada = estado;
-    }
-
-    // Getter y setter para intentos y aciertos
-    public int getIntentos() {
-        return intentos;
-    }
-
-    public void setIntentos(int intentos) {
-        this.intentos = intentos;
-    }
-
-    public int getAciertos() {
-        return aciertos;
-    }
-
-    public void setAciertos(int aciertos) {
-        this.aciertos = aciertos;
-    }
-    
-    
-
-    // Método para incrementar intentos
-    public void incrementarIntentos() {
-        this.intentos++;
-        actualizarIntentosEnVista(); //Cada vez que se presione el boton de aumentarIntentos, se aummenta en una unidad el número se intentos y se actualiza 
-    }
-    
-    // Método para incrementar intentos
-    public void incrementarAciertos() {
-        this.aciertos++;
-        actualizarAciertosEnVista(); //Cada vez que haya una pareja, se aummenta en una unidad el número se aciertoss y se actualiza 
-    }
-    
-    // Actualizar la vista con el número de intentos
-    private void actualizarIntentosEnVista() {
-        switch (this.idJugador) {
-            case 1:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug1().setText("Intentos: " + intentos);
-                break;
-            case 2:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug2().setText("Intentos: "+ intentos);
-                break;
-            case 3:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug3().setText("Intentos: "+ intentos);
-                break;
-            case 4:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug4().setText("Intentos: "+ intentos);
-                break;
-        }
-    }
-    
-    private void actualizarAciertosEnVista() {
-        switch (this.idJugador) {
-            case 1:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug1().setText("Aciertos: " + aciertos);
-                break;
-            case 2:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug2().setText("Aciertos "+ aciertos);
-                break;
-            case 3:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug3().setText("Aciertos: "+ aciertos);
-                break;
-            case 4:
-                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug4().setText("Aciertos "+ aciertos);
-                break;
-        }
     }
 
     public void run() {
@@ -169,18 +88,21 @@ public class ServidorThread extends Thread {
                     Logger.getLogger(ServidorThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
+
                 ControlServidor.clientesActivos.add(this);
-                this.idJugador = ControlServidor.clientesActivos.size(); //Añadir id al jugador
+                cServidor.getcPrinc().habilitarBotones(this.jugadorVO.getNombre());
+
+                jugadorVO.setIdJugador(ControlServidor.clientesActivos.size()); //Añadir id al jugador
+
                 cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
                 estaAgregado = true;
                 cServidor.getcPrinc().getcVentana().activarPartidaBasica();
-                
-                // Inicializar la vista de intentos para este jugador
-                actualizarIntentosEnVista();
 
+                // Inicializar la vista de intentos para este jugador
                 // Inicialmente todos los jugadores deben esperar hasta que se inicie el juego
                 enviarControlTurno(false);
             }
+            cServidor.getcPrinc().getcVentana().actualizarIntentosEnVista(this.getJugadorVO().getIdJugador(), this.getJugadorVO().getIntentos());
 
             try {
                 opcion = entrada.readInt();
@@ -188,17 +110,13 @@ public class ServidorThread extends Thread {
                 switch (opcion) {
                     case 1: // Mensaje/Coordenadas del jugador
                         // Verificar si es el turno del jugador ANTES de procesar
-                        if (!esMiTurno()) {
-                            enviarMensajeError("No es tu turno. Espera al otro jugador.");
-                            continue; // ignorar el mensaje
-                        }
 
                         mencli = entrada.readUTF();
                         enviaMsg(mencli);
                         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("mensaje recibido " + mencli);
 
                         break;
-                                        }
+                }
             } catch (IOException e) {
                 break;
             }
@@ -231,6 +149,20 @@ public class ServidorThread extends Thread {
         }
     }
 
+    public void enviaMsgServer(String mencli2) {
+        ServidorThread user = null;
+        for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
+            cServidor.getcPrinc().getcVentana().getvServidor().mostrar("MENSAJE DEVUELTO:" + mencli2);
+            try {
+                user = ControlServidor.clientesActivos.get(i);
+                user.salida2.writeInt(1);//opcion de mensage 
+                user.salida2.writeUTF( mencli2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void enviaMsg(String jugador, String mencli) {
         for (ServidorThread user : ControlServidor.clientesActivos) {
             try {
@@ -250,9 +182,9 @@ public class ServidorThread extends Thread {
         try {
             salida2.writeInt(5); // código 5 = control de turno
             if (esMiTurno) {
-                salida2.writeUTF("tu turno");
+                salida2.writeUTF("Es tu turno");
             } else {
-                salida2.writeUTF("espera");
+                salida2.writeUTF("Espera tu turno");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -281,9 +213,9 @@ public class ServidorThread extends Thread {
 
     //Verificar si es el turno de este jugador
     private boolean esMiTurno() {
-        return cServidor.getTurno() == this.idJugador;
+        return cServidor.getTurno() == jugadorVO.getIdJugador();
     }
-    
+
     // Getters y Setters
     public DataOutputStream getSalida() {
         return salida;
@@ -300,4 +232,13 @@ public class ServidorThread extends Thread {
     public void setSalida2(DataOutputStream salida2) {
         this.salida2 = salida2;
     }
+
+    public JugadorVO getJugadorVO() {
+        return jugadorVO;
+    }
+
+    public void setJugadorVO(JugadorVO jugadorVO) {
+        this.jugadorVO = jugadorVO;
+    }
+
 }

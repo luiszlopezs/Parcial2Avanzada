@@ -40,15 +40,18 @@ public class ControlJugador {
     public ControlJugador(ControlPrincipalJugador cPrinc) throws IOException {
         this.cPrinc = cPrinc;
         jugador = new Jugador();
-        
+
         //Jugador.setIPserver(cPrinc.getcVentana().getIp());
         jugador.setNombre(cPrinc.getcVentana().getNombre());
         jugador.setClave(cPrinc.getcVentana().getClave());
 
-        jugador.conexion();
-
-        jugadorThread = new JugadorThread(jugador.getEntrada2(), this);
-        jugadorThread.start();
+        try {
+            jugador.conexion();
+            jugadorThread = new JugadorThread(jugador.getEntrada2(), this);
+            jugadorThread.start();
+        } catch (IOException ex) {
+            cPrinc.getcVentana().getvJugador().mostrarMensajePartidaEnCurso();
+        }
 
     }
 
@@ -58,12 +61,12 @@ public class ControlJugador {
      * @param mensaje El texto del mensaje que se desea enviar.
      * @throws IOException Si ocurre un error al enviar el mensaje.
      */
-    public void enviarIntento(String instruccion) throws IOException  {
-            jugador.enviarIntento(instruccion);
-        
+    public void enviarIntento(String instruccion) throws IOException {
+        jugador.enviarIntento(instruccion);
+
     }
-    
-    public void enviarInformacionJugador(String nombre, String contraseña){
+
+    public void enviarInformacionJugador(String nombre, String contraseña) {
         try {
             jugador.enviarInformacionJugador(nombre, contraseña);
         } catch (IOException ex) {
@@ -81,7 +84,6 @@ public class ControlJugador {
 //    public void enviarMensajePrivado(String amigo, String mensaje) throws IOException {
 //        cliente.enviarMensajePrivado(amigo, mensaje);
 //    }
-
     /**
      * Actualiza la lista de usuarios conectados en la interfaz.
      *
@@ -90,7 +92,6 @@ public class ControlJugador {
 //    public void actualizarListaUsuarios(String[] usuarios) {
 //        cPrinc.getcVentana().actualizarListaUsuarios(usuarios);
 //    }
-
     /**
      * Solicita al servidor la lista actual de usuarios conectados.
      *
@@ -100,7 +101,6 @@ public class ControlJugador {
 //    public Vector<String> pedirUsuarios() throws IOException {
 //        return cliente.pedirUsuarios();
 //    }
-
     /**
      * Devuelve el objeto cliente asociado a este controlador.
      *

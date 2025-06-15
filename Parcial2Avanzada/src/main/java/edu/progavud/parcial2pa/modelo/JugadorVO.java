@@ -12,9 +12,11 @@ public class JugadorVO {
 
     private String nombre;
     private String clave;
-    private int intentos;
-    private int aciertos;
+    private int intentos = 0;
+    private int aciertos = 0;
+    private int idJugador; // Jugador 1, 2, 3 o 4
     private double eficiencia;
+    
 
     public JugadorVO(String nombre, String clave) {
         this.nombre = nombre;
@@ -25,9 +27,11 @@ public class JugadorVO {
     }
     
     
+    
+    
 
     //Método que incrementa el número de intentos, se llama cada vez que el jugador envía una orden al servidor, sea un acierto o no
-    public void incrementarIntento() {
+    public void incrementarIntentos() {
         intentos++;
     }
 
@@ -81,6 +85,16 @@ public class JugadorVO {
     public void setEficiencia(double eficiencia) {
         this.eficiencia = eficiencia;
     }
+
+    public int getIdJugador() {
+        return idJugador;
+    }
+
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
+    }
+    
+    
     
     
 }

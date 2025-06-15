@@ -39,7 +39,7 @@ public class ControlPrincipalJugador {
         cVentana = new ControlVentanaJugador(this);
         cJugador = new ControlJugador(this);
 //        cVentana.getvJugador().ponerActivos(cJugador.pedirUsuarios());
-        cVentana.getvJugador().setVisible(true);
+        //cVentana.getvJugador().setVisible(true);
     }
 
     /**

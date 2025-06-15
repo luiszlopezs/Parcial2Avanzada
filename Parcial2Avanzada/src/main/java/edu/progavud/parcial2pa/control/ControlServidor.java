@@ -22,6 +22,7 @@ public class ControlServidor {
 
     private int turnoActual = 0; // 0 = juego no iniciado, 1-4 = jugador activo
     public static Vector<ServidorThread> clientesActivos = new Vector();
+    public Vector<ServidorThread> jugadoresEnPartida = new Vector();
 
     public ControlServidor(ControlPrincipalServidor cPrinc) {
         this.cPrinc = cPrinc;
@@ -35,7 +36,7 @@ public class ControlServidor {
             servidorVO.setServ(new ServerSocket(servidorVO.getPort1()));
             servidorVO.setServ2(new ServerSocket(servidorVO.getPort2()));
             cPrinc.getcVentana().getvServidor().mostrar("::Servidor activo::");
-            
+
             while (servidorVO.isListening()) {
                 Socket sock = null, sock2 = null;
                 try {
@@ -71,7 +72,7 @@ public class ControlServidor {
         if (clientesActivos.size() >= 2 && clientesActivos.size() <= 4) {
             turnoActual = 1; // Comienza el jugador 1
             actualizarTurnosEnClientes();
-            cPrinc.getcVentana().getvServidor().mostrar("La partida ha iniciado. Turno del jugador 1.");
+            cPrinc.getcVentana().getvServidor().mostrar("La partida ha iniciado");
         } else {
             cPrinc.getcVentana().getvServidor().mostrarMensaje("Deben haber entre 2 y 4 jugadores para jugar");
         }
@@ -89,18 +90,36 @@ public class ControlServidor {
     }
 
     // Actualizar el estado de turnos en todos los clientes
-    private void actualizarTurnosEnClientes() {
+    public void actualizarTurnosEnClientes() {
         for (ServidorThread thread : clientesActivos) {
-            boolean esSuTurno = (thread.getIdJugador() == turnoActual);
+            boolean esSuTurno = (thread.getJugadorVO().getIdJugador() == turnoActual);
             thread.enviarControlTurno(esSuTurno);
-            
+
             if (esSuTurno) {
+                thread.enviaMsgServer("Turno de " + thread.getJugadorVO().getNombre());
                 thread.enviarDesdeServidor("Es tu turno. Ingresa las coordenadas.");
                 System.out.println("Turno asignado a: " + thread.getNameUser());
             } else {
                 thread.enviarDesdeServidor("Espera tu turno.");
             }
         }
+    }
+
+    public void asignarJugadoresAPartida() {
+        jugadoresEnPartida.clear();
+        for (ServidorThread jugserv : clientesActivos) {
+            jugadoresEnPartida.add(jugserv);
+        }
+    }
+
+    public void interaccionTurnos() {
+        int turno = 1;
+        boolean equivocado = false;
+
+        while (!equivocado) {
+            
+        }
+
     }
 
     // Cambiar automáticamente al siguiente jugador
@@ -111,19 +130,16 @@ public class ControlServidor {
 //        }
 //        setTurno(siguienteTurno);
 //    }
-
     // Obtener el turno actual
     public int getTurno() {
         return turnoActual;
     }
 
     // Reemplazado por actualizarTurnosEnClientes()
-    
 //    public void notificarTurno(int jugador) {
 //        // Este método ya no es necesario, pero lo mantengo por compatibilidad
 //        actualizarTurnosEnClientes();
 //    }
-
     // NUEVO MÉTODO: Verificar si hay suficientes jugadores para iniciar
     public boolean puedeIniciarPartida() {
         return clientesActivos.size() >= 2 && clientesActivos.size() <= 4;
@@ -160,5 +176,3 @@ public class ControlServidor {
         ControlServidor.clientesActivos = clientesActivos;
     }
 }
-    
-

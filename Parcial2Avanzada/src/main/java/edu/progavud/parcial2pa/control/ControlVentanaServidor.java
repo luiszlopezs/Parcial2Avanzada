@@ -59,6 +59,7 @@ public class ControlVentanaServidor implements ActionListener {
         switch (comando) {
             case "INICIAR_JUEGO":
                 cPrinc.iniciarPartida();
+                habilitarCartas();
                 break;
 
             case "AUMENTAR_INTENTO":
@@ -66,36 +67,20 @@ public class ControlVentanaServidor implements ActionListener {
                 break;
 
             case "BTN_PEDIR_JUG1":
-                if (cPrinc.getcServidor().puedeIniciarPartida()) {
-                    cPrinc.getcServidor().setTurno(1);
-
-                } else {
-                    vServidor.mostrarMensaje("No hay suficientes jugadores conectados");
-                }
+                cPrinc.getcServidor().actualizarTurnosEnClientes();
                 break;
 
             case "BTN_PEDIR_JUG2":
-                if (cPrinc.getcServidor().getClientesActivos().size() >= 2) {
-                    cPrinc.getcServidor().setTurno(2);
-                } else {
-                    vServidor.mostrarMensaje("El jugador 2 no está conectado");
-                }
+                cPrinc.getcServidor().actualizarTurnosEnClientes();
+
                 break;
 
             case "BTN_PEDIR_JUG3":
-                if (cPrinc.getcServidor().getClientesActivos().size() >= 3) {
-                    cPrinc.getcServidor().setTurno(3);
-                } else {
-                    vServidor.mostrarMensaje("El jugador 3 no está conectado");
-                }
+                cPrinc.getcServidor().actualizarTurnosEnClientes();
                 break;
 
             case "BTN_PEDIR_JUG4":
-                if (cPrinc.getcServidor().getClientesActivos().size() >= 4) {
-                    cPrinc.getcServidor().setTurno(4);
-                } else {
-                    vServidor.mostrarMensaje("El jugador 4 no está conectado");
-                }
+                cPrinc.getcServidor().actualizarTurnosEnClientes();
                 break;
 
             case "REINICIAR_JUEGO":
@@ -103,7 +88,6 @@ public class ControlVentanaServidor implements ActionListener {
                 break;
 
 //  
-
             case "ENVIAR_RESULTADOS":
 
                 break;
@@ -285,6 +269,14 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getLblIntentosJug2().setVisible(false);
         vServidor.getLblIntentosJug3().setVisible(false);
         vServidor.getLblIntentosJug4().setVisible(false);
+
+        vServidor.getBtnJug1().setEnabled(false);
+        vServidor.getBtnJug2().setEnabled(false);
+        vServidor.getBtnJug3().setEnabled(false);
+        vServidor.getBtnJug4().setEnabled(false);
+        vServidor.getBtnAumentarIntento().setEnabled(false);
+        vServidor.getBtnEnviarResultados().setEnabled(false);
+
         for (int i = 1; i <= 40; i++) {
             JButton boton = obtenerBotonCarta(i);
             if (boton != null) {
@@ -428,8 +420,9 @@ public class ControlVentanaServidor implements ActionListener {
     }
 
     public void activarPartidaBasica() {
-        if (ControlServidor.clientesActivos.size() >= 1) {
+        if (ControlServidor.clientesActivos.size() >= 2) {
             vServidor.getBtnAumentarIntento().setVisible(true);
+
             vServidor.getBtnEnviarResultados().setVisible(true);
             vServidor.getBtnIniciarJuego().setVisible(true);
             vServidor.getBtnJug1().setVisible(true);
@@ -441,12 +434,79 @@ public class ControlVentanaServidor implements ActionListener {
             vServidor.getLblIntentosJug1().setVisible(true);
             vServidor.getLblIntentosJug2().setVisible(true);
 
-            for (int i = 1; i <= 40; i++) {
-                JButton boton = obtenerBotonCarta(i);
-                if (boton != null) {
-                    boton.setEnabled(true);
-                }
+        }
+    }
+
+    public void habilitarCartas() {
+        for (int i = 1; i <= 40; i++) {
+            JButton boton = obtenerBotonCarta(i);
+            if (boton != null) {
+                boton.setEnabled(true);
             }
+        }
+        vServidor.getBtnAumentarIntento().setEnabled(true);
+    }
+
+    // Actualizar la vista con el número de intentos
+    public void actualizarIntentosEnVista(int idJugador, int intentos) {
+        switch (idJugador) {
+            case 1:
+                getvServidor().getLblIntentosJug1().setText("Intentos: " + intentos);
+                break;
+            case 2:
+                getvServidor().getLblIntentosJug2().setText("Intentos: " + intentos);
+                break;
+            case 3:
+                getvServidor().getLblIntentosJug3().setText("Intentos: " + intentos);
+                break;
+            case 4:
+                getvServidor().getLblIntentosJug4().setText("Intentos: " + intentos);
+                break;
+        }
+    }
+
+    public void actualizarAciertosEnVista(int idJugador, int aciertos) {
+        switch (idJugador) {
+            case 1:
+                getvServidor().getLblAciertosJug1().setText("Aciertos: " + aciertos);
+                break;
+            case 2:
+                getvServidor().getLblAciertosJug2().setText("Aciertos " + aciertos);
+                break;
+            case 3:
+                getvServidor().getLblAciertosJug3().setText("Aciertos: " + aciertos);
+                break;
+            case 4:
+                getvServidor().getLblAciertosJug4().setText("Aciertos " + aciertos);
+                break;
+        }
+    }
+
+    public void habilitarBotones(String nombre) {
+        if (ControlServidor.clientesActivos.size() >= 1 && ControlServidor.clientesActivos.size() < 2) {
+            getvServidor().getBtnJug1().setVisible(true);
+            getvServidor().getLblAciertosJug1().setVisible(true);
+            getvServidor().getLblIntentosJug1().setVisible(true);
+            getvServidor().getBtnJug1().setText("Pedir coords " + nombre);
+        }
+        if (ControlServidor.clientesActivos.size() >= 2 && ControlServidor.clientesActivos.size() < 3) {
+            getvServidor().getBtnJug2().setVisible(true);
+            getvServidor().getLblAciertosJug2().setVisible(true);
+            getvServidor().getLblIntentosJug2().setVisible(true);
+            getvServidor().getBtnJug2().setText("Pedir coords " + nombre);
+        }
+
+        if (ControlServidor.clientesActivos.size() >= 3 && ControlServidor.clientesActivos.size() < 4) {
+            getvServidor().getBtnJug3().setVisible(true);
+            getvServidor().getLblAciertosJug3().setVisible(true);
+            getvServidor().getLblIntentosJug3().setVisible(true);
+            getvServidor().getBtnJug3().setText("Pedir coords " + nombre);
+        }
+        if (ControlServidor.clientesActivos.size() >= 4) {
+            getvServidor().getBtnJug4().setVisible(true);
+            getvServidor().getLblAciertosJug4().setVisible(true);
+            getvServidor().getLblIntentosJug4().setVisible(true);
+            getvServidor().getBtnJug4().setText("Pedir coords " + nombre);
         }
     }
 

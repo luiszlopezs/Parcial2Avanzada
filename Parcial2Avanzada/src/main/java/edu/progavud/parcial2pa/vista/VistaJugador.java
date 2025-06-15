@@ -111,6 +111,12 @@ public class VistaJugador extends JFrame {
         JOptionPane.showMessageDialog(null, "El usuario y/o la clave son incorrectas por lo que ha sido desconectado");
     }
 
+    public void mostrarMensajePartidaEnCurso() {
+        JOptionPane.showMessageDialog(null, "                Partida en Curso \n Espere un momento y vuelva a intentar");
+        this.dispose();
+
+    }
+
     public JTextArea getPanMostrar() {
         return panMostrar;
     }
