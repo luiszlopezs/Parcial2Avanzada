@@ -15,6 +15,8 @@ public class VistaJugador extends JFrame {
     private JTextArea panMostrar;
     private JTextField txtMensage;
     private JButton butEnviar;
+    private JButton butSalir;
+
 
     private JMenuItem itemAyuda;
     private JLabel lblAdvertencia;
@@ -47,6 +49,14 @@ public class VistaJugador extends JFrame {
         butEnviar.setForeground(Color.WHITE);
         butEnviar.setFocusPainted(false);
         butEnviar.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        
+        butSalir = new JButton("Salir");
+        butSalir.setBackground(new Color(220, 53, 69)); // Rojo suave
+        butSalir.setForeground(Color.WHITE);
+        butSalir.setFocusPainted(false);
+        butSalir.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        butSalir.setActionCommand("CLIENTE_SALIR");
+
     }
 
     private void setupLayout() {
@@ -55,6 +65,16 @@ public class VistaJugador extends JFrame {
         panAbajo.add(new JLabel("  Ingrese 2 coordenadas para elegir la pareja de cartas:"), BorderLayout.NORTH);
         panAbajo.add(txtMensage, BorderLayout.CENTER);
         panAbajo.add(butEnviar, BorderLayout.EAST);
+
+        // Panel con botones Enviar y Salir
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setBackground(new Color(210, 230, 255));
+        panelBotones.add(butEnviar);
+        panelBotones.add(butSalir);
+
+        panAbajo.add(panelBotones, BorderLayout.EAST);
+
+
 
         lblAdvertencia = new JLabel("");
         lblAdvertencia.setForeground(Color.RED);
@@ -94,6 +114,17 @@ public class VistaJugador extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(new Color(200, 220, 245)); // Fondo general azul claro
     }
+    
+    public boolean confirmarSalida() {
+    int opcion = JOptionPane.showConfirmDialog(
+        this,
+        "¿Estás seguro que deseas salir del juego?",
+        "Confirmar salida",
+        JOptionPane.YES_NO_OPTION
+    );
+    return opcion == JOptionPane.YES_OPTION;
+    }
+
 
     public String nombreJugador() { //Reciclado de vCliente
         return JOptionPane.showInputDialog("Introducir Nombre :");
@@ -130,6 +161,11 @@ public class VistaJugador extends JFrame {
     public JButton getBtnEnviar() {
         return butEnviar;
     }
+    
+    public JButton getBtnSalir() {
+    return butSalir;
+    }
+
 
     public void setBtnEnviar(JButton butEnviar) {
         this.butEnviar = butEnviar;

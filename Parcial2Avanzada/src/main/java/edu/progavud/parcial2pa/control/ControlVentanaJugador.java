@@ -94,6 +94,12 @@ public class ControlVentanaJugador implements ActionListener {
                 vJugador.getTxtMensage().setText("");
                 System.out.println(mensaje);
                 break;
+        
+            case "CLIENTE_SALIR":
+                if (vJugador.confirmarSalida()) {
+                System.exit(0);
+            }
+            break;
         }
     }
 
