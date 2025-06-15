@@ -59,10 +59,7 @@ public class ControlVentanaServidor implements ActionListener {
         switch (comando) {
             case "INICIAR_JUEGO":
 
-                
-
-                    cPrinc.iniciarPartida();
-
+                cPrinc.iniciarPartida();
 
 // También puedes inicializar cartas aquí si tienes lógica en ControlTablero
                 break;
@@ -223,6 +220,15 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getBtnIniciarJuego().setActionCommand("INICIAR_JUEGO");
         vServidor.getBtnIniciarJuego().addActionListener(this);
 
+        vServidor.getBtnJug1().setActionCommand("COORDS_JUG1");
+        vServidor.getBtnJug1().addActionListener(this);
+        vServidor.getBtnJug2().setActionCommand("COORDS_JUG2");
+        vServidor.getBtnJug2().addActionListener(this);
+        vServidor.getBtnJug3().setActionCommand("COORDS_JUG3");
+        vServidor.getBtnJug3().addActionListener(this);
+        vServidor.getBtnJug4().setActionCommand("COORDS_JUG4");
+        vServidor.getBtnJug4().addActionListener(this);
+
         vServidor.getBtnAumentarIntento().setVisible(false);
         vServidor.getBtnEnviarResultados().setVisible(false);
         vServidor.getBtnIniciarJuego().setVisible(false);
@@ -230,6 +236,14 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getBtnJug2().setVisible(false);
         vServidor.getBtnJug3().setVisible(false);
         vServidor.getBtnJug4().setVisible(false);
+        
+        vServidor.getBtnAumentarIntento().setEnabled(false);
+        vServidor.getBtnEnviarResultados().setEnabled(false);
+
+        vServidor.getBtnJug1().setEnabled(false);
+        vServidor.getBtnJug2().setEnabled(false);
+        vServidor.getBtnJug3().setEnabled(false);
+        vServidor.getBtnJug4().setEnabled(false);
         vServidor.getLblAciertosJug1().setVisible(false);
         vServidor.getLblAciertosJug2().setVisible(false);
         vServidor.getLblAciertosJug3().setVisible(false);
@@ -381,7 +395,7 @@ public class ControlVentanaServidor implements ActionListener {
     }
 
     public void activarPartidaBasica() {
-        if (ControlServidor.clientesActivos.size() >= 1) {
+        if (ControlServidor.clientesActivos.size() >= 2) {
             vServidor.getBtnAumentarIntento().setVisible(true);
             vServidor.getBtnEnviarResultados().setVisible(true);
             vServidor.getBtnIniciarJuego().setVisible(true);
@@ -394,12 +408,50 @@ public class ControlVentanaServidor implements ActionListener {
             vServidor.getLblIntentosJug1().setVisible(true);
             vServidor.getLblIntentosJug2().setVisible(true);
 
-            for (int i = 1; i <= 40; i++) {
-                JButton boton = obtenerBotonCarta(i);
-                if (boton != null) {
-                    boton.setEnabled(true);
-                }
+        }
+    }
+
+    public void activarBotonesCartas() {
+        for (int i = 1; i <= 40; i++) {
+            JButton boton = obtenerBotonCarta(i);
+            if (boton != null) {
+                boton.setEnabled(true);
             }
+        }
+        vServidor.getBtnIniciarJuego().setEnabled(false);
+    }
+
+    public void aumentarAciertoEnVista(int i) {
+        switch (i) {
+            case 1:
+                vServidor.getLblAciertosJug1().setText("Aciertos: " + i);
+                break;
+            case 2:
+                vServidor.getLblAciertosJug2().setText("Aciertos: " + i);
+                break;
+            case 3:
+                vServidor.getLblAciertosJug3().setText("Aciertos: " + i);
+                break;
+            case 4:
+                vServidor.getLblAciertosJug4().setText("Aciertos: " + i);
+                break;
+        }
+    }
+
+    public void aumentarIntentosEnVista(int i) {
+        switch (i) {
+            case 1:
+                vServidor.getLblIntentosJug1().setText("Aciertos: " + i);
+                break;
+            case 2:
+                vServidor.getLblIntentosJug2().setText("Aciertos: " + i);
+                break;
+            case 3:
+                vServidor.getLblIntentosJug3().setText("Aciertos: " + i);
+                break;
+            case 4:
+                vServidor.getLblIntentosJug4().setText("Aciertos: " + i);
+                break;
         }
     }
 

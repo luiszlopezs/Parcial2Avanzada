@@ -58,6 +58,7 @@ public class ControlPrincipalServidor {
     public void iniciarPartida() {
         cTablero.generarCartas();
         asignarCartasABotones();
+        cVentana.activarBotonesCartas();
         // asignar turnos a jugadores
 
     }

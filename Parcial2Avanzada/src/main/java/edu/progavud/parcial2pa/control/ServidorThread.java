@@ -110,6 +110,16 @@ public class ServidorThread extends Thread {
         this.clave = clave;
     }
 
+    public JugadorVO getJugadorVO() {
+        return jugadorVO;
+    }
+
+    public void setJugadorVO(JugadorVO jugadorVO) {
+        this.jugadorVO = jugadorVO;
+    }
+    
+    
+
     /**
      * Ejecuta el hilo que gestiona la comunicación con un cliente.
      *

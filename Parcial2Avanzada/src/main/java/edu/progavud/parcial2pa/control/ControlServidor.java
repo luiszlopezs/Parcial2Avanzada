@@ -36,6 +36,8 @@ public class ControlServidor {
 // Hilo encargado de atender a los clientes que se conectan
     private ServidorThread servidorThread;
 
+    private int turnoActual;
+
 // Generador de números aleatorios para funcionalidades del servidor
     private Random random;
 
@@ -81,7 +83,7 @@ public class ControlServidor {
             servidorVO.setServ2(new ServerSocket(servidorVO.getPort2()));  //traer de properties
             cPrinc.getcVentana().getvServidor().mostrar("::Servidor activo::");
             while (servidorVO.isListening()) {
-                
+
                 Socket sock = null, sock2 = null;
                 try {
                     //muestra un mensaje en la vista del server
@@ -175,8 +177,15 @@ public class ControlServidor {
     public static void setClientesActivos(Vector<ServidorThread> clientesActivos) {
         ControlServidor.clientesActivos = clientesActivos;
     }
-    
-    
-    
+
+    public void incrementarIntento(int i) {
+        int intentos = clientesActivos.get(i).getJugadorVO().getIntentos();
+        clientesActivos.get(i).getJugadorVO().setIntentos(intentos + 1);
+    }
+
+    public void incrementarAcierto(int i) {
+        int acierto = clientesActivos.get(i).getJugadorVO().getAciertos();
+        clientesActivos.get(i).getJugadorVO().setAciertos(acierto + 1);
+    }
 
 }
