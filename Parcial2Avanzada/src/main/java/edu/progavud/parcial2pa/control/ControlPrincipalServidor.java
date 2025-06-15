@@ -30,7 +30,7 @@ public class ControlPrincipalServidor {
     private int pasarPort1;
     private int pasarPort2;
 
-// Controlador de la ventana de interfaz gráfica del servidor
+    // Controlador de la ventana de interfaz gráfica del servidor
     private ControlVentanaServidor cVentana;
 
     private Map<Integer, Carta> mapaBotonCarta = new HashMap<>();
@@ -46,7 +46,7 @@ public class ControlPrincipalServidor {
         cVentana = new ControlVentanaServidor(this);
         cTablero = new ControlTablero(this);
         cServidor = new ControlServidor(this);
-        
+
         cServidor.inicializarDesdeProperties(pasarPort1, pasarPort2);
         Thread hilo = new Thread(() -> {
             cServidor.runServer();
@@ -62,23 +62,68 @@ public class ControlPrincipalServidor {
         habilitarBotones();
         // asignar turnos a jugadores
     }
-    
-    public void habilitarBotones(){
-        if(ControlServidor.clientesActivos.size() >= 3){
+
+    public void habilitarBotones() {
+        if (ControlServidor.clientesActivos.size() >= 3) {
             cVentana.getvServidor().getBtnJug3().setVisible(true);
+            cVentana.getvServidor().getLblAciertosJug3().setVisible(true);
+            cVentana.getvServidor().getLblIntentosJug3().setVisible(true);
         }
-        if(ControlServidor.clientesActivos.size() >= 4){
+        if (ControlServidor.clientesActivos.size() >= 4) {
             cVentana.getvServidor().getBtnJug4().setVisible(true);
+            cVentana.getvServidor().getLblAciertosJug4().setVisible(true);
+            cVentana.getvServidor().getLblIntentosJug4().setVisible(true);
         }
     }
-    public boolean sumaIntento(boolean botonPresionado){
-        if(botonPresionado){
-            return true;
+
+//    public void incrementarIntentosJugador(int idJugador) {
+//        for (ServidorThread cliente : ControlServidor.clientesActivos) {
+//            if (cliente.getIdJugador() == idJugador) {
+//                cliente.incrementarIntentos();
+//                cVentana.getvServidor().mostrar("Intento incrementado para jugador " + cliente.getNameUser()
+//                        + ". Total: " + cliente.getIntentos());
+//                break;
+//            }
+//        }
+//    }
+
+    public void manejarBotonAumentarIntentos() {
+        int turnoActual = cServidor.getTurno();
+
+        if (turnoActual == 0) {
+            cVentana.getvServidor().mostrarMensaje("No hay partida iniciada. Inicia la partida primero.");
+            return;
         }
-        else{
-           return false; 
+
+        // Buscar el jugador que está en turno
+        ServidorThread jugadorEnTurno = null;
+        for (ServidorThread cliente : ControlServidor.clientesActivos) {
+            if (cliente.getIdJugador() == turnoActual) {
+                jugadorEnTurno = cliente;
+                break;
+            }
         }
-        
+
+        if (jugadorEnTurno != null) {
+            jugadorEnTurno.incrementarIntentos();
+            cVentana.getvServidor().mostrar("Intento incrementado para " + jugadorEnTurno.getNameUser() + " (Jugador "
+                    + turnoActual + "). Total: " + jugadorEnTurno.getIntentos());
+
+            // Notificar al cliente que su intento fue registrado
+            jugadorEnTurno.enviarDesdeServidor(
+                    "Tu intento ha sido registrado. Total intentos: " + jugadorEnTurno.getIntentos());
+        } else {
+            cVentana.getvServidor().mostrarMensaje("Error: No se encontró el jugador en turno.");
+        }
+    }
+
+    public String obtenerEstadisticasJugador(int idJugador) { //Metodo para mostrar los resultados al final
+        for (ServidorThread cliente : ControlServidor.clientesActivos) {
+            if (cliente.getIdJugador() == idJugador) {
+                return "Jugador: " + cliente.getNameUser() + " - Intentos: " + cliente.getIntentos();
+            }
+        }
+        return "Jugador no encontrado";
     }
 
     /**
@@ -102,7 +147,7 @@ public class ControlPrincipalServidor {
     public void asignarCartasABotones() {
         mapaBotonCarta.clear(); // importante si se reinicia
 
-        //JButton[][] botones = cVentana.getvServidor().getBotones();
+        // JButton[][] botones = cVentana.getvServidor().getBotones();
         int[][] botonesIndice = cVentana.getvServidor().getIndiceBotones();
         Carta[][] matrizCartas = cTablero.getMatrizCartas();
 
@@ -115,8 +160,8 @@ public class ControlPrincipalServidor {
                 System.out.println("aaaaaaaaaaaaaaaaaa" + mapaBotonCarta.get(indiceBoton));
                 System.out.println(mapaBotonCarta.get(indiceBoton).toString());
                 // Aquí puedes asignar el nuevo ActionListener o resetear el texto
-//                boton.setText("");
-//                boton.setEnabled(true);
+                // boton.setText("");
+                // boton.setEnabled(true);
             }
         }
     }
@@ -126,12 +171,32 @@ public class ControlPrincipalServidor {
         Carta c2 = mapaBotonCarta.get(btn2);
         System.out.println(c1);
         System.out.println(c2);
+
         if (c1.getId() == c2.getId()) {
-            // Pareja correcta
-            System.out.println("roorecootoot");
-            cVentana.mostrarJDialogParejaEncontrada();
-            System.out.println("corecorotooo despueeeeeeeeees");
-        } else {
+            int turnoActual = cServidor.getTurno();
+         
+            //Buscar jugador en turno (reciclado del método de incrementar intentos, pero se llama cada vez que encuente una pareja)
+            ServidorThread jugadorEnTurno = null;
+            for (ServidorThread cliente : ControlServidor.clientesActivos) {
+                if (cliente.getIdJugador() == turnoActual) {
+                    jugadorEnTurno = cliente;
+                    break;
+                }
+            }
+
+            if (jugadorEnTurno != null) {
+//                jugadorEnTurno.incrementarIntentos();
+                cVentana.getvServidor().mostrar("Acierto incrementado para " + jugadorEnTurno.getNameUser() + " (Jugador "
+                        + turnoActual + "). Total: " + jugadorEnTurno.getAciertos());
+
+                // Notificar al cliente que tuvo un acierto
+                jugadorEnTurno.enviarDesdeServidor("Tuvo un acierto, total: " + jugadorEnTurno.getAciertos());
+                jugadorEnTurno.incrementarAciertos();
+            } else {
+                cVentana.getvServidor().mostrarMensaje("Error: No se encontró el jugador en turno.");
+            }
+
+        } else { //Si no son pareja 
             System.out.println("no son pareja jajajajajajaj");
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
@@ -139,7 +204,7 @@ public class ControlPrincipalServidor {
             });
             timer.setRepeats(false);
             timer.start();
-            
+
         }
 
         c1 = null;

@@ -62,7 +62,7 @@ public class ControlVentanaServidor implements ActionListener {
                 break;
 
             case "AUMENTAR_INTENTO":
-                cPrinc.sumaIntento(true);
+                cPrinc.manejarBotonAumentarIntentos();
                 break;
 
             case "BTN_PEDIR_JUG1":
