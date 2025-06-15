@@ -46,7 +46,7 @@ public class ControlPrincipalServidor {
         cVentana = new ControlVentanaServidor(this);
         cTablero = new ControlTablero(this);
         cServidor = new ControlServidor(this);
-        
+
         cServidor.inicializarDesdeProperties(pasarPort1, pasarPort2);
         Thread hilo = new Thread(() -> {
             cServidor.runServer();
@@ -56,9 +56,15 @@ public class ControlPrincipalServidor {
     }
 
     public void iniciarPartida() {
+        cServidor.setCartasEncontradas(0);
+        cServidor.vaciarAciertosEIntentos();
         cTablero.generarCartas();
         asignarCartasABotones();
         cVentana.activarBotonesCartas();
+        
+        cVentana.resetearVistaPartida();
+        asignarNombresABotones();
+        cVentana.siguienteTurnoEnVista(cServidor.getTurnoActual());
         // asignar turnos a jugadores
 
     }
@@ -113,15 +119,20 @@ public class ControlPrincipalServidor {
             System.out.println("roorecootoot");
             cVentana.mostrarJDialogParejaEncontrada();
             System.out.println("corecorotooo despueeeeeeeeees");
+            
+            cServidor.incrementarAcierto();
         } else {
+            cServidor.incrementarIntento();
             System.out.println("no son pareja jajajajajajaj");
+            
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
+                //resetear a la imagen volteada, no lo he hecho
                 cVentana.resetearParejaBotones(btn1, btn2);
             });
             timer.setRepeats(false);
             timer.start();
-            
+
         }
 
         c1 = null;
@@ -151,6 +162,14 @@ public class ControlPrincipalServidor {
             }
         } else {
 
+        }
+    }
+
+    public void asignarNombresABotones() {
+        int i = 1;
+        for (ServidorThread jugador : ControlServidor.clientesActivos ){
+            cVentana.habilitarBotonesAlIniciarSwitch(jugador.getJugadorVO().getNombre(),i);
+            i++;
         }
     }
 

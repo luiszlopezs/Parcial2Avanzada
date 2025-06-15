@@ -172,6 +172,7 @@ public class ServidorThread extends Thread {
                     jugadorVO = cServidor.verificarUsuario(this.nameUser, this.clave);
                     System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
                     ControlServidor.clientesActivos.add(this);
+                    cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(nameUser);
                     cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
                     estaAgregado = true;
                     cServidor.getcPrinc().getcVentana().activarPartidaBasica();
@@ -201,7 +202,25 @@ public class ServidorThread extends Thread {
 
         enviaMsg(this.getNameUser() + " se ha desconectado del chat.");
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se removio un usuario");
+        int i = 1;
+        for (ServidorThread jugador2: ControlServidor.clientesActivos){
+            if(jugador2.getNameUser().equalsIgnoreCase(this.nameUser)){
+               cServidor.getcPrinc().getcVentana().INhabilitarBotonesAlIniciarSwitch(this.nameUser, i); 
+            }
+            else{
+                cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(jugador2.getNameUser());
+            }
+            i++;
+            
+        }
+//        
         ControlServidor.clientesActivos.removeElement(this);
+        if (ControlServidor.clientesActivos.size() < 2){
+            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+        }
+        else{
+            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+        }
         System.out.println(ControlServidor.clientesActivos);
 
         try {

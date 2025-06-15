@@ -64,131 +64,174 @@ public class ControlVentanaServidor implements ActionListener {
 // También puedes inicializar cartas aquí si tienes lógica en ControlTablero
                 break;
             case "AUMENTAR_INTENTO":
-
+                cPrinc.getcServidor().incrementarIntento();
                 break;
             case "ENVIAR_RESULTADOS":
-
+                vServidor.getBtnEnviarResultados().setEnabled(false);
+                vServidor.getBtnIniciarJuego().setEnabled(true);
                 break;
+                
+            
 
             case "BOTON_40":
                 manejarClick(40);
+                //vServidor.getBtnCarta40().setEnabled(true);
                 break;
             case "BOTON_1":
                 manejarClick(1);
+                //vServidor.getBtnCarta1().setEnabled(true);
                 break;
             case "BOTON_2":
                 manejarClick(2);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_3":
                 manejarClick(3);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_4":
                 manejarClick(4);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_5":
                 manejarClick(5);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_6":
                 manejarClick(6);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_7":
                 manejarClick(7);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_8":
                 manejarClick(8);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_9":
                 manejarClick(9);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_10":
                 manejarClick(10);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_11":
                 manejarClick(11);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_12":
                 manejarClick(12);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_13":
                 manejarClick(13);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_14":
                 manejarClick(14);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_15":
                 manejarClick(15);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_16":
                 manejarClick(16);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_17":
                 manejarClick(17);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_18":
                 manejarClick(18);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_19":
                 manejarClick(19);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_20":
                 manejarClick(20);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_21":
                 manejarClick(21);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_22":
                 manejarClick(22);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_23":
                 manejarClick(23);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_24":
                 manejarClick(24);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_25":
                 manejarClick(25);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_26":
                 manejarClick(26);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_27":
                 manejarClick(27);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_28":
                 manejarClick(28);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_29":
                 manejarClick(29);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_30":
                 manejarClick(30);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_31":
                 manejarClick(31);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_32":
                 manejarClick(32);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_33":
                 manejarClick(33);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_34":
                 manejarClick(34);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_35":
                 manejarClick(35);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_36":
                 manejarClick(36);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_37":
                 manejarClick(37);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_38":
                 manejarClick(38);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             case "BOTON_39":
                 manejarClick(39);
+                vServidor.getBtnCarta40().setEnabled(false);
                 break;
             default:
                 System.out.println("Comando desconocido: " + comando);
@@ -236,9 +279,10 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getBtnJug2().setVisible(false);
         vServidor.getBtnJug3().setVisible(false);
         vServidor.getBtnJug4().setVisible(false);
-        
+
         vServidor.getBtnAumentarIntento().setEnabled(false);
         vServidor.getBtnEnviarResultados().setEnabled(false);
+        vServidor.getBtnIniciarJuego().setEnabled(false);
 
         vServidor.getBtnJug1().setEnabled(false);
         vServidor.getBtnJug2().setEnabled(false);
@@ -372,11 +416,13 @@ public class ControlVentanaServidor implements ActionListener {
 
         if (!esperandoSegundo) {
             primerBoton = btn;
+            //obtenerBotonCarta(primerBoton).setEnabled(false);
             System.out.println(primerBoton);
             esperandoSegundo = true;
         } else {
             int segundoBoton = btn;
             System.out.println(segundoBoton);
+            //obtenerBotonCarta(segundoBoton).setEnabled(false);
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }
@@ -387,11 +433,45 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.mostrarJDialogParejaEncontrada();
     }
 
+    // resetear a la imagen volteada
     public void resetearParejaBotones(int btn1, int btn2) {
-        obtenerBotonCarta(btn1).setIcon(new ImageIcon());
+        //obtenerBotonCarta(btn1).setIcon(new ImageIcon());
         obtenerBotonCarta(btn1).setEnabled(true);
-        obtenerBotonCarta(btn2).setIcon(new ImageIcon());
+        //obtenerBotonCarta(btn2).setIcon(new ImageIcon());
         obtenerBotonCarta(btn2).setEnabled(true);
+    }
+
+    public void resetearVistaPartida() {
+        for (int i = 1; i <= 40; i++) {
+            JButton boton = obtenerBotonCarta(i);
+            if (boton != null) {
+                //boton.setIcon(defaultIcon);
+            }
+
+        }
+
+        vServidor.getLblAciertosJug1().setText("Aciertos: " + 0);
+        vServidor.getLblIntentosJug1().setText("Intentos: " + 0);
+        vServidor.getLblAciertosJug2().setText("Aciertos: " + 0);
+        vServidor.getLblIntentosJug2().setText("Intentos: " + 0);
+        vServidor.getLblAciertosJug3().setText("Aciertos: " + 0);
+        vServidor.getLblIntentosJug3().setText("Intentos: " + 0);
+        vServidor.getLblAciertosJug4().setText("Aciertos: " + 0);
+        vServidor.getLblIntentosJug4().setText("Intentos: " + 0);
+        vServidor.getBtnJug1().setVisible(false);
+        vServidor.getBtnJug2().setVisible(false);
+        vServidor.getBtnJug3().setVisible(false);
+        vServidor.getBtnJug4().setVisible(false);
+        vServidor.getLblAciertosJug1().setVisible(false);
+        vServidor.getLblIntentosJug1().setVisible(false);
+        vServidor.getLblAciertosJug2().setVisible(false);
+        vServidor.getLblIntentosJug2().setVisible(false);
+        vServidor.getLblAciertosJug3().setVisible(false);
+        vServidor.getLblIntentosJug3().setVisible(false);
+        vServidor.getLblAciertosJug4().setVisible(false);
+        vServidor.getLblIntentosJug4().setVisible(false);
+        cPrinc.asignarNombresABotones();
+
     }
 
     public void activarPartidaBasica() {
@@ -411,6 +491,139 @@ public class ControlVentanaServidor implements ActionListener {
         }
     }
 
+    public void siguienteTurnoEnVista(int i) {
+        switch (i) {
+            case 1:
+                vServidor.getBtnJug1().setEnabled(true);
+
+                break;
+            case 2:
+                vServidor.getBtnJug2().setEnabled(true);
+                break;
+            case 3:
+                vServidor.getBtnJug3().setEnabled(true);
+                break;
+            case 4:
+                vServidor.getBtnJug4().setEnabled(true);
+                break;
+        }
+    }
+
+    public void habilitarBotonesAlIniciarSwitch(String nombre, int i) {
+        switch (i) {
+            case 1:
+                getvServidor().getBtnJug1().setVisible(true);
+                getvServidor().getLblAciertosJug1().setVisible(true);
+                getvServidor().getLblIntentosJug1().setVisible(true);
+                getvServidor().getBtnJug1().setText("Pedir coords " + nombre);
+                break;
+            case 2:
+                getvServidor().getBtnJug2().setVisible(true);
+                getvServidor().getLblAciertosJug2().setVisible(true);
+                getvServidor().getLblIntentosJug2().setVisible(true);
+                getvServidor().getBtnJug2().setText("Pedir coords " + nombre);
+                vServidor.getBtnAumentarIntento().setVisible(true);
+                vServidor.getBtnEnviarResultados().setVisible(true);
+                vServidor.getBtnIniciarJuego().setVisible(true);
+                vServidor.getBtnIniciarJuego().setEnabled(true);
+                break;
+            case 3:
+                getvServidor().getBtnJug3().setVisible(true);
+                getvServidor().getLblAciertosJug3().setVisible(true);
+                getvServidor().getLblIntentosJug3().setVisible(true);
+                getvServidor().getBtnJug3().setText("Pedir coords " + nombre);
+                vServidor.getBtnAumentarIntento().setVisible(true);
+                vServidor.getBtnEnviarResultados().setVisible(true);
+                vServidor.getBtnIniciarJuego().setVisible(true);
+                vServidor.getBtnIniciarJuego().setEnabled(true);
+                break;
+            case 4:
+                getvServidor().getBtnJug4().setVisible(true);
+                getvServidor().getLblAciertosJug4().setVisible(true);
+                getvServidor().getLblIntentosJug4().setVisible(true);
+                getvServidor().getBtnJug4().setText("Pedir coords " + nombre);
+                vServidor.getBtnAumentarIntento().setVisible(true);
+                vServidor.getBtnEnviarResultados().setVisible(true);
+                vServidor.getBtnIniciarJuego().setVisible(true);
+                vServidor.getBtnIniciarJuego().setEnabled(true);
+                break;
+        }
+
+    }
+    
+    public void INhabilitarBotonesAlIniciarSwitch(String nombre, int i) {
+        switch (i) {
+            case 1:
+                getvServidor().getBtnJug1().setVisible(false);
+                getvServidor().getLblAciertosJug1().setVisible(false);
+                getvServidor().getLblIntentosJug1().setVisible(false);
+                getvServidor().getBtnJug1().setText("Pedir coords " + nombre);
+                break;
+            case 2:
+                getvServidor().getBtnJug2().setVisible(false);
+                getvServidor().getLblAciertosJug2().setVisible(false);
+                getvServidor().getLblIntentosJug2().setVisible(false);
+                getvServidor().getBtnJug2().setText("Pedir coords " + nombre);
+                
+                break;
+            case 3:
+                getvServidor().getBtnJug3().setVisible(false);
+                getvServidor().getLblAciertosJug3().setVisible(false);
+                getvServidor().getLblIntentosJug3().setVisible(false);
+                getvServidor().getBtnJug3().setText("Pedir coords " + nombre);
+                
+                break;
+            case 4:
+                getvServidor().getBtnJug4().setVisible(false);
+                getvServidor().getLblAciertosJug4().setVisible(false);
+                getvServidor().getLblIntentosJug4().setVisible(false);
+                getvServidor().getBtnJug4().setText("Pedir coords " + nombre);
+                
+                break;
+        }
+
+    }
+
+    public void habilitarBotonesAlIniciar(String nombre) {
+        if (ControlServidor.clientesActivos.size() >= 1 && ControlServidor.clientesActivos.size() < 2) {
+            getvServidor().getBtnJug1().setVisible(true);
+            getvServidor().getLblAciertosJug1().setVisible(true);
+            getvServidor().getLblIntentosJug1().setVisible(true);
+            getvServidor().getBtnJug1().setText("Pedir coords " + nombre);
+        }
+        if (ControlServidor.clientesActivos.size() >= 2 && ControlServidor.clientesActivos.size() < 3) {
+            getvServidor().getBtnJug2().setVisible(true);
+            getvServidor().getLblAciertosJug2().setVisible(true);
+            getvServidor().getLblIntentosJug2().setVisible(true);
+            getvServidor().getBtnJug2().setText("Pedir coords " + nombre);
+            vServidor.getBtnAumentarIntento().setVisible(true);
+            vServidor.getBtnEnviarResultados().setVisible(true);
+            vServidor.getBtnIniciarJuego().setVisible(true);
+            vServidor.getBtnIniciarJuego().setEnabled(true);
+        }
+
+        if (ControlServidor.clientesActivos.size() >= 3 && ControlServidor.clientesActivos.size() < 4) {
+            getvServidor().getBtnJug3().setVisible(true);
+            getvServidor().getLblAciertosJug3().setVisible(true);
+            getvServidor().getLblIntentosJug3().setVisible(true);
+            getvServidor().getBtnJug3().setText("Pedir coords " + nombre);
+            vServidor.getBtnAumentarIntento().setVisible(true);
+            vServidor.getBtnEnviarResultados().setVisible(true);
+            vServidor.getBtnIniciarJuego().setVisible(true);
+            vServidor.getBtnIniciarJuego().setEnabled(true);
+        }
+        if (ControlServidor.clientesActivos.size() >= 4) {
+            getvServidor().getBtnJug4().setVisible(true);
+            getvServidor().getLblAciertosJug4().setVisible(true);
+            getvServidor().getLblIntentosJug4().setVisible(true);
+            getvServidor().getBtnJug4().setText("Pedir coords " + nombre);
+            vServidor.getBtnAumentarIntento().setVisible(true);
+            vServidor.getBtnEnviarResultados().setVisible(true);
+            vServidor.getBtnIniciarJuego().setVisible(true);
+            vServidor.getBtnIniciarJuego().setEnabled(true);
+        }
+    }
+
     public void activarBotonesCartas() {
         for (int i = 1; i <= 40; i++) {
             JButton boton = obtenerBotonCarta(i);
@@ -419,40 +632,65 @@ public class ControlVentanaServidor implements ActionListener {
             }
         }
         vServidor.getBtnIniciarJuego().setEnabled(false);
+        vServidor.getBtnAumentarIntento().setEnabled(true);
     }
 
-    public void aumentarAciertoEnVista(int i) {
-        switch (i) {
+    public void aumentarAciertoEnVista(int i, int i2, int turnoActual) {
+        switch (turnoActual) {
             case 1:
                 vServidor.getLblAciertosJug1().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug1().setText("Intentos: " + i2);
                 break;
             case 2:
                 vServidor.getLblAciertosJug2().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug2().setText("Intentos: " + i2);
                 break;
             case 3:
                 vServidor.getLblAciertosJug3().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug3().setText("Intentos: " + i2);
                 break;
             case 4:
                 vServidor.getLblAciertosJug4().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug4().setText("Intentos: " + i2);
                 break;
         }
     }
 
-    public void aumentarIntentosEnVista(int i) {
-        switch (i) {
+    public void aumentarIntentosEnVista(int i, int turnoActual) {
+        switch (turnoActual) {
             case 1:
-                vServidor.getLblIntentosJug1().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug1().setText("Intentos: " + i);
+                vServidor.getBtnJug1().setEnabled(false);
                 break;
             case 2:
-                vServidor.getLblIntentosJug2().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug2().setText("Intentos: " + i);
+                vServidor.getBtnJug2().setEnabled(false);
                 break;
             case 3:
-                vServidor.getLblIntentosJug3().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug3().setText("Intentos: " + i);
+                vServidor.getBtnJug3().setEnabled(false);
                 break;
             case 4:
-                vServidor.getLblIntentosJug4().setText("Aciertos: " + i);
+                vServidor.getLblIntentosJug4().setText("Intentos: " + i);
+                vServidor.getBtnJug4().setEnabled(false);
                 break;
         }
+    }
+
+    public void inhabilitarBotonesPartida() {
+        vServidor.getBtnJug1().setEnabled(false);
+        vServidor.getBtnJug2().setEnabled(false);
+        vServidor.getBtnJug3().setEnabled(false);
+        vServidor.getBtnJug4().setEnabled(false);
+        vServidor.getBtnAumentarIntento().setEnabled(false);
+        for (int i = 1; i <= 40; i++) {
+            JButton boton = obtenerBotonCarta(i);
+            if (boton != null) {
+                boton.setEnabled(false);
+            }
+        }
+        vServidor.getBtnIniciarJuego().setEnabled(false);
+        vServidor.getBtnEnviarResultados().setEnabled(true);
     }
 
     public int getPrimerBoton() {

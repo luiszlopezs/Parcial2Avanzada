@@ -36,7 +36,8 @@ public class ControlServidor {
 // Hilo encargado de atender a los clientes que se conectan
     private ServidorThread servidorThread;
 
-    private int turnoActual;
+    private int turnoActual = 1;
+    private int cartasEncontradas = 0;
 
 // Generador de números aleatorios para funcionalidades del servidor
     private Random random;
@@ -178,14 +179,70 @@ public class ControlServidor {
         ControlServidor.clientesActivos = clientesActivos;
     }
 
-    public void incrementarIntento(int i) {
-        int intentos = clientesActivos.get(i).getJugadorVO().getIntentos();
-        clientesActivos.get(i).getJugadorVO().setIntentos(intentos + 1);
+    public void incrementarIntento() {
+        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarIntentosEnVista(intentos+1, turnoActual);
+        if (turnoActual == clientesActivos.size()){
+            turnoActual = 1;
+        }
+        else{
+            turnoActual++;
+        }
+        terminarPartida();
+        cPrinc.getcVentana().siguienteTurnoEnVista(getTurnoActual());
+        
     }
 
-    public void incrementarAcierto(int i) {
-        int acierto = clientesActivos.get(i).getJugadorVO().getAciertos();
-        clientesActivos.get(i).getJugadorVO().setAciertos(acierto + 1);
+    public void incrementarAcierto() {
+        cartasEncontradas++;
+        int acierto = clientesActivos.get(turnoActual-1).getJugadorVO().getAciertos();
+        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual-1).getJugadorVO().setAciertos(acierto + 1);
+        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarAciertoEnVista(acierto+1,intentos+1, turnoActual);
+        terminarPartida();
     }
+    
+    public void terminarPartida(){
+        if (cartasEncontradas >= 20){
+            //enviar mensajes a los jugadores de que se acabo el juego e inhabilitar sus entradas de texto
+            cPrinc.getcVentana().inhabilitarBotonesPartida();
+        }
+        
+        
+        
+    }
+    
+    public void vaciarAciertosEIntentos(){
+        for (ServidorThread jugador: clientesActivos){
+            jugador.getJugadorVO().setIntentos(0);
+            jugador.getJugadorVO().setAciertos(0);
+        }
+    }
+    
+    public void asignarTurnos(){
+        
+    }
+
+    public int getTurnoActual() {
+        return turnoActual;
+    }
+
+    public void setTurnoActual(int turnoActual) {
+        this.turnoActual = turnoActual;
+    }
+
+    public int getCartasEncontradas() {
+        return cartasEncontradas;
+    }
+
+    public void setCartasEncontradas(int cartasEncontradas) {
+        this.cartasEncontradas = cartasEncontradas;
+    }
+    
+    
+    
+    
 
 }
