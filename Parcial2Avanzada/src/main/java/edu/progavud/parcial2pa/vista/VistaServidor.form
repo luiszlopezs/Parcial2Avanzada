@@ -112,11 +112,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                  <Component id="lblNumAciertos1" min="-2" pref="37" max="-2" attributes="0"/>
-                                  <Component id="btnJug1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumIntentos1" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="btnJug1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
@@ -133,23 +129,18 @@
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="btnCarta35" min="-2" pref="80" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnCarta36" min="-2" pref="80" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="lblIntentosJug2" min="-2" pref="64" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="lblNumIntentos2" min="-2" pref="37" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lblAciertosJug2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="lblNumAciertos2" min="-2" pref="37" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblAciertosJug2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblIntentosJug2" min="-2" pref="64" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -165,24 +156,14 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnCarta38" min="-2" pref="80" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="lblIntentosJug3" min="-2" pref="64" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="lblNumIntentos3" min="-2" pref="37" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="lblAciertosJug3" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="lblNumAciertos3" min="-2" pref="37" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblIntentosJug3" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <Component id="lblAciertosJug3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="btnJug3" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="btnJug3" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -197,11 +178,6 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lblAciertosJug4" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblIntentosJug4" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblNumIntentos4" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Component id="lblNumAciertos4" min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -310,10 +286,6 @@
                               <Component id="lblAciertosJug2" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblAciertosJug3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblAciertosJug4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumAciertos1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumAciertos2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumAciertos3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumAciertos4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -321,10 +293,6 @@
                               <Component id="lblIntentosJug2" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblIntentosJug3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblIntentosJug4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumIntentos1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumIntentos2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumIntentos3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNumIntentos4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -646,49 +614,6 @@
         <Component class="javax.swing.JButton" name="btnIniciarJuego">
           <Properties>
             <Property name="text" type="java.lang.String" value="Iniciar Juego"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumAciertos1">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumIntentos1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumAciertos2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumIntentos2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumIntentos3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumAciertos3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumAciertos4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblNumIntentos4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
         </Component>
       </SubComponents>

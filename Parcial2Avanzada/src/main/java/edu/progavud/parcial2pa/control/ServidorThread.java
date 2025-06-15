@@ -113,20 +113,20 @@ public class ServidorThread extends Thread {
                 if (cServidor.getcPrinc().sumaIntento(true)) {
                     intentos++;
                 }
-                switch (this.idJugador) {
-                    case 1:
-                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos1().setText("" + intentos);
-                        break;
-                    case 2:
-                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos2().setText("" + intentos);
-                        break;
-                    case 3:
-                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos3().setText("" + intentos);
-                        break;
-                    case 4:
-                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos4().setText("" + intentos);
-                        break;
-                }
+//                switch (this.idJugador) {
+//                    case 1:
+//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos1().setText("" + intentos);
+//                        break;
+//                    case 2:
+//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos2().setText("" + intentos);
+//                        break;
+//                    case 3:
+//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos3().setText("" + intentos);
+//                        break;
+//                    case 4:
+//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos4().setText("" + intentos);
+//                        break;
+//                }
 
                 // Inicialmente todos los jugadores deben esperar hasta que se inicie el juego
                 enviarControlTurno(false);
@@ -197,7 +197,7 @@ public class ServidorThread extends Thread {
         }
     }
 
-    // MÉTODO CORREGIDO: Enviar control de turno (habilitar/deshabilitar botones)
+    //Enviar control de turno (habilitar/deshabilitar botones)
     public void enviarControlTurno(boolean esMiTurno) {
         try {
             salida2.writeInt(5); // código 5 = control de turno
@@ -211,7 +211,7 @@ public class ServidorThread extends Thread {
         }
     }
 
-    // MÉTODO CORREGIDO: Enviar mensaje de error
+    //Enviar mensaje de error
     public void enviarMensajeError(String mensaje) {
         try {
             salida2.writeInt(4); // código 4 = mensaje de error
@@ -221,7 +221,7 @@ public class ServidorThread extends Thread {
         }
     }
 
-    // MÉTODO CORREGIDO: Enviar mensaje normal del servidor
+    //Enviar mensaje normal del servidor
     public void enviarDesdeServidor(String mensaje) {
         try {
             salida2.writeInt(1); // código 1 = mensaje normal
@@ -231,11 +231,11 @@ public class ServidorThread extends Thread {
         }
     }
 
-    // MÉTODO CORREGIDO: Verificar si es el turno de este jugador
+    //Verificar si es el turno de este jugador
     private boolean esMiTurno() {
         return cServidor.getTurno() == this.idJugador;
     }
-
+    
     // Getters y Setters
     public DataOutputStream getSalida() {
         return salida;
