@@ -29,7 +29,8 @@ public class ServidorThread extends Thread {
 
     String nameUser;
     String clave;
-    int intentos;
+    int intentos = 0; // Inicializar explícitamente en 0
+    int aciertos = 0;
 
     private JugadorVO jugadorVO;
     private ControlServidor cServidor;
@@ -67,6 +68,72 @@ public class ServidorThread extends Thread {
 
     public void setPartidaIniciada(boolean estado) {
         this.partidaIniciada = estado;
+    }
+
+    // Getter y setter para intentos y aciertos
+    public int getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(int intentos) {
+        this.intentos = intentos;
+    }
+
+    public int getAciertos() {
+        return aciertos;
+    }
+
+    public void setAciertos(int aciertos) {
+        this.aciertos = aciertos;
+    }
+    
+    
+
+    // Método para incrementar intentos
+    public void incrementarIntentos() {
+        this.intentos++;
+        actualizarIntentosEnVista(); //Cada vez que se presione el boton de aumentarIntentos, se aummenta en una unidad el número se intentos y se actualiza 
+    }
+    
+    // Método para incrementar intentos
+    public void incrementarAciertos() {
+        this.aciertos++;
+        actualizarAciertosEnVista(); //Cada vez que haya una pareja, se aummenta en una unidad el número se aciertoss y se actualiza 
+    }
+    
+    // Actualizar la vista con el número de intentos
+    private void actualizarIntentosEnVista() {
+        switch (this.idJugador) {
+            case 1:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug1().setText("Intentos: " + intentos);
+                break;
+            case 2:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug2().setText("Intentos: "+ intentos);
+                break;
+            case 3:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug3().setText("Intentos: "+ intentos);
+                break;
+            case 4:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblIntentosJug4().setText("Intentos: "+ intentos);
+                break;
+        }
+    }
+    
+    private void actualizarAciertosEnVista() {
+        switch (this.idJugador) {
+            case 1:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug1().setText("Aciertos: " + aciertos);
+                break;
+            case 2:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug2().setText("Aciertos "+ aciertos);
+                break;
+            case 3:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug3().setText("Aciertos: "+ aciertos);
+                break;
+            case 4:
+                cServidor.getcPrinc().getcVentana().getvServidor().getLblAciertosJug4().setText("Aciertos "+ aciertos);
+                break;
+        }
     }
 
     public void run() {
@@ -108,25 +175,8 @@ public class ServidorThread extends Thread {
                 estaAgregado = true;
                 cServidor.getcPrinc().getcVentana().activarPartidaBasica();
                 
-                
-                //Actualizar el número de intentos del jugador
-                if (cServidor.getcPrinc().sumaIntento(true)) {
-                    intentos++;
-                }
-//                switch (this.idJugador) {
-//                    case 1:
-//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos1().setText("" + intentos);
-//                        break;
-//                    case 2:
-//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos2().setText("" + intentos);
-//                        break;
-//                    case 3:
-//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos3().setText("" + intentos);
-//                        break;
-//                    case 4:
-//                        cServidor.getcPrinc().getcVentana().getvServidor().getLblNumAciertos4().setText("" + intentos);
-//                        break;
-//                }
+                // Inicializar la vista de intentos para este jugador
+                actualizarIntentosEnVista();
 
                 // Inicialmente todos los jugadores deben esperar hasta que se inicie el juego
                 enviarControlTurno(false);
@@ -147,10 +197,8 @@ public class ServidorThread extends Thread {
                         enviaMsg(mencli);
                         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("mensaje recibido " + mencli);
 
-                        
-                        // cServidor.cambiarTurnoAutomatico();
                         break;
-                }
+                                        }
             } catch (IOException e) {
                 break;
             }
