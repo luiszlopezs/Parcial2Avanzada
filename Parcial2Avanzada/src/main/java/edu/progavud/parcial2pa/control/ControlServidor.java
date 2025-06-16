@@ -18,9 +18,11 @@ public class ControlServidor {
     private ServidorVO servidorVO;
     private JugadorDAO jugadorDAO;
     private ServidorThread servidorThread;
+
     private Random random;
 
-    private int turnoActual = 0; // 0 = juego no iniciado, 1-4 = jugador activo
+    private int turnoActual = 1; // 0 = juego no iniciado, 1-4 = jugador activo
+    private int cartasEncontradas = 0;
     public static Vector<ServidorThread> clientesActivos = new Vector();
     public Vector<ServidorThread> jugadoresEnPartida = new Vector();
 
@@ -38,6 +40,7 @@ public class ControlServidor {
             cPrinc.getcVentana().getvServidor().mostrar("::Servidor activo::");
 
             while (servidorVO.isListening()) {
+
                 Socket sock = null, sock2 = null;
                 try {
                     cPrinc.getcVentana().getvServidor().mostrar("Esperando Jugadores");
@@ -122,38 +125,12 @@ public class ControlServidor {
 
     }
 
-    // Cambiar automáticamente al siguiente jugador
-//    public void cambiarTurnoAutomatico() {
-//        int siguienteTurno = turnoActual + 1;
-//        if (siguienteTurno > clientesActivos.size()) {
-//            siguienteTurno = 1; // Volver al primer jugador
-//        }
-//        setTurno(siguienteTurno);
-//    }
-    // Obtener el turno actual
     public int getTurno() {
         return turnoActual;
     }
 
-    // Reemplazado por actualizarTurnosEnClientes()
-//    public void notificarTurno(int jugador) {
-//        // Este método ya no es necesario, pero lo mantengo por compatibilidad
-//        actualizarTurnosEnClientes();
-//    }
-    // NUEVO MÉTODO: Verificar si hay suficientes jugadores para iniciar
-    public boolean puedeIniciarPartida() {
-        return clientesActivos.size() >= 2 && clientesActivos.size() <= 4;
-    }
 
-    // Reiniciar el juego en caso de tener que hacr mas partidas
-    public void reiniciarJuego() {
-        turnoActual = 0;
-        for (ServidorThread thread : clientesActivos) {
-            thread.enviarControlTurno(false); // Deshabilitar todos los botones
-            thread.enviarDesdeServidor("Partida reiniciada. Esperando inicio...");
-        }
-        cPrinc.getcVentana().getvServidor().mostrar("Partida reiniciada.");
-    }
+
 
     // Getters existentes
     public ControlPrincipalServidor getcPrinc() {
@@ -175,4 +152,72 @@ public class ControlServidor {
     public static void setClientesActivos(Vector<ServidorThread> clientesActivos) {
         ControlServidor.clientesActivos = clientesActivos;
     }
+
+
+    public void incrementarIntento() {
+        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarIntentosEnVista(intentos+1, turnoActual);
+        if (turnoActual == clientesActivos.size()){
+            turnoActual = 1;
+        }
+        else{
+            turnoActual++;
+        }
+        terminarPartida();
+        cPrinc.getcVentana().siguienteTurnoEnVista(getTurnoActual());
+        
+    }
+
+    public void incrementarAcierto() {
+        cartasEncontradas++;
+        int acierto = clientesActivos.get(turnoActual-1).getJugadorVO().getAciertos();
+        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual-1).getJugadorVO().setAciertos(acierto + 1);
+        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarAciertoEnVista(acierto+1,intentos+1, turnoActual);
+        terminarPartida();
+    }
+    
+    public void terminarPartida(){
+        if (cartasEncontradas >= 20){
+            //enviar mensajes a los jugadores de que se acabo el juego e inhabilitar sus entradas de texto
+            cPrinc.getcVentana().inhabilitarBotonesPartida();
+        }
+        
+        
+        
+    }
+    
+    public void vaciarAciertosEIntentos(){
+        for (ServidorThread jugador: clientesActivos){
+            jugador.getJugadorVO().setIntentos(0);
+            jugador.getJugadorVO().setAciertos(0);
+        }
+    }
+    
+    public void asignarTurnos(){
+        
+    }
+
+    public int getTurnoActual() {
+        return turnoActual;
+    }
+
+    public void setTurnoActual(int turnoActual) {
+        this.turnoActual = turnoActual;
+    }
+
+    public int getCartasEncontradas() {
+        return cartasEncontradas;
+    }
+
+    public void setCartasEncontradas(int cartasEncontradas) {
+        this.cartasEncontradas = cartasEncontradas;
+    }
+    
+    
+    
+    
+
 }

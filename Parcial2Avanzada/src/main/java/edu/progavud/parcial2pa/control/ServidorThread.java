@@ -55,6 +55,43 @@ public class ServidorThread extends Thread {
         this.clave = clave;
     }
 
+
+    public JugadorVO getJugadorVO() {
+        return jugadorVO;
+    }
+
+    public void setJugadorVO(JugadorVO jugadorVO) {
+        this.jugadorVO = jugadorVO;
+    }
+    
+    
+
+    /**
+     * Ejecuta el hilo que gestiona la comunicación con un cliente.
+     *
+     * <p>
+     * Este método realiza lo siguiente:</p>
+     * <ul>
+     * <li>Inicializa los flujos de entrada y salida.</li>
+     * <li>Lee el nombre del usuario conectado.</li>
+     * <li>Escucha continuamente los comandos del cliente:</li>
+     * <ul>
+     * <li><b>1:</b> Recibe un mensaje público y lo reenvía a todos los clientes
+     * conectados.</li>
+     * <li><b>2:</b> Envía al cliente la lista actual de usuarios
+     * conectados.</li>
+     * <li><b>3:</b> Recibe un mensaje privado y lo envía al destinatario
+     * correspondiente.</li>
+     * </ul>
+     * <li>Cuando el cliente se desconecta, lo elimina de la lista de clientes
+     * activos y actualiza la lista para los demás clientes.</li>
+     * </ul>
+     */
+    public void setPartidaIniciada(boolean estado) {
+        this.partidaIniciada = estado;
+    }
+
+
     public void run() {
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar(".::Esperando Mensajes :");
 
@@ -78,6 +115,18 @@ public class ServidorThread extends Thread {
                 if (cServidor.verificarUsuario(this.nameUser, this.clave) == null) {
                     break;
                 }
+
+                if (!estaAgregado) {
+                    jugadorVO = cServidor.verificarUsuario(this.nameUser, this.clave);
+                    System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
+                    ControlServidor.clientesActivos.add(this);
+                    cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(nameUser);
+                    cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
+                    estaAgregado = true;
+                    cServidor.getcPrinc().getcVentana().activarPartidaBasica();
+                }
+                
+
             } catch (SQLException ex) {
                 Logger.getLogger(ServidorThread.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -90,7 +139,6 @@ public class ServidorThread extends Thread {
                 System.out.println(jugadorVO.getNombre() + jugadorVO.getClave() + "ed-------------------------");
 
                 ControlServidor.clientesActivos.add(this);
-                cServidor.getcPrinc().habilitarBotones(this.jugadorVO.getNombre());
 
                 jugadorVO.setIdJugador(ControlServidor.clientesActivos.size()); //Añadir id al jugador
 
@@ -102,7 +150,6 @@ public class ServidorThread extends Thread {
                 // Inicialmente todos los jugadores deben esperar hasta que se inicie el juego
                 enviarControlTurno(false);
             }
-            cServidor.getcPrinc().getcVentana().actualizarIntentosEnVista(this.getJugadorVO().getIdJugador(), this.getJugadorVO().getIntentos());
 
             try {
                 opcion = entrada.readInt();
@@ -124,7 +171,25 @@ public class ServidorThread extends Thread {
 
         enviaMsg(this.getNameUser() + " se ha desconectado del chat.");
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se removio un usuario");
+        int i = 1;
+        for (ServidorThread jugador2: ControlServidor.clientesActivos){
+            if(jugador2.getNameUser().equalsIgnoreCase(this.nameUser)){
+               cServidor.getcPrinc().getcVentana().INhabilitarBotonesAlIniciarSwitch(this.nameUser, i); 
+            }
+            else{
+                cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(jugador2.getNameUser());
+            }
+            i++;
+            
+        }
+//        
         ControlServidor.clientesActivos.removeElement(this);
+        if (ControlServidor.clientesActivos.size() < 2){
+            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+        }
+        else{
+            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+        }
         System.out.println(ControlServidor.clientesActivos);
 
         try {
@@ -233,12 +298,6 @@ public class ServidorThread extends Thread {
         this.salida2 = salida2;
     }
 
-    public JugadorVO getJugadorVO() {
-        return jugadorVO;
-    }
 
-    public void setJugadorVO(JugadorVO jugadorVO) {
-        this.jugadorVO = jugadorVO;
-    }
 
 }
