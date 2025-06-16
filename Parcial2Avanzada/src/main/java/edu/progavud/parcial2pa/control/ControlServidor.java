@@ -100,10 +100,10 @@ public class ControlServidor {
 
             if (esSuTurno) {
                 thread.enviaMsgServer("Turno de " + thread.getJugadorVO().getNombre());
-                thread.enviarDesdeServidor("Es tu turno. Ingresa las coordenadas.");
+                thread.enviarMensajeATodos("Es tu turno. Ingresa las coordenadas.");
                 System.out.println("Turno asignado a: " + thread.getNameUser());
             } else {
-                thread.enviarDesdeServidor("Espera tu turno.");
+                thread.enviarMensajeATodos("Espera tu turno.");
             }
         }
     }
@@ -120,7 +120,7 @@ public class ControlServidor {
         boolean equivocado = false;
 
         while (!equivocado) {
-            
+
         }
 
     }
@@ -128,9 +128,6 @@ public class ControlServidor {
     public int getTurno() {
         return turnoActual;
     }
-
-
-
 
     // Getters existentes
     public ControlPrincipalServidor getcPrinc() {
@@ -153,51 +150,65 @@ public class ControlServidor {
         ControlServidor.clientesActivos = clientesActivos;
     }
 
-
     public void incrementarIntento() {
-        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
-        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
-        cPrinc.getcVentana().aumentarIntentosEnVista(intentos+1, turnoActual);
-        if (turnoActual == clientesActivos.size()){
+        int intentos = clientesActivos.get(turnoActual - 1).getJugadorVO().getIntentos();
+        String nombreJugador = clientesActivos.get(turnoActual - 1).getNameUser();
+        
+        servidorThread.enviarMensajeATodos(nombreJugador + " no encontró pareja. Intentos: " + (intentos + 1));
+        servidorThread.enviarMsgPrivado(nombreJugador, "No era pareja. ¡Sigue intentando! Total intentos: " + (intentos + 1));
+        intentos = clientesActivos.get(turnoActual - 1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarIntentosEnVista(intentos + 1, turnoActual);
+        if (turnoActual == clientesActivos.size()) {
             turnoActual = 1;
-        }
-        else{
+        } else {
             turnoActual++;
         }
         terminarPartida();
         cPrinc.getcVentana().siguienteTurnoEnVista(getTurnoActual());
-        
+
+        String siguienteJugador = clientesActivos.get(turnoActual - 1).getNameUser();
+        servidorThread.enviarMensajeATodos("Ahora es el turno de: " + siguienteJugador);
+
     }
 
     public void incrementarAcierto() {
+        String nombreJugador = clientesActivos.get(turnoActual - 1).getNameUser();
         cartasEncontradas++;
-        int acierto = clientesActivos.get(turnoActual-1).getJugadorVO().getAciertos();
-        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
-        clientesActivos.get(turnoActual-1).getJugadorVO().setAciertos(acierto + 1);
-        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
-        cPrinc.getcVentana().aumentarAciertoEnVista(acierto+1,intentos+1, turnoActual);
+        int acierto = clientesActivos.get(turnoActual - 1).getJugadorVO().getAciertos();
+        int intentos = clientesActivos.get(turnoActual - 1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setAciertos(acierto + 1);
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarAciertoEnVista(acierto + 1, intentos + 1, turnoActual);
+
+        servidorThread.enviarMensajeATodos("¡" + nombreJugador + " encontró una pareja! Aciertos: " + (acierto + 1));
+        servidorThread.enviarMsgPrivado(nombreJugador,
+                "Encontraste una pareja. Aciertos: " + (acierto + 1) + "/" + (intentos + 1));
+        servidorThread.enviarMensajeATodos("Parejas encontradas: " + cartasEncontradas + "/20");
+
         terminarPartida();
     }
-    
-    public void terminarPartida(){
-        if (cartasEncontradas >= 20){
-            //enviar mensajes a los jugadores de que se acabo el juego e inhabilitar sus entradas de texto
+
+    public void terminarPartida() {
+        if (cartasEncontradas >= 20) {
+
+            servidorThread.enviarMensajeATodos("Todas las parejas encontradas! La partida ha terminado.");
+//            enviarResultadosFinales();
+//            servidorThread.enviarMensajeATodos("Gracias por jugar");
             cPrinc.getcVentana().inhabilitarBotonesPartida();
         }
-        
-        
-        
+
     }
-    
-    public void vaciarAciertosEIntentos(){
-        for (ServidorThread jugador: clientesActivos){
+
+    public void vaciarAciertosEIntentos() {
+        for (ServidorThread jugador : clientesActivos) {
             jugador.getJugadorVO().setIntentos(0);
             jugador.getJugadorVO().setAciertos(0);
         }
     }
-    
-    public void asignarTurnos(){
-        
+
+    public void asignarTurnos() {
+
     }
 
     public int getTurnoActual() {
@@ -215,9 +226,5 @@ public class ControlServidor {
     public void setCartasEncontradas(int cartasEncontradas) {
         this.cartasEncontradas = cartasEncontradas;
     }
-    
-    
-    
-    
 
 }

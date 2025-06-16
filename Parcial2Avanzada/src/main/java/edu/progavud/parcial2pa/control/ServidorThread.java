@@ -228,19 +228,25 @@ public class ServidorThread extends Thread {
         }
     }
 
-    private void enviaMsg(String jugador, String mencli) {
-        for (ServidorThread user : ControlServidor.clientesActivos) {
+    public void enviarMsgPrivado(String nombreJugador, String mensaje) {
+    boolean encontrado = false;
+    for (ServidorThread user : ControlServidor.clientesActivos) {
+        if (user.getNameUser().equalsIgnoreCase(nombreJugador)) {
             try {
-                if (user.nameUser.equals(jugador)) {
-                    user.salida2.writeInt(3); // opción mensaje privado
-                    user.salida2.writeUTF(this.getNameUser());
-                    user.salida2.writeUTF(this.getNameUser() + " > " + mencli);
-                }
+                user.salida2.writeInt(2); // código 2 = mensaje privado
+                user.salida2.writeUTF("SERVIDOR (privado) -> " + mensaje);
+                encontrado = true;
+                cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Mensaje privado enviado a " + nombreJugador + ": " + mensaje);
+                break;
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error enviando mensaje privado a " + nombreJugador + ": " + e.getMessage());
             }
         }
     }
+    if (!encontrado) {
+        cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Error: Jugador " + nombreJugador + " no encontrado");
+    }
+}
 
     //Enviar control de turno (habilitar/deshabilitar botones)
     public void enviarControlTurno(boolean esMiTurno) {
@@ -267,14 +273,18 @@ public class ServidorThread extends Thread {
     }
 
     //Enviar mensaje normal del servidor
-    public void enviarDesdeServidor(String mensaje) {
+    public void enviarMensajeATodos(String mensaje) {
+    for (ServidorThread user : ControlServidor.clientesActivos) {
         try {
-            salida2.writeInt(1); // código 1 = mensaje normal
-            salida2.writeUTF("SERVIDOR -> " + mensaje);
+            user.salida2.writeInt(1); // código 1 = mensaje público
+            user.salida2.writeUTF("SERVIDOR -> " + mensaje);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error enviando mensaje a " + user.getNameUser() + ": " + e.getMessage());
         }
     }
+    // Mostrar en consola del servidor
+    cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Mensaje enviado a todos: " + mensaje);
+}
 
     //Verificar si es el turno de este jugador
     private boolean esMiTurno() {

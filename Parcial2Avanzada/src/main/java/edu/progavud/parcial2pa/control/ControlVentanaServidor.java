@@ -438,12 +438,12 @@ public class ControlVentanaServidor implements ActionListener {
             int segundoBoton = btn;
             obtenerBotonCarta(segundoBoton).setIcon(vServidor.cargarCarta(cPrinc.getMapaBotonCarta().get(segundoBoton).getRutaImg()));
             System.out.println(segundoBoton);
-<<<<<<< HEAD
+
 
             //obtenerBotonCarta(segundoBoton).setEnabled(false);
-=======
+
             obtenerBotonCarta(segundoBoton).setEnabled(false);
->>>>>>> Luis
+
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }
@@ -456,13 +456,13 @@ public class ControlVentanaServidor implements ActionListener {
 
     // resetear a la imagen volteada
     public void resetearParejaBotones(int btn1, int btn2) {
-<<<<<<< HEAD
+
         obtenerBotonCarta(btn1).setEnabled(true);
-=======
+
         obtenerBotonCarta(btn1).setIcon(vServidor.cargarCarta("/cn.jpg"));
         obtenerBotonCarta(btn1).setEnabled(true);
         obtenerBotonCarta(btn2).setIcon(vServidor.cargarCarta("/cn.jpg"));
->>>>>>> Luis
+
         obtenerBotonCarta(btn2).setEnabled(true);
     }
 

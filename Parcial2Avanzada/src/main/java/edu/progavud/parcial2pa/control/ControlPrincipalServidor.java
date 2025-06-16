@@ -62,13 +62,14 @@ public class ControlPrincipalServidor {
         asignarCartasABotones();
 
         cVentana.activarBotonesCartas();
-        
+
         cVentana.resetearVistaPartida();
         asignarNombresABotones();
         cVentana.siguienteTurnoEnVista(cServidor.getTurnoActual());
-        // asignar turnos a jugadores
 
-        // asignar turnos a jugadores
+        cServidor.getServidorThread().enviarMensajeATodos("Nueva partida iniciada! ");
+        String primerJugador = ControlServidor.clientesActivos.get(0).getNameUser();
+        cServidor.getServidorThread().enviarMensajeATodos("Comienza: " + primerJugador);
     }
 
     /**
@@ -110,27 +111,36 @@ public class ControlPrincipalServidor {
     }
 
     public void verificarPareja(int btn1, int btn2) {
+        int turnoActual = cServidor.getTurnoActual();
         Carta c1 = mapaBotonCarta.get(btn1);
         Carta c2 = mapaBotonCarta.get(btn2);
         System.out.println(c1);
         System.out.println(c2);
         ServidorThread jugadorEnTurno = null;
+        String nombreJugador = ControlServidor.clientesActivos.get(turnoActual-1).getNameUser();
         if (c1.getId() == c2.getId()) {
 
             // Pareja correcta
             System.out.println("roorecootoot");
             cVentana.mostrarJDialogParejaEncontrada();
             System.out.println("corecorotooo despueeeeeeeeees");
-            
             cServidor.incrementarAcierto();
+            cVentana.getvServidor().mostrar("El jugador: "
+                    + ControlServidor.clientesActivos.get(cServidor.getTurnoActual()).getNameUser()
+                    + " tuvo un acierto!! + Total: "
+                    + ControlServidor.clientesActivos.get(cServidor.getTurnoActual()).getJugadorVO().getAciertos());
+            jugadorEnTurno.enviarMsgPrivado(ControlServidor.clientesActivos.get(cServidor.getTurnoActual()).toString(),
+                    "Tienes un acierto!!");
         } else {
             cServidor.incrementarIntento();
 
+            cServidor.getServidorThread().enviarMsgPrivado(nombreJugador, "Las cartas no coinciden. Siguiente turno");
+
             System.out.println("no son pareja jajajajajajaj");
-            
+
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
-                //resetear a la imagen volteada, no lo he hecho
+                // resetear a la imagen volteada, no lo he hecho
                 cVentana.resetearParejaBotones(btn1, btn2);
             });
             timer.setRepeats(false);
@@ -170,8 +180,8 @@ public class ControlPrincipalServidor {
 
     public void asignarNombresABotones() {
         int i = 1;
-        for (ServidorThread jugador : ControlServidor.clientesActivos ){
-            cVentana.habilitarBotonesAlIniciarSwitch(jugador.getJugadorVO().getNombre(),i);
+        for (ServidorThread jugador : ControlServidor.clientesActivos) {
+            cVentana.habilitarBotonesAlIniciarSwitch(jugador.getJugadorVO().getNombre(), i);
             i++;
         }
     }
