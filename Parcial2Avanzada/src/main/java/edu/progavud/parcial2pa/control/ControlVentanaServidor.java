@@ -8,6 +8,7 @@ import edu.progavud.parcial2pa.modelo.Carta;
 import edu.progavud.parcial2pa.vista.VistaServidor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -70,8 +71,6 @@ public class ControlVentanaServidor implements ActionListener {
                 vServidor.getBtnEnviarResultados().setEnabled(false);
                 vServidor.getBtnIniciarJuego().setEnabled(true);
                 break;
-                
-            
 
             case "BOTON_40":
                 manejarClick(40);
@@ -416,13 +415,16 @@ public class ControlVentanaServidor implements ActionListener {
 
         if (!esperandoSegundo) {
             primerBoton = btn;
-            //obtenerBotonCarta(primerBoton).setEnabled(false);
+            System.out.println(cPrinc.getMapaBotonCarta().get(primerBoton).getRutaImg());
+            obtenerBotonCarta(primerBoton).setIcon(vServidor.cargarCarta(cPrinc.getMapaBotonCarta().get(primerBoton).getRutaImg()));
+            obtenerBotonCarta(primerBoton).setEnabled(false);
             System.out.println(primerBoton);
             esperandoSegundo = true;
         } else {
             int segundoBoton = btn;
+            obtenerBotonCarta(segundoBoton).setIcon(vServidor.cargarCarta(cPrinc.getMapaBotonCarta().get(segundoBoton).getRutaImg()));
             System.out.println(segundoBoton);
-            //obtenerBotonCarta(segundoBoton).setEnabled(false);
+            obtenerBotonCarta(segundoBoton).setEnabled(false);
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }
@@ -435,9 +437,9 @@ public class ControlVentanaServidor implements ActionListener {
 
     // resetear a la imagen volteada
     public void resetearParejaBotones(int btn1, int btn2) {
-        //obtenerBotonCarta(btn1).setIcon(new ImageIcon());
+        obtenerBotonCarta(btn1).setIcon(vServidor.cargarCarta("/cn.jpg"));
         obtenerBotonCarta(btn1).setEnabled(true);
-        //obtenerBotonCarta(btn2).setIcon(new ImageIcon());
+        obtenerBotonCarta(btn2).setIcon(vServidor.cargarCarta("/cn.jpg"));
         obtenerBotonCarta(btn2).setEnabled(true);
     }
 
@@ -550,7 +552,7 @@ public class ControlVentanaServidor implements ActionListener {
         }
 
     }
-    
+
     public void INhabilitarBotonesAlIniciarSwitch(String nombre, int i) {
         switch (i) {
             case 1:
@@ -564,21 +566,21 @@ public class ControlVentanaServidor implements ActionListener {
                 getvServidor().getLblAciertosJug2().setVisible(false);
                 getvServidor().getLblIntentosJug2().setVisible(false);
                 getvServidor().getBtnJug2().setText("Pedir coords " + nombre);
-                
+
                 break;
             case 3:
                 getvServidor().getBtnJug3().setVisible(false);
                 getvServidor().getLblAciertosJug3().setVisible(false);
                 getvServidor().getLblIntentosJug3().setVisible(false);
                 getvServidor().getBtnJug3().setText("Pedir coords " + nombre);
-                
+
                 break;
             case 4:
                 getvServidor().getBtnJug4().setVisible(false);
                 getvServidor().getLblAciertosJug4().setVisible(false);
                 getvServidor().getLblIntentosJug4().setVisible(false);
                 getvServidor().getBtnJug4().setText("Pedir coords " + nombre);
-                
+
                 break;
         }
 

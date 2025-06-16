@@ -35,8 +35,8 @@ public class ControlTablero {
 
         for (int i = 1; i <= total / 2; i++) {
             // Se crean dos objetos distintos con el mismo valor
-            Carta carta1 = new Carta(i, "/resources/cartas/carta" + i + ".png");
-            Carta carta2 = new Carta(i, "/resources/cartas/carta" + i + ".png");
+            Carta carta1 = new Carta(i, "/cartas/carta" + i + ".jpg");
+            Carta carta2 = new Carta(i, "/cartas/carta" + i + ".jpg");
             cartaLista.add(carta1);
             cartaLista.add(carta2);
         }

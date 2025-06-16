@@ -5,8 +5,12 @@
 package edu.progavud.parcial2pa.vista;
 
 import edu.progavud.parcial2pa.control.ControlVentanaServidor;
+import java.awt.Image;
 import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
 import javax.accessibility.AccessibleContext;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -1012,6 +1016,25 @@ public class VistaServidor extends javax.swing.JFrame {
                 numero++;
             }
         }
+    }
+    
+        public ImageIcon cargarCarta(String ruta) {
+        URL url = getClass().getResource(ruta);
+
+//        if (url != null) {
+            // Cargar imagen original
+            ImageIcon iconOriginal = new ImageIcon(url);
+
+            // Redimensionar a 140x140
+
+            // Crear nuevo icono con la imagen redimensionada
+            ImageIcon iconRedimensionado = new ImageIcon(iconOriginal.getImage());
+
+            // Asignar al JLabel
+//        } else {
+//            System.out.println("No se encontró la imagen: /imgGatos/" + nombreImagen);
+//        }
+            return iconRedimensionado;
     }
 
     public JButton[][] getBotones() {
