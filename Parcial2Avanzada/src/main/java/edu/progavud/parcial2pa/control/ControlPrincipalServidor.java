@@ -29,9 +29,11 @@ public class ControlPrincipalServidor {
 
     private ControlTablero cTablero;
 
+
 //    private int pasarPort1;
 //    private int pasarPort2;
 // Controlador de la ventana de interfaz gráfica del servidor
+
     private ControlVentanaServidor cVentana;
 
     private Map<Integer, Carta> mapaBotonCarta = new HashMap<>();
@@ -65,12 +67,14 @@ public class ControlPrincipalServidor {
         cServidor.cerrarEntradasDeJugadores();
         cTablero.generarCartas();
         asignarCartasABotones();
+
         cVentana.activarBotonesCartas();
 
         asignarNombresABotones();
         cVentana.siguienteTurnoEnVista(cServidor.getTurnoActual());
         // asignar turnos a jugadores
 
+        // asignar turnos a jugadores
     }
 
     /**
@@ -94,7 +98,7 @@ public class ControlPrincipalServidor {
     public void asignarCartasABotones() {
         mapaBotonCarta.clear(); // importante si se reinicia
 
-        //JButton[][] botones = cVentana.getvServidor().getBotones();
+        // JButton[][] botones = cVentana.getvServidor().getBotones();
         int[][] botonesIndice = cVentana.getvServidor().getIndiceBotones();
         Carta[][] matrizCartas = cTablero.getMatrizCartas();
 
@@ -106,9 +110,7 @@ public class ControlPrincipalServidor {
                 mapaBotonCarta.put(indiceBoton, carta);
                 System.out.println("aaaaaaaaaaaaaaaaaa" + mapaBotonCarta.get(indiceBoton));
                 System.out.println(mapaBotonCarta.get(indiceBoton).toString());
-                // Aquí puedes asignar el nuevo ActionListener o resetear el texto
-//                boton.setText("");
-//                boton.setEnabled(true);
+
             }
         }
     }
@@ -118,7 +120,9 @@ public class ControlPrincipalServidor {
         Carta c2 = mapaBotonCarta.get(btn2);
         System.out.println(c1);
         System.out.println(c2);
+        ServidorThread jugadorEnTurno = null;
         if (c1.getId() == c2.getId()) {
+
             // Pareja correcta
             System.out.println("roorecootoot");
             cServidor.avisarAcierto(btn1, btn2);
@@ -129,6 +133,7 @@ public class ControlPrincipalServidor {
         } else {
             cServidor.avisarError(btn1, btn2);
             cServidor.incrementarIntento();
+
             System.out.println("no son pareja jajajajajajaj");
 
             // No es pareja → volver a ocultar después de un momento

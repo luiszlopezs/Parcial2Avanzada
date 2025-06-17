@@ -63,6 +63,7 @@ public class JugadorThread extends Thread {
                         cJugador.getcPrinc().getcVentana().getvJugador().mostrarMsg(menser);
                         break;
 
+
                     case 3://mensage de amigo
                         amigo = entrada.readUTF();
                         menser = entrada.readUTF();
@@ -77,6 +78,7 @@ public class JugadorThread extends Thread {
                         }
 
                         break;
+
 //                    
 
                 }

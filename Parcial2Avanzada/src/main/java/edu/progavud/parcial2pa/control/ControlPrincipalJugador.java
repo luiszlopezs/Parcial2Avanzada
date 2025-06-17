@@ -44,6 +44,7 @@ public class ControlPrincipalJugador {
             cVentana = new ControlVentanaJugador(this);
             cJugador = new ControlJugador(this);
 //        cVentana.getvJugador().ponerActivos(cJugador.pedirUsuarios());
+
             cVentana.getvJugador().setVisible(true);
 
             cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(false);
@@ -53,6 +54,7 @@ public class ControlPrincipalJugador {
         } catch (SQLException ex) {
             System.getLogger(ControlPrincipalJugador.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
+
     }
 
     /**

@@ -67,11 +67,16 @@ public class ControlVentanaServidor implements ActionListener {
 
 // También puedes inicializar cartas aquí si tienes lógica en ControlTablero
                 break;
+
             case "AUMENTAR_INTENTO":
+
                 cPrinc.getcServidor().avisarErrorDeEscritura();
+
                 cPrinc.getcServidor().incrementarIntento();
 
                 break;
+
+//  
             case "ENVIAR_RESULTADOS":
                 vServidor.getBtnEnviarResultados().setEnabled(false);
                 cPrinc.getcServidor().enviarResultados();
@@ -287,6 +292,7 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getBtnJug3().setActionCommand("COORDS_JUG3");
         vServidor.getBtnJug3().addActionListener(this);
         vServidor.getBtnJug4().setActionCommand("COORDS_JUG4");
+
         vServidor.getBtnJug4().addActionListener(this);
 
         vServidor.getBtnAumentarIntento().setVisible(false);
@@ -313,6 +319,14 @@ public class ControlVentanaServidor implements ActionListener {
         vServidor.getLblIntentosJug2().setVisible(false);
         vServidor.getLblIntentosJug3().setVisible(false);
         vServidor.getLblIntentosJug4().setVisible(false);
+
+        vServidor.getBtnJug1().setEnabled(false);
+        vServidor.getBtnJug2().setEnabled(false);
+        vServidor.getBtnJug3().setEnabled(false);
+        vServidor.getBtnJug4().setEnabled(false);
+        vServidor.getBtnAumentarIntento().setEnabled(false);
+        vServidor.getBtnEnviarResultados().setEnabled(false);
+
         for (int i = 1; i <= 40; i++) {
             JButton boton = obtenerBotonCarta(i);
             if (boton != null) {
@@ -444,7 +458,9 @@ public class ControlVentanaServidor implements ActionListener {
             obtenerBotonCarta(segundoBoton).setIcon(vServidor.cargarCarta(cPrinc.getMapaBotonCarta().get(segundoBoton).getRutaImg()));
             obtenerBotonCarta(segundoBoton).setDisabledIcon(vServidor.cargarCarta(cPrinc.getMapaBotonCarta().get(segundoBoton).getRutaImg()));
             System.out.println(segundoBoton);
+
             obtenerBotonCarta(segundoBoton).setEnabled(false);
+
             cPrinc.verificarPareja(primerBoton, segundoBoton);
             esperandoSegundo = false;
         }
@@ -457,17 +473,22 @@ public class ControlVentanaServidor implements ActionListener {
 
     // resetear a la imagen volteada
     public void resetearParejaBotones(int btn1, int btn2) {
+
         obtenerBotonCarta(btn1).setIcon(vServidor.cargarCarta("/cn.jpg"));
         obtenerBotonCarta(btn1).setDisabledIcon(vServidor.cargarCarta("/cn.jpg"));
         obtenerBotonCarta(btn1).setEnabled(true);
         obtenerBotonCarta(btn2).setIcon(vServidor.cargarCarta("/cn.jpg"));
+
         obtenerBotonCarta(btn2).setDisabledIcon(vServidor.cargarCarta("/cn.jpg"));
+
+
         obtenerBotonCarta(btn2).setEnabled(true);
     }
 
     public void activarPartidaBasica() {
         if (ControlServidor.clientesActivos.size() >= 2) {
             vServidor.getBtnAumentarIntento().setVisible(true);
+
             vServidor.getBtnEnviarResultados().setVisible(true);
             vServidor.getBtnIniciarJuego().setVisible(true);
             vServidor.getBtnJug1().setVisible(true);
@@ -615,12 +636,14 @@ public class ControlVentanaServidor implements ActionListener {
     }
 
     public void activarBotonesCartas() {
+
         for (int i = 1; i <= 40; i++) {
             JButton boton = obtenerBotonCarta(i);
             if (boton != null) {
                 boton.setEnabled(true);
             }
         }
+
         vServidor.getBtnIniciarJuego().setEnabled(false);
         vServidor.getBtnAumentarIntento().setEnabled(true);
     }
@@ -642,6 +665,7 @@ public class ControlVentanaServidor implements ActionListener {
             case 4:
                 vServidor.getLblAciertosJug4().setText("Aciertos: " + i);
                 vServidor.getLblIntentosJug4().setText("Intentos: " + i2);
+
                 break;
         }
     }
@@ -663,6 +687,7 @@ public class ControlVentanaServidor implements ActionListener {
             case 4:
                 vServidor.getLblIntentosJug4().setText("Intentos: " + i);
                 vServidor.getBtnJug4().setEnabled(false);
+
                 break;
         }
     }
@@ -681,6 +706,7 @@ public class ControlVentanaServidor implements ActionListener {
         }
         vServidor.getBtnIniciarJuego().setEnabled(false);
         vServidor.getBtnEnviarResultados().setEnabled(true);
+
     }
 
     public int getPrimerBoton() {
