@@ -42,35 +42,28 @@ public class JugadorDAO {
     public void inicializarBD(Properties props) {
         ConexionBD.inicializarBD(props);
     }
-//
-//    public boolean consultarJugador(String nombre,String clave) throws SQLException {
-////        Jugador JugadorVO = null;
-//        boolean encontrado = false;
-//        String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '"+ clave +"'";
-//
-//        con = (Connection) ConexionBD.getConexion();
-//        st = con.createStatement();
-//        rs = st.executeQuery(consulta);
-//        if (rs.next()) {
-////            JugadorVO = new Jugador(nombre,clave);
-//           encontrado = true;
-//        }
-//        st.close();
-//        ConexionBD.desconectar();
-//
-//        return encontrado;
-//    }
+
+    public void insertarJugador(String usuario, String clave) throws SQLException {
+
+        con = ConexionBD.getConexion();
+        st = con.createStatement();
+        String insercion = "INSERT INTO JugadoresTabla (Usuario,Clave) VALUES('" + usuario + "','" + clave + "')" ;
+        st.executeUpdate(insercion);
+        st.close();
+        ConexionBD.desconectar();
+
+    }
 //    
-    
-        public JugadorVO consultarJugador(String nombre,String clave) throws SQLException {
+
+    public JugadorVO consultarJugador(String nombre, String clave) throws SQLException {
         JugadorVO JugadorVO = null;
-        String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '"+ clave +"'";
+        String consulta = "SELECT * FROM JugadoresTabla WHERE Usuario= '" + nombre + "' AND Clave= '" + clave + "'";
 
         con = (Connection) ConexionBD.getConexion();
         st = con.createStatement();
         rs = st.executeQuery(consulta);
         if (rs.next()) {
-            JugadorVO = new JugadorVO(nombre,clave);
+            JugadorVO = new JugadorVO(nombre, clave);
         }
         st.close();
         ConexionBD.desconectar();

@@ -8,6 +8,8 @@ import edu.progavud.parcial2pa.modelo.Carta;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -27,9 +29,8 @@ public class ControlPrincipalServidor {
 
     private ControlTablero cTablero;
 
-    private int pasarPort1;
-    private int pasarPort2;
-
+//    private int pasarPort1;
+//    private int pasarPort2;
 // Controlador de la ventana de interfaz gráfica del servidor
     private ControlVentanaServidor cVentana;
 
@@ -43,26 +44,29 @@ public class ControlPrincipalServidor {
      */
     public ControlPrincipalServidor() {
 
-        cVentana = new ControlVentanaServidor(this);
-        cTablero = new ControlTablero(this);
-        cServidor = new ControlServidor(this);
+        try {
 
-        cServidor.inicializarDesdeProperties(pasarPort1, pasarPort2);
-        Thread hilo = new Thread(() -> {
+            cVentana = new ControlVentanaServidor(this);
+            cTablero = new ControlTablero(this);
+            cServidor = new ControlServidor(this);
+            
+            cServidor.inicializarDesdeProperties(cVentana.getDatosPasar());
             cServidor.runServer();
-        });
-        hilo.start();
+        } catch (SQLException ex) {
+
+            System.getLogger(ControlPrincipalServidor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
 
     }
 
     public void iniciarPartida() {
-        cServidor.setCartasEncontradas(0);
-        cServidor.vaciarAciertosEIntentos();
+//        cServidor.setCartasEncontradas(0);
+//        cServidor.vaciarAciertosEIntentos();
+        cServidor.cerrarEntradasDeJugadores();
         cTablero.generarCartas();
         asignarCartasABotones();
         cVentana.activarBotonesCartas();
-        
-        cVentana.resetearVistaPartida();
+
         asignarNombresABotones();
         cVentana.siguienteTurnoEnVista(cServidor.getTurnoActual());
         // asignar turnos a jugadores
@@ -117,14 +121,16 @@ public class ControlPrincipalServidor {
         if (c1.getId() == c2.getId()) {
             // Pareja correcta
             System.out.println("roorecootoot");
+            cServidor.avisarAcierto(btn1, btn2);
             cVentana.mostrarJDialogParejaEncontrada();
             System.out.println("corecorotooo despueeeeeeeeees");
-            
+
             cServidor.incrementarAcierto();
         } else {
+            cServidor.avisarError(btn1, btn2);
             cServidor.incrementarIntento();
             System.out.println("no son pareja jajajajajajaj");
-            
+
             // No es pareja → volver a ocultar después de un momento
             Timer timer = new Timer(1000, e -> {
                 //resetear a la imagen volteada, no lo he hecho
@@ -148,27 +154,39 @@ public class ControlPrincipalServidor {
         this.mapaBotonCarta = mapaBotonCarta;
     }
 
-    public void inicializarPuertosDesdeProps(File archivo) {
+    public ArrayList<String> inicializarPuertosDesdeProps(File archivo) throws SQLException {
+        ArrayList<String> datos = new ArrayList<>();
         if (archivo != null) {
             try (FileInputStream fis = new FileInputStream(archivo)) {
                 Properties props = new Properties();
                 props.load(fis);
 
-                pasarPort1 = Integer.parseInt(props.getProperty("props1"));
-                pasarPort2 = Integer.parseInt(props.getProperty("props2"));
+                
 
+// Guardar los puertos
+                datos.add(props.getProperty("props1"));
+                datos.add(props.getProperty("props2"));
+
+// Guardar usuarios y claves
+                for (int i = 1; i <= 6; i++) {
+                    datos.add(props.getProperty("usuario" + i));
+                    datos.add(props.getProperty("clave" + i));
+
+                    
+                }
             } catch (IOException e) {
 
             }
         } else {
 
         }
+        return datos;
     }
 
     public void asignarNombresABotones() {
         int i = 1;
-        for (ServidorThread jugador : ControlServidor.clientesActivos ){
-            cVentana.habilitarBotonesAlIniciarSwitch(jugador.getJugadorVO().getNombre(),i);
+        for (ServidorThread jugador : ControlServidor.clientesActivos) {
+            cVentana.habilitarBotonesAlIniciarSwitch(jugador.getJugadorVO().getNombre(), i);
             i++;
         }
     }
@@ -181,20 +199,19 @@ public class ControlPrincipalServidor {
         this.cTablero = cTablero;
     }
 
-    public int getPasarPort1() {
-        return pasarPort1;
-    }
-
-    public void setPasarPort1(int pasarPort1) {
-        this.pasarPort1 = pasarPort1;
-    }
-
-    public int getPasarPort2() {
-        return pasarPort2;
-    }
-
-    public void setPasarPort2(int pasarPort2) {
-        this.pasarPort2 = pasarPort2;
-    }
-
+//    public int getPasarPort1() {
+//        return pasarPort1;
+//    }
+//
+//    public void setPasarPort1(int pasarPort1) {
+//        this.pasarPort1 = pasarPort1;
+//    }
+//
+//    public int getPasarPort2() {
+//        return pasarPort2;
+//    }
+//
+//    public void setPasarPort2(int pasarPort2) {
+//        this.pasarPort2 = pasarPort2;
+//    }
 }

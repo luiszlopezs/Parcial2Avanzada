@@ -57,9 +57,8 @@ public class ServidorThread extends Thread {
 // Nombre de usuario del cliente conectado
     String nameUser;
     String clave;
-    
+
     private JugadorVO jugadorVO;
-    
 
 // Referencia al controlador del servidor
     private ControlServidor cServidor;
@@ -117,8 +116,6 @@ public class ServidorThread extends Thread {
     public void setJugadorVO(JugadorVO jugadorVO) {
         this.jugadorVO = jugadorVO;
     }
-    
-    
 
     /**
      * Ejecuta el hilo que gestiona la comunicación con un cliente.
@@ -174,10 +171,12 @@ public class ServidorThread extends Thread {
                     ControlServidor.clientesActivos.add(this);
                     cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(nameUser);
                     cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Ingresó un nuevo Jugador: " + this.nameUser);
+                    
+                    this.enviaMsg(ControlServidor.clientesActivos.get(ControlServidor.clientesActivos.size()-1).getNameUser(), "Turno Asignado ->" + ControlServidor.clientesActivos.size());
                     estaAgregado = true;
                     cServidor.getcPrinc().getcVentana().activarPartidaBasica();
                 }
-                
+
             } catch (SQLException ex) {
                 System.getLogger(ServidorThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
@@ -190,7 +189,14 @@ public class ServidorThread extends Thread {
                         mencli = entrada.readUTF();
 
                         enviaMsg(mencli);
-                        cServidor.getcPrinc().getcVentana().getvServidor().mostrar("mensaje recibido " + mencli);
+                        cServidor.getcPrinc().getcVentana().getvServidor().mostrar("------------------------- \n Coordenadas de:" + ControlServidor.clientesActivos.get(cServidor.getTurnoActual()-1).getJugadorVO().getNombre()+ " -> Turno " + cServidor.getTurnoActual() + " \n" + mencli);
+
+                        break;
+                    case 3: // Mensaje privado
+                        jugador = entrada.readUTF();
+                        mencli = entrada.readUTF();
+                        enviaMsg(jugador, mencli);
+                        cServidor.getcPrinc().getcVentana().getvServidor().mostrar(mencli);
 
                         break;
 
@@ -200,27 +206,16 @@ public class ServidorThread extends Thread {
             }
         }
 
-        enviaMsg(this.getNameUser() + " se ha desconectado del chat.");
+        enviaMsg(this.getNameUser() + " se ha desconectado del juego.");
         cServidor.getcPrinc().getcVentana().getvServidor().mostrar("Se removio un usuario");
-        int i = 1;
-        for (ServidorThread jugador2: ControlServidor.clientesActivos){
-            if(jugador2.getNameUser().equalsIgnoreCase(this.nameUser)){
-               cServidor.getcPrinc().getcVentana().INhabilitarBotonesAlIniciarSwitch(this.nameUser, i); 
-            }
-            else{
-                cServidor.getcPrinc().getcVentana().habilitarBotonesAlIniciar(jugador2.getNameUser());
-            }
-            i++;
-            
-        }
+
 //        
         ControlServidor.clientesActivos.removeElement(this);
-        if (ControlServidor.clientesActivos.size() < 2){
-            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
-        }
-        else{
-            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
-        }
+//        if (ControlServidor.clientesActivos.size() < 2) {
+//            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+//        } else {
+//            cServidor.getcPrinc().getcVentana().getvServidor().getBtnIniciarJuego().setEnabled(false);
+//        }
         System.out.println(ControlServidor.clientesActivos);
 
         try {
@@ -244,11 +239,11 @@ public class ServidorThread extends Thread {
     public void enviaMsg(String mencli2) {
         ServidorThread user = null;
         for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
-            cServidor.getcPrinc().getcVentana().getvServidor().mostrar("MENSAJE DEVUELTO:" + mencli2);
+            //cServidor.getcPrinc().getcVentana().getvServidor().mostrar("MENSAJE DEVUELTO:" + mencli2);
             try {
                 user = ControlServidor.clientesActivos.get(i);
                 user.salida2.writeInt(1);//opcion de mensage 
-                user.salida2.writeUTF("" + this.getNameUser() + " ->" + mencli2);
+                user.salida2.writeUTF(mencli2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -266,7 +261,7 @@ public class ServidorThread extends Thread {
      * @param amigo Nombre del destinatario del mensaje.
      * @param mencli Contenido del mensaje privado.
      */
-    private void enviaMsg(String jugador, String mencli) {
+    public void enviaMsg(String jugador, String mencli) {
         ServidorThread user = null;
         for (int i = 0; i < ControlServidor.clientesActivos.size(); i++) {
             try {
@@ -274,7 +269,7 @@ public class ServidorThread extends Thread {
                 if (user.nameUser.equals(jugador)) {
                     user.salida2.writeInt(3);//opcion de mensaje amigo   
                     user.salida2.writeUTF(this.getNameUser());
-                    user.salida2.writeUTF("" + this.getNameUser() + ">" + mencli);
+                    user.salida2.writeUTF(mencli);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

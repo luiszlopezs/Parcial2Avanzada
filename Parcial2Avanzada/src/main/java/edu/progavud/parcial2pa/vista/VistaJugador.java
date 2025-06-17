@@ -2,6 +2,7 @@ package edu.progavud.parcial2pa.Vista;
 
 import edu.progavud.parcial2pa.control.ControlVentanaJugador;
 import java.awt.*;
+import java.io.File;
 import javax.swing.*;
 
 /**
@@ -153,5 +154,14 @@ public class VistaJugador extends JFrame {
 
     public JLabel getLblAdvertencia() {
         return lblAdvertencia;
+    }
+
+    public File rutaJfileChooserPorts() {
+        File f;
+        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+        fc.showDialog(null, "Seleccionar Archivo Properties de los Ports");
+
+        f = fc.getSelectedFile();
+        return f;
     }
 }

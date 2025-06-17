@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Vector;
@@ -128,11 +129,24 @@ public class ControlServidor {
      *
      * @param props Archivo de propiedades cargado previamente.
      */
-    public void inicializarDesdeProperties(int serv1, int serv2) {
-        servidorVO.setPort1(serv1);
-        servidorVO.setPort2(serv2);
-        System.out.println(serv1);
-        System.out.println(serv2);
+    public void inicializarDesdeProperties(ArrayList<String> datosPasar) {
+        servidorVO.setPort1(Integer.parseInt(datosPasar.get(0)));
+        servidorVO.setPort2(Integer.parseInt(datosPasar.get(1)));
+        for (int i = 2; i <= 12; i += 2) {
+
+            try {
+                getJugadorDAO().insertarJugador(
+                        datosPasar.get(i),
+                        datosPasar.get(i + 1)
+                );
+                System.out.println(datosPasar.get(i) + " " + datosPasar.get(i + 1));
+            } catch (SQLException ex) {
+                System.getLogger(ControlServidor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+
+        System.out.println(datosPasar.get(0));
+        System.out.println(datosPasar.get(1));
     }
 
     public JugadorVO verificarUsuario(String usuario, String clave) throws SQLException {
@@ -180,49 +194,122 @@ public class ControlServidor {
     }
 
     public void incrementarIntento() {
-        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
-        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
-        cPrinc.getcVentana().aumentarIntentosEnVista(intentos+1, turnoActual);
-        if (turnoActual == clientesActivos.size()){
+        int intentos = clientesActivos.get(turnoActual - 1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarIntentosEnVista(intentos + 1, turnoActual);
+        if (turnoActual == clientesActivos.size()) {
             turnoActual = 1;
-        }
-        else{
+        } else {
             turnoActual++;
         }
         terminarPartida();
         cPrinc.getcVentana().siguienteTurnoEnVista(getTurnoActual());
-        
+
     }
 
     public void incrementarAcierto() {
         cartasEncontradas++;
-        int acierto = clientesActivos.get(turnoActual-1).getJugadorVO().getAciertos();
-        int intentos = clientesActivos.get(turnoActual-1).getJugadorVO().getIntentos();
-        clientesActivos.get(turnoActual-1).getJugadorVO().setAciertos(acierto + 1);
-        clientesActivos.get(turnoActual-1).getJugadorVO().setIntentos(intentos + 1);
-        cPrinc.getcVentana().aumentarAciertoEnVista(acierto+1,intentos+1, turnoActual);
+        int acierto = clientesActivos.get(turnoActual - 1).getJugadorVO().getAciertos();
+        int intentos = clientesActivos.get(turnoActual - 1).getJugadorVO().getIntentos();
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setAciertos(acierto + 1);
+        clientesActivos.get(turnoActual - 1).getJugadorVO().setIntentos(intentos + 1);
+        cPrinc.getcVentana().aumentarAciertoEnVista(acierto + 1, intentos + 1, turnoActual);
         terminarPartida();
     }
-    
-    public void terminarPartida(){
-        if (cartasEncontradas >= 20){
+
+    public void terminarPartida() {
+        if (cartasEncontradas >= 20) {
             //enviar mensajes a los jugadores de que se acabo el juego e inhabilitar sus entradas de texto
             cPrinc.getcVentana().inhabilitarBotonesPartida();
         }
-        
-        
-        
+
     }
-    
-    public void vaciarAciertosEIntentos(){
-        for (ServidorThread jugador: clientesActivos){
+
+    public void enviarResultados() {
+        // Determinar ganador
+        ServidorThread ganador = null;
+        int maxAciertos = -1;
+
+        for (ServidorThread jugador : clientesActivos) {
+            if (jugador.getJugadorVO().getAciertos() > maxAciertos) {
+                maxAciertos = jugador.getJugadorVO().getAciertos();
+                ganador = jugador;
+            }
+        }
+
+        // MENSAJES MEJORADOS DE FIN DE PARTIDA:
+        if (ganador != null) {
+            // 1. Mensaje público de fin de partida con estadísticas
+            String mensajeFinal = " ¡PARTIDA TERMINADA! \n"
+                    + "Ganador: " + ganador.getJugadorVO().getNombre()
+                    + " con " + maxAciertos + " aciertos\n"
+                    + "Estadísticas finales:";
+
+            for (ServidorThread jugador : clientesActivos) {
+                mensajeFinal += "\n- " + jugador.getJugadorVO().getNombre()
+                        + ": " + jugador.getJugadorVO().getAciertos() + " aciertos, "
+                        + jugador.getJugadorVO().getIntentos() + " intentos";
+            }
+            
+            cPrinc.getcVentana().getvServidor().mostrar(mensajeFinal);
+
+            // Enviar estadísticas a todos
+            for (ServidorThread jugador : clientesActivos) {
+                jugador.enviaMsg(mensajeFinal);
+            }
+
+            // 2. Mensaje privado personalizado al ganador
+            ganador.enviaMsg(ganador.getJugadorVO().getNombre()," ¡FELICIDADES! Has ganado la partida con " + maxAciertos + " aciertos. \n¡Eres el maestro de la memoria!");
+
+            // 3. Mensaje privado personalizado a los demás jugadores
+            for (ServidorThread jugador : clientesActivos) {
+                if (!jugador.equals(ganador)) {
+                    jugador.enviaMsg(jugador.getJugadorVO().getNombre(),"Partida terminada. " + ganador.getJugadorVO().getNombre()
+                            + " ha ganado. \n¡Mejor suerte la próxima vez!");
+                }
+            }
+        }
+
+    }
+
+    public void vaciarAciertosEIntentos() {
+        for (ServidorThread jugador : clientesActivos) {
             jugador.getJugadorVO().setIntentos(0);
             jugador.getJugadorVO().setAciertos(0);
         }
     }
-    
-    public void asignarTurnos(){
-        
+
+    public void avisarTurnos() {
+        clientesActivos.get(turnoActual - 1).enviaMsg(" ");
+        clientesActivos.get(turnoActual - 1).enviaMsg("Turno N°: " + getTurnoActual() + ", para jugador -> " + clientesActivos.get(cPrinc.getcServidor().getTurnoActual() - 1).getJugadorVO().getNombre());
+        for (ServidorThread jugador : clientesActivos) {
+            if (jugador.getJugadorVO().getNombre().equalsIgnoreCase(clientesActivos.get(getTurnoActual() - 1).getJugadorVO().getNombre())) {
+                clientesActivos.get(turnoActual - 1).enviaMsg(jugador.getJugadorVO().getNombre(), "Ingresa las coordenadas de 2 cartas.");
+                clientesActivos.get(turnoActual - 1).enviaMsg(jugador.getJugadorVO().getNombre(), "habilitar");
+            } else {
+
+                clientesActivos.get(turnoActual - 1).enviaMsg(jugador.getJugadorVO().getNombre(), "Aun no es tu turno, Espera");
+                clientesActivos.get(turnoActual - 1).enviaMsg(jugador.getJugadorVO().getNombre(), "inhabilitar");
+            }
+        }
+    }
+
+    public void avisarError(int carta1, int carta2) {
+        clientesActivos.get(turnoActual - 1).enviaMsg("   " + clientesActivos.get(turnoActual - 1).getJugadorVO().getNombre() + " se ha equivocado \n" + "   Las cartas " + String.valueOf(carta1) + " " + String.valueOf(carta2) + " no coinciden");
+        clientesActivos.get(turnoActual - 1).enviaMsg(clientesActivos.get(turnoActual - 1).getJugadorVO().getNombre(), "inhabilitar");
+    }
+
+    public void avisarErrorDeEscritura() {
+        clientesActivos.get(turnoActual - 1).enviaMsg("   " + clientesActivos.get(turnoActual - 1).getJugadorVO().getNombre() + " se ha equivocado \n" + "   Ha introducido coordenadas invalidas");
+        clientesActivos.get(turnoActual - 1).enviaMsg(clientesActivos.get(turnoActual - 1).getJugadorVO().getNombre(), "inhabilitar");
+    }
+
+    public void avisarAcierto(int carta1, int carta2) {
+        clientesActivos.get(turnoActual - 1).enviaMsg("   " + clientesActivos.get(turnoActual - 1).getJugadorVO().getNombre() + " ha acertado \n" + "   Las cartas " + String.valueOf(carta1) + " " + String.valueOf(carta2) + " son pareja");
+    }
+
+    public void asignarTurnos() {
+
     }
 
     public int getTurnoActual() {
@@ -240,9 +327,17 @@ public class ControlServidor {
     public void setCartasEncontradas(int cartasEncontradas) {
         this.cartasEncontradas = cartasEncontradas;
     }
-    
-    
-    
-    
+
+    public void cerrarEntradasDeJugadores() {
+        this.servidorVO.setListening(false);
+    }
+
+    public JugadorDAO getJugadorDAO() {
+        return jugadorDAO;
+    }
+
+    public void setJugadorDAO(JugadorDAO jugadorDAO) {
+        this.jugadorDAO = jugadorDAO;
+    }
 
 }

@@ -41,6 +41,7 @@ public class VistaServidor extends javax.swing.JFrame {
         this.cVentanaServidor = cVentanaServidor;
         initComponents();
         ponerBotonesEnMatriz();
+        setearIMGs();
 
     }
 
@@ -115,95 +116,125 @@ public class VistaServidor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnCarta2.setText("jButton1");
+        btnCarta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta1.setText("jButton1");
+        btnCarta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta3.setText("jButton1");
+        btnCarta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta3ActionPerformed(evt);
+            }
+        });
 
-        btnCarta4.setText("jButton1");
+        btnCarta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
         btnCarta4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCarta4ActionPerformed(evt);
             }
         });
 
-        btnCarta5.setText("jButton1");
+        btnCarta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta6.setText("jButton1");
+        btnCarta6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
         btnCarta6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCarta6ActionPerformed(evt);
             }
         });
 
-        btnCarta7.setText("jButton1");
+        btnCarta7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta8.setText("jButton1");
+        btnCarta8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta9.setText("jButton1");
+        btnCarta9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta9ActionPerformed(evt);
+            }
+        });
 
-        btnCarta17.setText("jButton1");
+        btnCarta17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta25.setText("jButton1");
+        btnCarta25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta33.setText("jButton1");
+        btnCarta33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta10.setText("jButton1");
+        btnCarta10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta18.setText("jButton1");
+        btnCarta18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta26.setText("jButton1");
+        btnCarta26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta26ActionPerformed(evt);
+            }
+        });
 
-        btnCarta34.setText("jButton1");
+        btnCarta34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta11.setText("jButton1");
+        btnCarta11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta19.setText("jButton1");
+        btnCarta19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta27.setText("jButton1");
+        btnCarta27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta35.setText("jButton1");
+        btnCarta35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta35ActionPerformed(evt);
+            }
+        });
 
-        btnCarta12.setText("jButton1");
+        btnCarta12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta20.setText("jButton1");
+        btnCarta20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta28.setText("jButton1");
+        btnCarta28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta36.setText("jButton1");
+        btnCarta36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta13.setText("jButton1");
+        btnCarta13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta13ActionPerformed(evt);
+            }
+        });
 
-        btnCarta21.setText("jButton1");
+        btnCarta21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta29.setText("jButton1");
+        btnCarta29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta37.setText("jButton1");
+        btnCarta37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta14.setText("jButton1");
+        btnCarta14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta22.setText("jButton1");
+        btnCarta22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta30.setText("jButton1");
+        btnCarta30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta38.setText("jButton1");
+        btnCarta38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta15.setText("jButton1");
+        btnCarta15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta23.setText("jButton1");
+        btnCarta23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta31.setText("jButton1");
+        btnCarta31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta39.setText("jButton1");
+        btnCarta39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta16.setText("jButton1");
+        btnCarta16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta24.setText("jButton1");
+        btnCarta24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
-        btnCarta32.setText("jButton1");
+        btnCarta32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
+        btnCarta32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarta32ActionPerformed(evt);
+            }
+        });
 
-        btnCarta40.setText("jButton1");
+        btnCarta40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg"))); // NOI18N
 
         txaMostrar.setEditable(false);
         txaMostrar.setColumns(20);
@@ -372,20 +403,20 @@ public class VistaServidor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(38, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 19, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnIniciarJuego)
+                                .addGap(111, 111, 111))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnAumentarIntento)
-                                .addGap(58, 58, 58))
+                                .addGap(68, 68, 68))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEnviarResultados)
-                                .addGap(89, 89, 89))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnIniciarJuego)
-                                .addGap(103, 103, 103))))))
+                                .addGap(98, 98, 98))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,7 +478,7 @@ public class VistaServidor extends javax.swing.JFrame {
                             .addComponent(btnCarta40, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -466,15 +497,14 @@ public class VistaServidor extends javax.swing.JFrame {
                             .addComponent(btnJug1)
                             .addComponent(btnJug2)
                             .addComponent(btnJug3)
-                            .addComponent(btnJug4))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnJug4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnIniciarJuego)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAumentarIntento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviarResultados)))
-                .addContainerGap())
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -503,30 +533,34 @@ public class VistaServidor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnJug2ActionPerformed
 
+    private void btnCarta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta3ActionPerformed
+
+    private void btnCarta9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta9ActionPerformed
+
+    private void btnCarta13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta13ActionPerformed
+
+    private void btnCarta26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta26ActionPerformed
+
+    private void btnCarta32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta32ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta32ActionPerformed
+
+    private void btnCarta35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarta35ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarta35ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VistaServidor().setVisible(true));
-    }
 
     public JButton getBtnCarta1() {
         return btnCarta1;
@@ -1008,7 +1042,6 @@ public class VistaServidor extends javax.swing.JFrame {
 //            btnCarta25, btnCarta26, btnCarta27, btnCarta28, btnCarta29, btnCarta30, btnCarta31, btnCarta32,
 //            btnCarta33, btnCarta34, btnCarta35, btnCarta36, btnCarta37, btnCarta38, btnCarta39, btnCarta40
 //        };
-
         int numero = 1;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 8; j++) {
@@ -1017,24 +1050,23 @@ public class VistaServidor extends javax.swing.JFrame {
             }
         }
     }
-    
-        public ImageIcon cargarCarta(String ruta) {
+
+    public ImageIcon cargarCarta(String ruta) {
         URL url = getClass().getResource(ruta);
 
 //        if (url != null) {
-            // Cargar imagen original
-            ImageIcon iconOriginal = new ImageIcon(url);
+        // Cargar imagen original
+        ImageIcon iconOriginal = new ImageIcon(url);
 
-            // Redimensionar a 140x140
+        // Redimensionar a 140x140
+        // Crear nuevo icono con la imagen redimensionada
+        ImageIcon iconRedimensionado = new ImageIcon(iconOriginal.getImage());
 
-            // Crear nuevo icono con la imagen redimensionada
-            ImageIcon iconRedimensionado = new ImageIcon(iconOriginal.getImage());
-
-            // Asignar al JLabel
+        // Asignar al JLabel
 //        } else {
 //            System.out.println("No se encontró la imagen: /imgGatos/" + nombreImagen);
 //        }
-            return iconRedimensionado;
+        return iconRedimensionado;
     }
 
     public JButton[][] getBotones() {
@@ -1047,6 +1079,50 @@ public class VistaServidor extends javax.swing.JFrame {
 
     public void mostrarJDialogParejaEncontrada() {
         JOptionPane.showMessageDialog(null, "¡Pareja encontrada!");
+    }
+
+    public void setearIMGs() {
+        btnCarta1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta2.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta3.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta4.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta5.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta6.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta7.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta8.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta9.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta10.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta11.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta12.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta13.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta14.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta15.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta16.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta17.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta18.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta19.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta20.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta21.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta22.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta23.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta24.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta25.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta26.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta27.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta28.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta29.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta30.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta31.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta32.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta33.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta34.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta35.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta36.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta37.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta38.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta39.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+        btnCarta40.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/cn.jpg")));
+
     }
 
     public JButton getBtnAumentarIntento() {
