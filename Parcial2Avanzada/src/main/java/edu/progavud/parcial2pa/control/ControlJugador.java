@@ -45,13 +45,13 @@ public class ControlJugador {
         jugador.setNombre(cPrinc.getcVentana().getNombre());
         jugador.setClave(cPrinc.getcVentana().getClave());
 
-        try {
-            jugador.conexion();
-            jugadorThread = new JugadorThread(jugador.getEntrada2(), this);
-            jugadorThread.start();
-        } catch (IOException ex) {
-            cPrinc.getcVentana().getvJugador().mostrarMensajePartidaEnCurso();
-        }
+
+        jugador.conexion(cPrinc.getcVentana().getDatosPasar());
+
+        jugadorThread = new JugadorThread(jugador.getEntrada2(), this);
+        jugadorThread.start();
+
+
 
     }
 
@@ -143,7 +143,7 @@ public class ControlJugador {
      * @throws IOException Si ocurre un error al conectarse.
      */
     public void conexionJugador() throws IOException {
-        jugador.conexion();
+        jugador.conexion(cPrinc.getcVentana().getDatosPasar());
     }
 
     /**

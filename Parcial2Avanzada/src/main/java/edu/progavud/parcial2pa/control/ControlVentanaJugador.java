@@ -9,6 +9,8 @@ import edu.progavud.parcial2pa.modelo.Jugador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +40,7 @@ public class ControlVentanaJugador implements ActionListener {
     private String clave;
    
 // Dirección IP del servidor
-    private String ip;
+    private ArrayList<String> datosPasar;
 
 // Mapa para ventanas privadas por cada amigo
 //    private Map<String, VistaPrivada> chatsPrivados = new HashMap<>();
@@ -52,17 +54,16 @@ public class ControlVentanaJugador implements ActionListener {
      *
      * @param cPrinc Controlador principal del cliente.
      */
-    public ControlVentanaJugador (ControlPrincipalJugador cPrinc) {
+    public ControlVentanaJugador (ControlPrincipalJugador cPrinc) throws SQLException {
         this.cPrinc = cPrinc;
         cargarVistaJugador();
 //        cargarVistaPrivada();
-
+        datosPasar = cPrinc.inicializarPuertosDesdeProps(vJugador.rutaJfileChooserPorts());
         nombre = vJugador.nombreJugador(); //Reciclado de vCliente
         vJugador.setNombreJugador(nombre); //Reciclado de vCliente, recibe del JOptionPane el nombre y contraseña
         clave = vJugador.claveJugador();
         
 //        cPrinc.enviarInformacionJugador(nombre, contraseña); //Se envía la informacion del jugador
-        
 //        ip = vJugador.numeroIP(); debe venir del properties
 
     }
@@ -240,18 +241,7 @@ public class ControlVentanaJugador implements ActionListener {
      *
      * @return Dirección IP como cadena de texto.
      */
-    public String getIp() {
-        return ip;
-    }
-
-    /**
-     * Asigna la dirección IP del servidor.
-     *
-     * @param ip Dirección IP a asignar.
-     */
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+    
 
     public VistaJugador getvJugador() {
         return vJugador;
@@ -264,6 +254,16 @@ public class ControlVentanaJugador implements ActionListener {
     public void setClave(String clave) {
         this.clave = clave;
     }
+
+    public ArrayList<String> getDatosPasar() {
+        return datosPasar;
+    }
+
+    public void setDatosPasar(ArrayList<String> datosPasar) {
+        this.datosPasar = datosPasar;
+    }
+
+
     
     
     

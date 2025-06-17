@@ -4,7 +4,6 @@
  */
 package edu.progavud.parcial2pa.control;
 
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,7 +31,7 @@ public class JugadorThread extends Thread {
      * @throws IOException Si ocurre un error al inicializar el flujo de
      * entrada.
      */
-    public JugadorThread (DataInputStream entrada, ControlJugador cJugador) throws IOException {
+    public JugadorThread(DataInputStream entrada, ControlJugador cJugador) throws IOException {
         this.entrada = entrada;
         this.cJugador = cJugador;
     }
@@ -58,28 +57,28 @@ public class JugadorThread extends Thread {
                 opcion = entrada.readInt();
                 switch (opcion) {
                     case 0: //usuario y contraseña
-                        
+
                     case 1://mensage enviado
                         menser = entrada.readUTF();
                         cJugador.getcPrinc().getcVentana().getvJugador().mostrarMsg(menser);
                         break;
-                    
-                     case 5: // Control de turno: habilitar o deshabilitar escritura
+
+
+                    case 3://mensage de amigo
+                        amigo = entrada.readUTF();
                         menser = entrada.readUTF();
-                        if (menser.equals("Es tu turno")) {
-                            cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(true); //Si es su turno, habilita el texto y el boton de enviar
-                            cJugador.getcPrinc().getcVentana().getvJugador().getBtnEnviar().setEnabled(true);
-                        } else if (menser.equals("Espera tu turno")) {
-                            cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(false); // Si no es su turno, deshabilita el texto y el boton de enviar
+                        if (menser.equalsIgnoreCase("inhabilitar")) {
+                            cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(false);
                             cJugador.getcPrinc().getcVentana().getvJugador().getBtnEnviar().setEnabled(false);
+                        } else if (menser.equalsIgnoreCase("habilitar")) {
+                            cJugador.getcPrinc().getcVentana().getvJugador().getTxtMensage().setEnabled(true);
+                            cJugador.getcPrinc().getcVentana().getvJugador().getBtnEnviar().setEnabled(true);
+                        } else {
+                            cJugador.getcPrinc().getcVentana().getvJugador().mostrarMsg(menser);
                         }
+
                         break;
-                        
-//                    case 3://mensage de amigo
-//                        amigo = entrada.readUTF();
-//                        menser = entrada.readUTF();
-//                        cJugador.getcPrinc().getcVentana().mensageAmigo(amigo, menser);
-//                        break;
+
 //                    
 
                 }

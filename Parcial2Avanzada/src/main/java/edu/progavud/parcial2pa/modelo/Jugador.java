@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,11 +54,11 @@ public class Jugador {
         salida.writeUTF(clave);
     }
 
-    public void conexion() throws IOException {
+    public void conexion(ArrayList<String> datosPasar) throws IOException {
 
-        comunication = new Socket("localhost", 8081);
+        comunication = new Socket(datosPasar.get(2), Integer.parseInt(datosPasar.get(0)));
 
-        comunication2 = new Socket("localhost", 8082);
+        comunication2 = new Socket(datosPasar.get(2), Integer.parseInt(datosPasar.get(1)));
 
         // Primero salida, luego entrada
         salida = new DataOutputStream(comunication.getOutputStream());
